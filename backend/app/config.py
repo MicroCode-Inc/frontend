@@ -9,7 +9,14 @@ class Config:
     """Base configuration - shared across all environments"""
     
     # Security
-    SECRET_KEY = os.getenv('SECRET_KEY', '0000')
+    SECRET_KEY = os.getenv('SECRET_KEY')
+
+    if not SECRET_KEY:
+      raise RuntimeError(
+        "SECRET_KEY environment variable is required. \n"
+        "Generate one with: python -c 'import secrets; print(secrets.token_hex(32))'\n"
+        "Copy paste the result to backend/.env"
+      )
     
     # CORS
     FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
