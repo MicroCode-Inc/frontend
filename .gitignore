@@ -1,0 +1,43 @@
+# Python / Flask 
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+instance/
+*.egg-info/
+dist/
+build/
+
+# Environment variables 
+.env
+*.env
+!.env.example
+
+# Logs 
+*.log
+
+# React / Node 
+node_modules/
+dist/
+build/
+.cache/
+.pnp*
+.pnpm-debug.log
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# IDE / OS 
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Coverage / Testing 
+coverage/
+.pytest_cache/
+.nox/
+.mypy_cache/
