@@ -1,44 +1,24 @@
-# Python / Flask 
-venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.db
-*.sqlite3
-instance/
-*.egg-info/
-dist/
-build/
-
-# Environment variables 
-.env
-*.env
-!.env.example
-!frontend/.env
-
-# Logs 
+# Logs
+logs
 *.log
-
-# React / Node 
-node_modules/
-dist/
-build/
-.cache/
-.pnp*
-.pnpm-debug.log
+npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
+pnpm-debug.log*
+lerna-debug.log*
 
-# IDE / OS 
-.vscode/
-.idea/
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
-Thumbs.db
-
-# Coverage / Testing 
-coverage/
-.pytest_cache/
-.nox/
-.mypy_cache/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
