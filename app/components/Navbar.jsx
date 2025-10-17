@@ -7,7 +7,7 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <nav className={`navbar navbar-expand bg-${theme}`}>
+    <nav className={`navbar navbar-expand bg-${theme}-subtle sticky-top`}>
       <div className='container-fluid'>
         <ul className='navbar-nav ms-auto align-items-center'>
           <li className='nav-item'>
@@ -32,6 +32,14 @@ export default function Navbar() {
               className='nav-link'
             >
               Contact
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <Link
+              to='/test'
+              className='nav-link'
+            >
+              Test
             </Link>
           </li>
           <li className='nav-item'>
