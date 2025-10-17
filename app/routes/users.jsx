@@ -14,7 +14,7 @@ export default function Users() {
     <>
       <h1>Users</h1>
       {users.map(e => (
-        <>
+        <div key={e.id}>
           <span>
             <b>Username: </b>
             {e.username}
@@ -25,7 +25,7 @@ export default function Users() {
             {e.email}
           </span>
           <br />
-        </>
+        </div>
       ))}
     </>
   )
