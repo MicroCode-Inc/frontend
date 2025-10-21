@@ -2,46 +2,30 @@ import { Link } from 'react-router'
 import { faLightbulb } from '../utils/faIcons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from '../context/ThemeContext'
+import routes from '../routes'
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
+
+  const navRoutes = routes.filter(e => e.showInNav)
 
   return (
     <nav className={`navbar navbar-expand bg-${theme}-subtle sticky-top`}>
       <div className='container-fluid'>
         <ul className='navbar-nav ms-auto align-items-center'>
-          <li className='nav-item'>
-            <Link
-              to='/'
-              className='nav-link'
+          {navRoutes.map(({ path, label }) => (
+            <li
+              className='nav-item text-capitalize'
+              key={label}
             >
-              Home
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link
-              to='/users'
-              className='nav-link'
-            >
-              Users
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link
-              to='/contact'
-              className='nav-link'
-            >
-              Contact
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link
-              to='/test'
-              className='nav-link'
-            >
-              Test
-            </Link>
-          </li>
+              <Link
+                to={path === '/courses' ? '/courses/frontend' : path}
+                className='nav-link'
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
           <li className='nav-item'>
             <button
               className={`btn btn-outline-${

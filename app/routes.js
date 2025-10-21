@@ -1,7 +1,16 @@
 export default [
-  { path: '/', file: 'routes/_index.jsx' },
-  { path: '/users', file: 'routes/users.jsx' },
-  { path: '/contact', file: 'routes/contact.jsx' },
-  { path: '/test', file: 'routes/test.jsx' },
-  {path:'/:name', file: 'routes/$name.jsx'}
+  { path: '/', file: 'routes/_index.jsx', showInNav: true, label: "home" },
+  { 
+    path: '/courses/', 
+    file: 'routes/courses.jsx', 
+    showInNav: true, 
+    label: "courses",
+    children: [
+      { path: ':tab', file: 'routes/courses.$tab.jsx' }
+    ]
+  },
+  { path: '/contact', file: 'routes/contact.jsx', showInNav: true, label: "contact" },
+  { path: '/test', file: 'routes/test.jsx', showInNav: true, label: "test" },
+  { path: '/users', file: 'routes/users.jsx', showInNav: false },
+  { path: '/:name', file: 'routes/$name.jsx', showInNav: false }
 ]

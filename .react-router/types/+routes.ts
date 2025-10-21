@@ -13,13 +13,21 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/users": {
+  "/courses": {
     params: {};
+  };
+  "/courses/:tab": {
+    params: {
+      "tab": string;
+    };
   };
   "/contact": {
     params: {};
   };
   "/test": {
+    params: {};
+  };
+  "/users": {
     params: {};
   };
   "/:name": {
@@ -32,15 +40,19 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/users" | "/contact" | "/test" | "/:name";
+    page: "/" | "/courses" | "/courses/:tab" | "/contact" | "/test" | "/users" | "/:name";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
     page: "/";
   };
-  "routes/users.jsx": {
-    id: "routes/users";
-    page: "/users";
+  "routes/courses.jsx": {
+    id: "routes/courses";
+    page: "/courses" | "/courses/:tab";
+  };
+  "routes/courses.$tab.jsx": {
+    id: "routes/courses.$tab";
+    page: "/courses/:tab";
   };
   "routes/contact.jsx": {
     id: "routes/contact";
@@ -49,6 +61,10 @@ type RouteFiles = {
   "routes/test.jsx": {
     id: "routes/test";
     page: "/test";
+  };
+  "routes/users.jsx": {
+    id: "routes/users";
+    page: "/users";
   };
   "routes/$name.jsx": {
     id: "routes/$name";
