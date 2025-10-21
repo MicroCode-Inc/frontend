@@ -9,13 +9,23 @@ export default function Navbar() {
   return (
     <nav className={`navbar navbar-expand bg-${theme}-subtle sticky-top`}>
       <div className='container-fluid'>
+        <ul className='navbar-nav ml-auto align-items-center'>
+          <li className='navbar-brand'>
+            <Link
+              to='/'
+              className='nav-link '
+            >
+             <b>MicroCode</b> 
+            </Link>
+          </li>
+        </ul>
         <ul className='navbar-nav ms-auto align-items-center'>
           <li className='nav-item'>
             <Link
               to='/'
               className='nav-link'
             >
-              Home
+              Inicio
             </Link>
           </li>
           <li className='nav-item'>
@@ -23,7 +33,7 @@ export default function Navbar() {
               to='/users'
               className='nav-link'
             >
-              Users
+              Perfil
             </Link>
           </li>
           <li className='nav-item'>
@@ -31,7 +41,7 @@ export default function Navbar() {
               to='/contact'
               className='nav-link'
             >
-              Contact
+              Contacto
             </Link>
           </li>
           <li className='nav-item'>
@@ -39,7 +49,7 @@ export default function Navbar() {
               to='/test'
               className='nav-link'
             >
-              Test
+              Login
             </Link>
           </li>
           <li className='nav-item'>
