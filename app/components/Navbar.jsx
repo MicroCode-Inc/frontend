@@ -12,20 +12,49 @@ export default function Navbar() {
   return (
     <nav className={`navbar navbar-expand bg-${theme}-subtle sticky-top`}>
       <div className='container-fluid'>
-        <ul className='navbar-nav ms-auto align-items-center'>
-          {navRoutes.map(({ path, label }) => (
-            <li
-              className='nav-item text-capitalize'
-              key={label}
+        <ul className='navbar-nav ml-auto align-items-center'>
+          <li className='navbar-brand'>
+            <Link
+              to='/'
+              className='nav-link '
             >
-              <Link
-                to={path === '/courses' ? '/courses/frontend' : path}
-                className='nav-link'
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
+              <b>MicroCode</b>
+            </Link>
+          </li>
+        </ul>
+        <ul className='navbar-nav ms-auto align-items-center'>
+          <li className='nav-item'>
+            <Link
+              to='/'
+              className='nav-link'
+            >
+              Home
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <Link
+              to='/users'
+              className='nav-link'
+            >
+              Users
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <Link
+              to='/contact'
+              className='nav-link'
+            >
+              Contact
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <Link
+              to='/test'
+              className='nav-link'
+            >
+              Test
+            </Link>
+          </li>
           <li className='nav-item'>
             <button
               className={`btn btn-outline-${
