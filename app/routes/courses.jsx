@@ -5,13 +5,11 @@ export default function Courses() {
 
   return (
     <div className='container'>
-      <h1>Courses</h1>
-
       <ul className='nav nav-pills'>
         {tabs.map(tab => (
           <li
-            key={tab}
             className='nav-item'
+            key={tab}
           >
             <NavLink
               to={`/courses/${tab}`}
