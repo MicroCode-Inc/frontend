@@ -22,11 +22,6 @@ type Pages = {
   "/users": {
     params: {};
   };
-  "/:name": {
-    params: {
-      "name": string;
-    };
-  };
   "/courses": {
     params: {};
   };
@@ -35,12 +30,17 @@ type Pages = {
       "tab": string;
     };
   };
+  "/:name": {
+    params: {
+      "name": string;
+    };
+  };
 };
 
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/contact" | "/test" | "/users" | "/:name" | "/courses" | "/courses/:tab";
+    page: "/" | "/contact" | "/test" | "/users" | "/courses" | "/courses/:tab" | "/:name";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
@@ -58,10 +58,6 @@ type RouteFiles = {
     id: "routes/users";
     page: "/users";
   };
-  "routes/$name.jsx": {
-    id: "routes/$name";
-    page: "/:name";
-  };
   "routes/courses.jsx": {
     id: "routes/courses";
     page: "/courses" | "/courses/:tab";
@@ -69,5 +65,9 @@ type RouteFiles = {
   "routes/courses.$tab.jsx": {
     id: "routes/courses.$tab";
     page: "/courses/:tab";
+  };
+  "routes/$name.jsx": {
+    id: "routes/$name";
+    page: "/:name";
   };
 };

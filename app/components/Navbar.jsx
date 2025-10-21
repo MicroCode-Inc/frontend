@@ -9,7 +9,7 @@ export default function Navbar() {
   const navRoutes = routes.filter(e => e.showInNav)
 
   return (
-    <nav className={`navbar navbar-expand bg-${theme}-subtle sticky-top`}>
+    <nav className={`navbar navbar-expand bg-${theme}-subtle sticky-top z-3`}>
       <div className='container-fluid'>
         <ul className='navbar-nav ml-auto align-items-center'>
           <li className='navbar-brand'>
@@ -22,13 +22,13 @@ export default function Navbar() {
           </li>
         </ul>
         <ul className='navbar-nav ms-auto align-items-center'>
-          {navRoutes.map(({ path, label }) => (
+          {navRoutes.map(({ path, label, navTo }) => (
             <li
               className='nav-item'
               key={label}
             >
               <Link
-                to={path}
+                to={navTo || path}
                 className='nav-link text-capitalize'
               >
                 {label}
