@@ -5,7 +5,7 @@ export default function Home() {
         <h1>BIEMVENIDO</h1>
       </div>
       <div>
-        <h2>cursos</h2>
+        <h2 className='text-capitalize mt-3'>cursos</h2>
         <div className='card-group'>
           <div className='card'>
             <img
@@ -64,7 +64,7 @@ export default function Home() {
         </div>
       </div>
       <div>
-        <h2>blog</h2>
+        <h2 className='text-capitalize mt-5'>blog</h2>
         <div
           id='carouselInterval'
           className='carousel slide'

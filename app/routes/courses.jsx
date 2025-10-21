@@ -4,10 +4,10 @@ export default function Courses() {
   const tabs = ['frontend', 'backend', 'sql', 'git']
 
   return (
-    <div className='container mt-4'>
+    <div className='container'>
       <h1>Courses</h1>
 
-      <ul className='nav nav-tabs mt-3'>
+      <ul className='nav nav-pills'>
         {tabs.map(tab => (
           <li
             key={tab}
@@ -23,7 +23,7 @@ export default function Courses() {
         ))}
       </ul>
 
-      <div className='tab-content border border-top-0 p-4'>
+      <div className='tab-content'>
         <Outlet />
       </div>
     </div>

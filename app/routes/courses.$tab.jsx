@@ -32,34 +32,58 @@ export default function CourseTab() {
   return (
     <div
       className='accordion'
-      id='main-accordion'
+      id='accordionCourses'
     >
-      {data.map(({ name }) => (
+      {data.map(({ name }, i) => (
         <div
-          className='accordion-item'
-          key={name}
+          className='accordion-item border-0 my-3 bg-dark-subtle rounded'
+          key={name.replace(' ', '-')}
         >
-          <h2 className='accordion-header'>
+          <h2 className='accordion-header rounded'>
             <button
-              className='accordion-button'
+              className='accordion-button rounded collapsed text-capitalize p-0 bg-transparent pe-3 shadow-none'
               type='button'
               data-bs-toggle='collapse'
-              data-bs-target={`#collapse-${name}`}
-              aria-expanded='true'
-              aria-controls={`collapse-${name}`}
+              data-bs-target={`#${name.replace(' ', '-')}`}
+              aria-expanded='false'
+              aria-controls={`${name.replace(' ', '-')}`}
             >
-              {name}
+              <div className='card border-0 bg-transparent'>
+                <div className='row g-0'>
+                  <div className='col-auto'>
+                    <img
+                      src='https://placehold.co/150'
+                      className='img-fluid rounded-start'
+                    />
+                  </div>
+                  <div className='col'>
+                    <div className='card-body h-100 align-content-center'>
+                      <h5 className='card-title'>Card title</h5>
+                      <p className='card-text'>
+                        This is a wider card with supporting text below as a
+                        natural lead-in to additional content. This content is a
+                        little bit longer.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </button>
           </h2>
           <div
-            id={`collapse-${name}`}
+            id={`${name.replace(' ', '-')}`}
             className='accordion-collapse collapse'
-            data-bs-parent='#main-accordion'
+            data-bs-parent='#accordionCourses'
           >
             <div className='accordion-body'>
-              <strong>This is the first item's accordion body.</strong> It is
+              <strong>This is the first item’s accordion body.</strong> It is
               shown by default, until the collapse plugin adds the appropriate
-              classes that we use to style each element.
+              classes that we use to style each element. These classes control
+              the overall appearance, as well as the showing and hiding via CSS
+              transitions. You can modify any of this with custom CSS or
+              overriding our default variables. It’s also worth noting that just
+              about any HTML can go within the <code>.accordion-body</code>,
+              though the transition does limit overflow.
             </div>
           </div>
         </div>

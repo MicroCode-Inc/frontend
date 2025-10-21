@@ -6,7 +6,6 @@ import routes from '../routes'
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
-
   const navRoutes = routes.filter(e => e.showInNav)
 
   return (
@@ -16,45 +15,23 @@ export default function Navbar() {
           <li className='navbar-brand'>
             <Link
               to='/'
-              className='nav-link '
+              className='nav-link'
             >
               <b>MicroCode</b>
             </Link>
           </li>
         </ul>
         <ul className='navbar-nav ms-auto align-items-center'>
-          <li className='nav-item'>
-            <Link
-              to='/'
-              className='nav-link'
-            >
-              Home
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link
-              to='/users'
-              className='nav-link'
-            >
-              Users
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link
-              to='/contact'
-              className='nav-link'
-            >
-              Contact
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link
-              to='/test'
-              className='nav-link'
-            >
-              Test
-            </Link>
-          </li>
+          {navRoutes.map(({ path, label }) => (
+            <li className='nav-item'>
+              <Link
+                to={path}
+                className='nav-link text-capitalize'
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
           <li className='nav-item'>
             <button
               className={`btn btn-outline-${

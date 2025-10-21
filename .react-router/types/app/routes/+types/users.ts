@@ -17,7 +17,7 @@ type Matches = [{
   module: typeof import("../users.js");
 }];
 
-type Annotations = GetAnnotations<Info & { module: Module, matches: Matches }, false>;
+type Annotations = GetAnnotations<Info & { module: Module, matches: Matches }>;
 
 export namespace Route {
   // links
@@ -33,11 +33,11 @@ export namespace Route {
   export type HeadersArgs = Annotations["HeadersArgs"];
   export type HeadersFunction = Annotations["HeadersFunction"];
 
-  // middleware
-  export type MiddlewareFunction = Annotations["MiddlewareFunction"];
+  // unstable_middleware
+  export type unstable_MiddlewareFunction = Annotations["unstable_MiddlewareFunction"];
 
-  // clientMiddleware
-  export type ClientMiddlewareFunction = Annotations["ClientMiddlewareFunction"];
+  // unstable_clientMiddleware
+  export type unstable_ClientMiddlewareFunction = Annotations["unstable_ClientMiddlewareFunction"];
 
   // loader
   export type LoaderArgs = Annotations["LoaderArgs"];
