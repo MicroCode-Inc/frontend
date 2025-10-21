@@ -23,7 +23,10 @@ export default function Navbar() {
         </ul>
         <ul className='navbar-nav ms-auto align-items-center'>
           {navRoutes.map(({ path, label }) => (
-            <li className='nav-item'>
+            <li
+              className='nav-item'
+              key={label}
+            >
               <Link
                 to={path}
                 className='nav-link text-capitalize'

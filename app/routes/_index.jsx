@@ -10,7 +10,7 @@ export default function Home() {
           <div className='card'>
             <img
               src='https://placehold.co/50'
-              class='card-img-top'
+              className='card-img-top'
               alt='...'
             />
             <div className='card-body'>
@@ -28,7 +28,7 @@ export default function Home() {
           <div className='card'>
             <img
               src='https://placehold.co/50'
-              class='card-img-top'
+              className='card-img-top'
               alt='...'
             />
             <div className='card-body'>
@@ -46,7 +46,7 @@ export default function Home() {
           <div className='card'>
             <img
               src='https://placehold.co/50'
-              class='card-img-top'
+              className='card-img-top'
               alt='...'
             />
             <div className='card-body'>
@@ -77,7 +77,7 @@ export default function Home() {
             >
               <img
                 src='https://placehold.co/100'
-                class='d-block w-100'
+                className='d-block w-100'
                 alt='...'
               />
             </div>
@@ -87,14 +87,14 @@ export default function Home() {
             >
               <img
                 src='https://placehold.co/150'
-                class='d-block w-100'
+                className='d-block w-100'
                 alt='...'
               />
             </div>
             <div className='carousel-item'>
               <img
                 src='https://placehold.co/120'
-                class='d-block w-100'
+                className='d-block w-100'
                 alt='...'
               />
             </div>

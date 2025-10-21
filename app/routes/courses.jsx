@@ -10,8 +10,8 @@ export default function Courses() {
       <ul className='nav nav-pills'>
         {tabs.map(tab => (
           <li
-            key={tab}
             className='nav-item'
+            key={tab}
           >
             <NavLink
               to={`/courses/${tab}`}
