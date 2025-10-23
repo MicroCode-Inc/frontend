@@ -67,7 +67,10 @@ type RouteFiles = {
     id: "routes/courses.$tab";
     page: "/courses/:tab";
   };
-<<<<<<< HEAD
+  "routes/$name.jsx": {
+    id: "routes/$name";
+    page: "/:name";
+  };
 };
 
 type RouteModules = {
@@ -76,13 +79,7 @@ type RouteModules = {
   "routes/contact": typeof import("./app/routes/contact.jsx");
   "routes/test": typeof import("./app/routes/test.jsx");
   "routes/users": typeof import("./app/routes/users.jsx");
-  "routes/$name": typeof import("./app/routes/$name.jsx");
   "routes/courses": typeof import("./app/routes/courses.jsx");
   "routes/courses.$tab": typeof import("./app/routes/courses.$tab.jsx");
-=======
-  "routes/$name.jsx": {
-    id: "routes/$name";
-    page: "/:name";
-  };
->>>>>>> a97f203b156035e689d88cff21e69e6fd504562d
+  "routes/$name": typeof import("./app/routes/$name.jsx");
 };
