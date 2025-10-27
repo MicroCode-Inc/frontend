@@ -25,7 +25,7 @@ export default function HtmlShell({
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className='d-flex flex-column min-vh-100'>
         <Navbar />
         {children}
         <Footer />

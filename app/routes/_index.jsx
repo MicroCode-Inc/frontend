@@ -1,16 +1,15 @@
-import CardGroup from "../components/CardGroup"
-import Carousel from "../components/Carousel"
+import CardGroup from '../components/CardGroup'
+import Carousel from '../components/Carousel'
 
 export default function Home() {
   return (
-    <>
+    <div className='container'>
       <div>
         <h1>Bienvenido a Micro Code Inc</h1>
       </div>
       <div>
         <h2 className='text-capitalize mt-3'>cursos</h2>
         <div className='card-group'>
-
           <CardGroup
             imgUrl='https://placehold.co/150'
             imgAlt='img'
@@ -45,6 +44,6 @@ export default function Home() {
         <h2 className='text-capitalize mt-5'>blog</h2>
         <Carousel />
       </div>
-    </>
+    </div>
   )
 }

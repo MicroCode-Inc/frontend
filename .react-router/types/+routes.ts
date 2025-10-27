@@ -6,7 +6,6 @@ declare module "react-router" {
   interface Register {
     pages: Pages
     routeFiles: RouteFiles
-    routeModules: RouteModules
   }
 }
 
@@ -14,13 +13,7 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/contact": {
-    params: {};
-  };
-  "/test": {
-    params: {};
-  };
-  "/users": {
+  "/login": {
     params: {};
   };
   "/courses": {
@@ -31,33 +24,23 @@ type Pages = {
       "tab": string;
     };
   };
-  "/:name": {
-    params: {
-      "name": string;
-    };
+  "/contact": {
+    params: {};
   };
 };
 
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/contact" | "/test" | "/users" | "/courses" | "/courses/:tab" | "/:name";
+    page: "/" | "/login" | "/courses" | "/courses/:tab" | "/contact";
+  };
+  "routes/login.jsx": {
+    id: "routes/login";
+    page: "/login";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
     page: "/";
-  };
-  "routes/contact.jsx": {
-    id: "routes/contact";
-    page: "/contact";
-  };
-  "routes/test.jsx": {
-    id: "routes/test";
-    page: "/test";
-  };
-  "routes/users.jsx": {
-    id: "routes/users";
-    page: "/users";
   };
   "routes/courses.jsx": {
     id: "routes/courses";
@@ -67,19 +50,8 @@ type RouteFiles = {
     id: "routes/courses.$tab";
     page: "/courses/:tab";
   };
-  "routes/$name.jsx": {
-    id: "routes/$name";
-    page: "/:name";
+  "routes/contact.jsx": {
+    id: "routes/contact";
+    page: "/contact";
   };
-};
-
-type RouteModules = {
-  "root": typeof import("./app/root.jsx");
-  "routes/_index": typeof import("./app/routes/_index.jsx");
-  "routes/contact": typeof import("./app/routes/contact.jsx");
-  "routes/test": typeof import("./app/routes/test.jsx");
-  "routes/users": typeof import("./app/routes/users.jsx");
-  "routes/courses": typeof import("./app/routes/courses.jsx");
-  "routes/courses.$tab": typeof import("./app/routes/courses.$tab.jsx");
-  "routes/$name": typeof import("./app/routes/$name.jsx");
 };

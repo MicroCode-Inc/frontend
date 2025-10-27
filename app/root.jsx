@@ -6,8 +6,10 @@ export default function App() {
   return (
     <ThemeProvider>
       <HtmlShell>
-        <main className='container mt-4'>
+        <main className='container-fluid d-flex flex-grow-1 py-3'>
+          {/* <div className='container pt-3'> */}
           <Outlet />
+          {/* </div> */}
         </main>
       </HtmlShell>
     </ThemeProvider>

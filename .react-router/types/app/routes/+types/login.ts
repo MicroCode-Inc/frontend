@@ -2,10 +2,10 @@
 
 import type { GetInfo, GetAnnotations } from "react-router/internal";
 
-type Module = typeof import("../users.js")
+type Module = typeof import("../login.js")
 
 type Info = GetInfo<{
-  file: "routes/users.jsx",
+  file: "routes/login.jsx",
   module: Module
 }>
 
@@ -13,11 +13,11 @@ type Matches = [{
   id: "root";
   module: typeof import("../../root.js");
 }, {
-  id: "routes/users";
-  module: typeof import("../users.js");
+  id: "routes/login";
+  module: typeof import("../login.js");
 }];
 
-type Annotations = GetAnnotations<Info & { module: Module, matches: Matches }, false>;
+type Annotations = GetAnnotations<Info & { module: Module, matches: Matches }>;
 
 export namespace Route {
   // links
@@ -33,11 +33,11 @@ export namespace Route {
   export type HeadersArgs = Annotations["HeadersArgs"];
   export type HeadersFunction = Annotations["HeadersFunction"];
 
-  // middleware
-  export type MiddlewareFunction = Annotations["MiddlewareFunction"];
+  // unstable_middleware
+  export type unstable_MiddlewareFunction = Annotations["unstable_MiddlewareFunction"];
 
-  // clientMiddleware
-  export type ClientMiddlewareFunction = Annotations["ClientMiddlewareFunction"];
+  // unstable_clientMiddleware
+  export type unstable_ClientMiddlewareFunction = Annotations["unstable_ClientMiddlewareFunction"];
 
   // loader
   export type LoaderArgs = Annotations["LoaderArgs"];
