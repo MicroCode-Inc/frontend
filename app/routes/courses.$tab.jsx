@@ -78,7 +78,7 @@ export default function CourseTab() {
 
     return (
       <>
-        <div className='card mb-3'>
+        <div className='card my-3'>
           <div className='card-header h4'>Goal</div>
           <div className='card-body'>{summary.goal}</div>
         </div>
@@ -88,7 +88,7 @@ export default function CourseTab() {
             <ol className='list-group list-group-numbered rounded-top-0'>
               {summary.syllabus.map((item, idx) => (
                 <li
-                  className='list-group-item px-5'
+                  className='list-group-item'
                   key={idx}
                 >
                   {item}
@@ -105,7 +105,7 @@ export default function CourseTab() {
             <ul className='list-group rounded-top-0'>
               {summary.requirements.map((req, idx) => (
                 <Link
-                  className='list-group-item list-group-item-action px-5'
+                  className='list-group-item list-group-item-action'
                   to='/'
                   key={idx}
                 >
@@ -126,7 +126,7 @@ export default function CourseTab() {
     >
       {data.map(({ name, description, tags, summary }, i) => (
         <div
-          className='accordion-item border-0 my-3 bg-dark-subtle rounded'
+          className='accordion-item border-0 my-4 bg-dark rounded'
           key={`${tab}-${name}-${i}`}
         >
           <h2 className='accordion-header rounded'>

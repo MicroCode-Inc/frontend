@@ -4,7 +4,7 @@ export default function Courses() {
   const tabs = ['frontend', 'backend', 'sql', 'git']
 
   return (
-    <div className='container'>
+    <div className='container bg-dark-subtle p-4 rounded-4'>
       <ul className='nav nav-pills'>
         {tabs.map(tab => (
           <li
