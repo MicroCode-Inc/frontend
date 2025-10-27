@@ -78,17 +78,21 @@ export default function CourseTab() {
 
     return (
       <>
-        <div className='card my-3'>
-          <div className='card-header h4'>Goal</div>
+        <div className='card my-3 bg-dark-subtle rounded-4'>
+          <div className='card-header h4 border-0 border-bottom  rounded-top-4'>
+            Goal
+          </div>
           <div className='card-body'>{summary.goal}</div>
         </div>
-        <div className='card border-0 mb-3'>
-          <div className='card-header border border-bottom-0 h4'>Syllabus</div>
+        <div className='card mb-3 bg-dark-subtle rounded-4 border-bottom-0'>
+          <div className='card-header border-0 h4 border-bottom  rounded-top-4'>
+            Syllabus
+          </div>
           <div className='card-body p-0'>
-            <ol className='list-group list-group-numbered rounded-top-0'>
+            <ol className='list-group list-group-numbered rounded-4'>
               {summary.syllabus.map((item, idx) => (
                 <li
-                  className='list-group-item'
+                  className='list-group-item bg-dark-subtle py-3 border-top-0 border-end-0 border-start-0'
                   key={idx}
                 >
                   {item}
@@ -97,16 +101,16 @@ export default function CourseTab() {
             </ol>
           </div>
         </div>
-        <div className='card border-0'>
-          <div className='card-header border border-bottom-0 h4'>
+        <div className='card bg-dark-subtle rounded-4'>
+          <div className='card-header border border-0 border-bottom h4 rounded-top-4'>
             Requirements
           </div>
           <div className='card-body p-0'>
-            <ul className='list-group rounded-top-0'>
+            <ul className='list-group rounded-4'>
               {summary.requirements.map((req, idx) => (
                 <Link
-                  className='list-group-item list-group-item-action'
-                  to='/'
+                  className='list-group-item list-group-item-action bg-dark-subtle p-3 border-top-0 border-end-0 border-start-0'
+                  to={`/courses/${tab}/${idx}`}
                   key={idx}
                 >
                   {req}
@@ -121,12 +125,12 @@ export default function CourseTab() {
 
   return (
     <div
-      className='accordion'
+      className='accordion d-grid gap-4'
       id='accordionCourses'
     >
       {data.map(({ name, description, tags, summary }, i) => (
         <div
-          className='accordion-item border-0 my-4 bg-dark rounded'
+          className='accordion-item border-0 bg-dark rounded-4'
           key={`${tab}-${name}-${i}`}
         >
           <h2 className='accordion-header rounded'>
@@ -143,7 +147,7 @@ export default function CourseTab() {
                   <div className='col-auto'>
                     <img
                       src='https://placehold.co/150'
-                      className='img-fluid rounded-start h-100'
+                      className='img-fluid rounded-start-4 h-100'
                       alt={name}
                     />
                   </div>

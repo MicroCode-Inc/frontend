@@ -12,7 +12,7 @@ export default function Login() {
     <div className='container align-self-center'>
       <div className='row justify-content-center'>
         <div className='col-12 col-md- col-lg-6'>
-          <Form className='card border-0 bg-dark-subtle py-3 px-2'>
+          <Form className='card border-0 bg-dark-subtle p-4 rounded-4'>
             <div className='card-header border-0 bg-transparent'>
               <p className='display-5 mb-3'>
                 {signupMode ? 'Sign Up' : 'Login'}
