@@ -77,7 +77,7 @@ export default function CourseTab() {
     if (!summary) return null
 
     return (
-      <>
+      <div className='container'>
         <div className='card my-3 bg-dark-subtle rounded-4'>
           <div className='card-header h4 border-0 border-bottom  rounded-top-4'>
             Goal
@@ -119,7 +119,7 @@ export default function CourseTab() {
             </ul>
           </div>
         </div>
-      </>
+      </div>
     )
   }
 
