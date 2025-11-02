@@ -17,11 +17,15 @@ export default function CardHome({
             className='card-img'
           />
           <div className='card-img-overlay text-dark d-flex flex-column'>
-            <span className='card-title text-capitalize h3'>{title}</span>
+            <span className='card-title text-capitalize h4'>{title}</span>
             <div className='mt-auto'>
-              {tags.map(topic => (
-                <span className={`me-1 badge text-bg-${getTagColor(topic)}`}>
-                  {topic}
+              {tags.map(({ label, color }, i) => (
+                <span
+                  className={'me-1 badge'}
+                  style={{ background: color }}
+                  key={i}
+                >
+                  {label}
                 </span>
               ))}
             </div>

@@ -1,5 +1,4 @@
 export default [
-  { path: '/login', file: 'routes/login.jsx', showInNav: true, label: "login | signup" },
   { path: '/', file: 'routes/_index.jsx', showInNav: true, label: "home" },
   {
     path: '/courses',
@@ -17,4 +16,5 @@ export default [
   { path: '/contact', file: 'routes/contact.jsx', showInNav: true, label: "contact" },
   { path: '/profile', file: 'routes/profile.jsx', showInNav: true, label: "profile" },
   { path: '/about', file: 'routes/about.jsx', showInNav: true, label: "about us" },
+  { path: '/login', file: 'routes/login.jsx', showInNav: true, label: "login | signup" },
 ]

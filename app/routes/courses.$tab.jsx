@@ -77,14 +77,14 @@ export default function CourseTab() {
     if (!summary) return null
 
     return (
-      <div className='container'>
-        <div className='card my-3 bg-dark-subtle rounded-4'>
+      <div className='container-fluid p-0 d-grid gap-3'>
+        <div className='card bg-dark-subtle rounded-4'>
           <div className='card-header h4 border-0 border-bottom  rounded-top-4'>
             Goal
           </div>
           <div className='card-body'>{summary.goal}</div>
         </div>
-        <div className='card mb-3 bg-dark-subtle rounded-4 border-bottom-0'>
+        <div className='card bg-dark-subtle rounded-4 border-bottom-0'>
           <div className='card-header border-0 h4 border-bottom  rounded-top-4'>
             Syllabus
           </div>
@@ -130,12 +130,12 @@ export default function CourseTab() {
     >
       {data.map(({ name, description, tags, summary }, i) => (
         <div
-          className='accordion-item border-0 bg-dark rounded-4'
+          className='accordion-item border-0 bg-dark-subtle rounded-4'
           key={`${tab}-${name}-${i}`}
         >
           <h2 className='accordion-header rounded'>
             <button
-              className={`accordion-button rounded text-capitalize p-0 bg-transparent pe-3 shadow-none`}
+              className={`accordion-button rounded text-capitalize p-0 bg-transparent pe-3 shadow-none collapsed`}
               type='button'
               data-bs-toggle='collapse'
               data-bs-target={`#${name.replace(/\s+/g, '-')}`}
@@ -178,7 +178,7 @@ export default function CourseTab() {
             className='accordion-collapse collapse'
             data-bs-parent='#accordionCourses'
           >
-            <div className='accordion-body p-3'>{renderSummary(summary)}</div>
+            <div className='accordion-body p-4'>{renderSummary(summary)}</div>
           </div>
         </div>
       ))}

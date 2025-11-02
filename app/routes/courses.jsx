@@ -6,10 +6,10 @@ export default function Courses() {
   return (
     <div
       className='container'
-      style={{ maxHeight: 'calc(100vh - 56px)' }}
+      // style={{ maxHeight: 'calc(100vh - 56px)' }}
     >
       <div
-        className='bg-dark-subtle p-4 rounded-4 d-flex flex-column'
+        className='bg-secondary-subtle p-4 rounded-4 d-flex flex-column'
         style={{ maxHeight: '100%' }}
       >
         <ul className='nav nav-pills flex-shrink-0 pb-4'>

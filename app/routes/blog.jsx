@@ -79,10 +79,10 @@ export default function Blog() {
 
   return (
     <div className='container'>
-      <div className='container d-grid gap-4 justify-content-center bg-dark-subtle p-4 rounded-4'>
+      <div className='container d-grid gap-4 justify-content-center bg-secondary-subtle p-4 rounded-4'>
         {blogs.map(({ title, author, date, summary, tags }, i) => (
           <Link
-            className='card border-0 bg-dark text-decoration-none rounded-4'
+            className='card border-0 bg-dark-subtle text-decoration-none rounded-4'
             to={`/blog/${i}`}
             key={i}
           >

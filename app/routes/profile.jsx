@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 export default function Profile() {
   return (
     <div className='container'>
-      <div className='d-flex bg-dark-subtle p-5 rounded-4 mt-4 mb-5'>
+      <div className='d-flex bg-secondary-subtle p-5 rounded-4 mt-4 mb-5'>
         <img
           className='img-thumbnail rounded-circle'
           src='https://placehold.co/200'
@@ -18,10 +18,10 @@ export default function Profile() {
         className='accordion'
         id='accordionExample'
       >
-        <div className='accordion-item'>
+        <div className='accordion-item bg-secondary-subtle'>
           <h2 className='accordion-header'>
             <button
-              className='accordion-button fs-4 collapsed'
+              className='accordion-button bg-secondary-subtle fs-4 collapsed'
               type='button'
               data-bs-toggle='collapse'
               data-bs-target='#collapseOne'
@@ -267,10 +267,10 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div className='accordion-item'>
+        <div className='accordion-item bg-secondary-subtle'>
           <h2 className='accordion-header'>
             <button
-              className='accordion-button collapsed fs-4'
+              className='accordion-button bg-secondary-subtle  collapsed fs-4'
               type='button'
               data-bs-toggle='collapse'
               data-bs-target='#collapseTwo'
@@ -516,10 +516,10 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div className='accordion-item'>
+        <div className='accordion-item bg-secondary-subtle '>
           <h2 className='accordion-header'>
             <button
-              className='accordion-button collapsed fs-4'
+              className='accordion-button bg-secondary-subtle  collapsed fs-4'
               type='button'
               data-bs-toggle='collapse'
               data-bs-target='#collapseThree'

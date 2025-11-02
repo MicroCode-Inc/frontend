@@ -13,9 +13,6 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/login": {
-    params: {};
-  };
   "/courses": {
     params: {};
   };
@@ -47,16 +44,15 @@ type Pages = {
   "/about": {
     params: {};
   };
+  "/login": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/login" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/contact" | "/profile" | "/about";
-  };
-  "routes/login.jsx": {
-    id: "routes/login";
-    page: "/login";
+    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/contact" | "/profile" | "/about" | "/login";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
@@ -93,5 +89,9 @@ type RouteFiles = {
   "routes/about.jsx": {
     id: "routes/about";
     page: "/about";
+  };
+  "routes/login.jsx": {
+    id: "routes/login";
+    page: "/login";
   };
 };

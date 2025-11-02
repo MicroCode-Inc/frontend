@@ -1,12 +1,14 @@
-export default function Jumbotron({
-  title = "Bienvenido a MicroCode Inc",
-  text = "Nos gusta tenerte aqui y disfruta de nuestros cursos.",
-}) {
+export default function Jumbotron() {
   return (
-    <div className="jumbotron">
-      <h1 className="display-4">{title}</h1>
-      <p className="lead">{text}</p>
-      <hr className="my-4" />
+    <div className='bg-body-tertiary p-5 my-5 rounded-4'>
+      <p className='text-muted mb-0 fs-5'>Bienvenido a</p>
+      <h1 className='display-1 fw-bold mb-3'>MicroCode</h1>
+      <p className='lead'>
+        Nos enorgullece ofrecer cursos accesibles y bilingües de desarrollo web
+        (con más idiomas por añadirse). Ningún curso cuesta más de $10 y cada
+        uno te brinda una habilidad que puedes aplicar de inmediato en un
+        contexto real.
+      </p>
     </div>
-  );
+  )
 }

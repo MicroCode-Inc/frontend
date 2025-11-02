@@ -1,5 +1,7 @@
 export {
   faLightbulb,
   faHome,
-  faPaintBrush
+  faPaintBrush,
+  faChevronLeft,
+  faChevronRight
 } from '@fortawesome/free-solid-svg-icons'
