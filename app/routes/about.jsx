@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div className='container d-flex flex-column gap-5 page-transition'>
+    <div className='container d-flex flex-column gap-5 page-transition pt-3'>
       <img
         src='https://placehold.co/1920x420'
         className='img-fluid'

@@ -1,14 +1,35 @@
-export {
+// app/utils/faIcons.js
+
+// Import Font Awesome icons
+import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
+
+import {
+  faUser,
   faLightbulb,
-  faHome,
-  faPaintBrush,
   faChevronLeft,
   faChevronRight,
   faCamera,
   faTrash,
-  faSpinner,
-  faRefresh
+  faPlus,
+  faRefresh,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons'
+
+export {
+  faHeartSolid,
+  faHeartRegular,
+  faUser,
+  faLightbulb,
+  faChevronLeft,
+  faChevronRight,
+  faCamera,
+  faTrash,
+  faPlus,
+  faRefresh,
+  faSpinner
+}
+
 
 export const faMicroCode = {
   prefix: 'fac',

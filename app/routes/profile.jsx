@@ -2,6 +2,7 @@ import { Link, useNavigate, useLoaderData, useRevalidator } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import { useState } from 'react'
 import ProfilePictureUpload from '../components/ProfilePictureUpload'
+import DeleteSavedItemButton from '../components/DeleteSavedItemButton'
 
 // Use clientLoader to access localStorage (browser-only)
 export async function clientLoader() {
@@ -51,18 +52,20 @@ export default function Profile() {
   const { ownedCourses, favouriteCourses, savedBlogs } = useLoaderData()
   const revalidator = useRevalidator()
 
+  // put favs and blogs in state so we can remove on click
+  const [favCoursesState, setFavCoursesState] = useState(favouriteCourses)
+  const [savedBlogsState, setSavedBlogsState] = useState(savedBlogs)
+
   const handleLogout = () => {
     logout()
     navigate('/')
   }
 
   const handleProfilePictureUpdate = updatedUser => {
-    // Update auth context with new user data
     const token = localStorage.getItem('token')
     if (token) {
       login(token, updatedUser)
     }
-    // Revalidate to refresh the page data
     revalidator.revalidate()
   }
 
@@ -79,37 +82,43 @@ export default function Profile() {
         linkPath: `/courses/${course.topic}/${course.id}`,
         imgUrl: course.image_url || 'https://placehold.co/175',
         imgAlt: course.image_alt || course.name,
-        tags: course.tags || []
+        tags: course.tags || [],
+        removable: false, // owned, so no trash
+        type: 'course'
       }))
     },
     {
       id: 'collapseTwo',
       title: 'Favourited Courses',
       badgeColor: 'primary',
-      count: favouriteCourses.length,
-      items: favouriteCourses.map(course => ({
+      count: favCoursesState.length,
+      items: favCoursesState.map(course => ({
         id: course.id,
         title: course.name,
         description: course.description,
         linkPath: `/courses/${course.topic}/${course.id}`,
         imgUrl: course.image_url || 'https://placehold.co/175',
         imgAlt: course.image_alt || course.name,
-        tags: course.tags || []
+        tags: course.tags || [],
+        removable: true,
+        type: 'course'
       }))
     },
     {
       id: 'collapseThree',
       title: 'Saved Blogs',
       badgeColor: 'warning',
-      count: savedBlogs.length,
-      items: savedBlogs.map(blog => ({
+      count: savedBlogsState.length,
+      items: savedBlogsState.map(blog => ({
         id: blog.id,
         title: blog.title,
         description: blog.description,
         linkPath: `/blog/${blog.id}`,
         imgUrl: blog.image_url || 'https://placehold.co/400x300',
         imgAlt: blog.image_alt || blog.title,
-        tags: blog.tags || []
+        tags: blog.tags || [],
+        removable: true,
+        type: 'blog'
       }))
     }
   ]
@@ -208,53 +217,82 @@ export default function Profile() {
                       </div>
                     ) : (
                       <div className='row row-cols-1 row-cols-lg-2 g-3'>
-                        {section.items.map((item, itemIndex) => (
+                        {section.items.map(item => (
                           <div
                             className='col'
                             key={item.id}
                           >
-                            <Link
-                              className='card border-0 bg-secondary-subtle text-decoration-none rounded-4 shadow'
-                              to={item.linkPath}
-                            >
-                              <div className='row g-0'>
-                                <div className='col-auto'>
-                                  <img
-                                    src={item.imgUrl}
-                                    className='img-fluid rounded-start-4'
-                                    style={{
-                                      width: '175px',
-                                      height: '175px',
-                                      objectFit: 'cover'
-                                    }}
-                                    alt={item.imgAlt}
-                                  />
-                                </div>
-                                <div className='col'>
-                                  <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
-                                    <h5 className='card-title'>{item.title}</h5>
-                                    <p className='card-text m-0'>
-                                      {item.description}
-                                    </p>
-                                    {item.tags && item.tags.length > 0 && (
-                                      <div className='d-flex gap-1 mt-2'>
-                                        {item.tags.map((tag, tagIndex) => (
-                                          <span
-                                            className='badge text-capitalize'
-                                            style={{
-                                              backgroundColor: tag.color
-                                            }}
-                                            key={`${item.title}-${tag.label}-${tagIndex}`}
-                                          >
-                                            {tag.label}
-                                          </span>
-                                        ))}
-                                      </div>
-                                    )}
+                            <div className='position-relative'>
+                              {/* card */}
+                              <Link
+                                className='card border-0 bg-secondary-subtle text-decoration-none rounded-4 shadow'
+                                to={item.linkPath}
+                              >
+                                <div className='row g-0'>
+                                  <div className='col-auto'>
+                                    <img
+                                      src={item.imgUrl}
+                                      className='img-fluid rounded-start-4'
+                                      style={{
+                                        width: '175px',
+                                        height: '175px',
+                                        objectFit: 'cover'
+                                      }}
+                                      alt={item.imgAlt}
+                                    />
+                                  </div>
+                                  <div className='col'>
+                                    <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
+                                      <h5 className='card-title'>
+                                        {item.title}
+                                      </h5>
+                                      <p className='card-text m-0'>
+                                        {item.description}
+                                      </p>
+                                      {item.tags && item.tags.length > 0 && (
+                                        <div className='d-flex gap-1 mt-2'>
+                                          {item.tags.map((tag, tagIndex) => (
+                                            <span
+                                              className='badge text-capitalize'
+                                              style={{
+                                                backgroundColor: tag.color
+                                              }}
+                                              key={`${item.title}-${tag.label}-${tagIndex}`}
+                                            >
+                                              {tag.label}
+                                            </span>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </Link>
+                              </Link>
+
+                              {/* show delete button only for favourited / saved */}
+                              {item.removable && item.type === 'course' && (
+                                <DeleteSavedItemButton
+                                  itemId={item.id}
+                                  itemType='course'
+                                  onRemove={id =>
+                                    setFavCoursesState(prev =>
+                                      prev.filter(c => c.id !== id)
+                                    )
+                                  }
+                                />
+                              )}
+                              {item.removable && item.type === 'blog' && (
+                                <DeleteSavedItemButton
+                                  itemId={item.id}
+                                  itemType='blog'
+                                  onRemove={id =>
+                                    setSavedBlogsState(prev =>
+                                      prev.filter(b => b.id !== id)
+                                    )
+                                  }
+                                />
+                              )}
+                            </div>
                           </div>
                         ))}
                       </div>
