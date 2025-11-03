@@ -17,7 +17,7 @@ export default function Navbar() {
   const [pillStyle, setPillStyle] = useState({})
   const [pillType, setPillType] = useState('nav') // 'nav', 'brand', 'login', 'profile'
   const [isNavCollapsed, setIsNavCollapsed] = useState(true)
-  const loggedIn = true
+  const loggedIn = false
 
   useEffect(() => {
     const handleClickOutside = event => {
