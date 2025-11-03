@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useParams } from 'react-router'
 
 export default function Courses() {
-  const tabs = ['frontend', 'backend', 'sql', 'git']
+  const tabs = ['frontend', 'backend', 'database', 'git']
   const { tab } = useParams()
 
   return (

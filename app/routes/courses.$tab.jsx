@@ -2,76 +2,25 @@ import { Link, useLoaderData, useParams } from 'react-router'
 
 export async function loader({ params }) {
   const { tab } = params
-  const courses = {
-    frontend: [
-      {
-        name: 'react basics',
-        tags: ['javascript', 'jsx', 'node'],
-        description: 'Soft intro to React using a simple template',
-        summary: {
-          goal: 'You will be able to start building static one-pagers using a beginner-friendly template',
-          syllabus: [
-            'What is React & why do we need it?',
-            'What is JSX?',
-            'What are Components?',
-            'Template Overview',
-            'Create your first page!'
-          ],
-          requirements: ['HTML Basics', 'CSS Basics', 'Javascript Basics']
-        }
-      },
-      {
-        name: 'css basics',
-        tags: ['css', 'html', 'javascript'],
-        description: 'Soft intro to CSS using a simple template'
-      },
-      {
-        name: 'html basics',
-        tags: ['html', 'css', 'javascript'],
-        description: 'Soft intro to HTML using a simple template'
-      },
-      {
-        name: 'javascript basics',
-        tags: ['javascript', 'html', 'css'],
-        description: 'Soft intro to Javascript using a simple template'
-      }
-    ],
-    backend: [{ name: 'python basics' }, { name: 'flask basics' }],
-    sql: [
-      { name: 'sql basics' },
-      { name: 'sqlalchemy basics' },
-      { name: 'sqlite basics' },
-      { name: 'postgresql basics' }
-    ],
-    git: [
-      { name: 'github basics' },
-      { name: 'git cli basics' },
-      { name: 'github projects basics' }
-    ]
-  }
-  return courses[tab]
+  const response = await fetch(`http://127.0.0.1:5000/courses/${tab}`)
+  const json = await response.json()
+
+  // Fetch all courses to build a lookup map for requirements
+  const allCoursesResponse = await fetch(`http://127.0.0.1:5000/courses`)
+  const allCoursesJson = await allCoursesResponse.json()
+
+  // Create a map of course ID to course data
+  const courseLookup = {}
+  allCoursesJson.courses.forEach(course => {
+    courseLookup[course.id] = course
+  })
+
+  return { courses: json.courses, courseLookup }
 }
 
 export default function CourseTab() {
-  const data = useLoaderData()
+  const { courses, courseLookup } = useLoaderData()
   const { tab } = useParams()
-
-  const getTagColor = label => {
-    switch (label) {
-      case 'javascript':
-        return 'warning'
-      case 'node':
-        return 'success'
-      case 'jsx':
-        return 'primary'
-      case 'html':
-        return 'danger'
-      case 'css':
-        return 'info'
-      default:
-        return 'secondary'
-    }
-  }
 
   const renderSummary = summary => {
     if (!summary) return null
@@ -101,65 +50,76 @@ export default function CourseTab() {
             </ol>
           </div>
         </div>
-        <div className='card bg-secondary-subtle rounded-4 border-0 shadow'>
-          <div className='card-header border border-0 h4 rounded-top-4 p-3'>
-            Requirements
+        {summary.requirements && summary.requirements.length > 0 && (
+          <div className='card bg-secondary-subtle rounded-4 border-0 shadow'>
+            <div className='card-header border border-0 h4 rounded-top-4 p-3'>
+              Requirements
+            </div>
+            <div className='card-body p-0'>
+              <ul className='list-group rounded-4 rounded-top-0'>
+                {summary.requirements.map((reqId, idx) => {
+                  const reqCourse = courseLookup[reqId]
+                  return (
+                    <Link
+                      className='list-group-item list-group-item-action bg-secondary-subtle text-body p-3 border-0 shadow'
+                      to={`/courses/${tab}/${reqId}`}
+                      key={idx}
+                    >
+                      {reqCourse ? reqCourse.name : `Course ${reqId}`}
+                    </Link>
+                  )
+                })}
+              </ul>
+            </div>
           </div>
-          <div className='card-body p-0'>
-            <ul className='list-group rounded-4 rounded-top-0'>
-              {summary.requirements.map((req, idx) => (
-                <Link
-                  className='list-group-item list-group-item-action bg-secondary-subtle text-body p-3 border-0 shadow'
-                  to={`/courses/${tab}/${idx}`}
-                  key={idx}
-                >
-                  {req}
-                </Link>
-              ))}
-            </ul>
-          </div>
-        </div>
+        )}
       </div>
     )
   }
 
   return (
     <div className='accordion d-grid gap-3 tab-stagger pt-3'>
-      {data.map(({ name, description, tags, summary }, i) => (
+      {courses.map((course, i) => (
         <div
           className='accordion-item border-0 bg-dark-subtle rounded-4'
-          key={`${tab}-${name}-${i}`}
+          key={`${tab}-${course.name}-${i}`}
         >
           <h2 className='accordion-header rounded'>
             <button
               className={`accordion-button rounded text-capitalize p-0 bg-transparent pe-3 shadow-none collapsed`}
               type='button'
               data-bs-toggle='collapse'
-              data-bs-target={`#${name.replace(/\s+/g, '-')}`}
+              data-bs-target={`#${course.name.replace(/\s+/g, '-')}`}
               aria-expanded='false'
-              aria-controls={`${name.replace(/\s+/g, '-')}`}
+              aria-controls={`${course.name.replace(/\s+/g, '-')}`}
             >
               <div className='card border-0 bg-transparent'>
                 <div className='row g-0'>
                   <div className='col-auto'>
                     <img
-                      src='https://placehold.co/175'
-                      className='img-fluid rounded-start-4 h-100'
-                      alt={name}
+                      src={course.image_url || 'https://placehold.co/175x175'}
+                      className='img-fluid rounded-start-4'
+                      style={{
+                        width: '175px',
+                        height: '175px',
+                        objectFit: 'cover'
+                      }}
+                      alt={course.image_alt || course.name}
                     />
                   </div>
                   <div className='col'>
                     <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
-                      <h5 className='card-title'>{name}</h5>
-                      <p className='card-text'>{description}</p>
-                      {tags && (
+                      <h5 className='card-title'>{course.name}</h5>
+                      <p className='card-text'>{course.description}</p>
+                      {course.tags && course.tags.length > 0 && (
                         <div className='d-flex gap-1'>
-                          {tags.map((label, tagIndex) => (
+                          {course.tags.map((tag, tagIndex) => (
                             <span
-                              className={`badge text-bg-${getTagColor(label)}`}
-                              key={`${name}-${label}-${tagIndex}`}
+                              className='badge'
+                              style={{ backgroundColor: tag.color }}
+                              key={`${course.name}-${tag.label}-${tagIndex}`}
                             >
-                              {label}
+                              {tag.label}
                             </span>
                           ))}
                         </div>
@@ -171,11 +131,13 @@ export default function CourseTab() {
             </button>
           </h2>
           <div
-            id={`${name.replace(/\s+/g, '-')}`}
+            id={`${course.name.replace(/\s+/g, '-')}`}
             className='accordion-collapse collapse'
             data-bs-parent='#accordionCourses'
           >
-            <div className='accordion-body p-5'>{renderSummary(summary)}</div>
+            <div className='accordion-body p-5'>
+              {renderSummary(course.summary)}
+            </div>
           </div>
         </div>
       ))}
