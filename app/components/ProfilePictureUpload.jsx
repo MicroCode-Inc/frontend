@@ -1,19 +1,26 @@
+// src/components/ProfilePictureUpload.jsx
 import { useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCamera, faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import {
+  faPlus,
+  faRefresh,
+  faTrash,
+  faSpinner
+} from '@fortawesome/free-solid-svg-icons'
+import ActionModal from './ActionModal'
 
 export default function ProfilePictureUpload({ user, onUpdate }) {
   const [uploading, setUploading] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState(null)
   const [previewUrl, setPreviewUrl] = useState(null)
+  const [activeModal, setActiveModal] = useState(null) // 'upload' | 'delete' | null
   const fileInputRef = useRef(null)
 
   const handleFileSelect = e => {
     const file = e.target.files[0]
     if (!file) return
 
-    // Validate file type
     const allowedTypes = [
       'image/png',
       'image/jpeg',
@@ -26,54 +33,34 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
       return
     }
 
-    // Validate file size (5MB)
     if (file.size > 5 * 1024 * 1024) {
       setError('File size must be less than 5MB')
       return
     }
 
-    // Show preview
     const reader = new FileReader()
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result)
-    }
+    reader.onloadend = () => setPreviewUrl(reader.result)
     reader.readAsDataURL(file)
-
-    // Upload file
     handleUpload(file)
   }
 
   const handleUpload = async file => {
     setUploading(true)
     setError(null)
-
     const formData = new FormData()
     formData.append('file', file)
 
     try {
       const response = await fetch(
         `http://127.0.0.1:5000/upload/profile-picture/${user.id}`,
-        {
-          method: 'POST',
-          body: formData
-        }
+        { method: 'POST', body: formData }
       )
-
       const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Upload failed')
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Upload failed')
-      }
-
-      // Update user in localStorage
       const updatedUser = data.user
       localStorage.setItem('user', JSON.stringify(updatedUser))
-
-      // Call parent update callback
-      if (onUpdate) {
-        onUpdate(updatedUser)
-      }
-
+      if (onUpdate) onUpdate(updatedUser)
       setPreviewUrl(null)
     } catch (err) {
       setError(err.message || 'Failed to upload image')
@@ -83,38 +70,21 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
     }
   }
 
-  const handleDelete = async () => {
-    if (
-      !window.confirm('Are you sure you want to delete your profile picture?')
-    ) {
-      return
-    }
-
+  const confirmDelete = async () => {
     setDeleting(true)
     setError(null)
 
     try {
       const response = await fetch(
         `http://127.0.0.1:5000/upload/profile-picture/${user.id}`,
-        {
-          method: 'DELETE'
-        }
+        { method: 'DELETE' }
       )
-
       const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Delete failed')
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Delete failed')
-      }
-
-      // Update user in localStorage
       const updatedUser = data.user
       localStorage.setItem('user', JSON.stringify(updatedUser))
-
-      // Call parent update callback
-      if (onUpdate) {
-        onUpdate(updatedUser)
-      }
+      if (onUpdate) onUpdate(updatedUser)
     } catch (err) {
       setError(err.message || 'Failed to delete image')
     } finally {
@@ -122,92 +92,126 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
     }
   }
 
-  const triggerFileInput = () => {
-    fileInputRef.current?.click()
-  }
+  const triggerFileInput = () => fileInputRef.current?.click()
+  const handleConfirmUpload = () => triggerFileInput()
 
   const currentPicture =
     previewUrl ||
     (user?.profile_picture
       ? `http://127.0.0.1:5000${user.profile_picture}`
-      : 'https://placehold.co/200')
+      : null)
+
+  const hasPhoto = Boolean(user?.profile_picture || previewUrl)
 
   return (
-    <div className='d-flex flex-column align-items-center gap-3'>
-      <div className='position-relative'>
-        <img
-          className='img-thumbnail rounded-circle'
-          src={currentPicture}
-          alt='User profile'
-          style={{
-            width: '200px',
-            height: '200px',
-            objectFit: 'cover',
-            opacity: uploading || deleting ? 0.5 : 1
-          }}
-        />
+    <>
+      <div className='d-flex flex-column align-items-center gap-3'>
+        <div
+          className='position-relative rounded-circle overflow-hidden border'
+          style={{ width: 200, height: 200 }}
+        >
+          <img
+            src={currentPicture || 'https://placehold.co/200?text=No+Photo'}
+            alt='User profile'
+            className='w-100 h-100'
+            style={{
+              opacity: uploading || deleting ? 0.5 : 1,
+              transition: 'opacity 0.2s ease'
+            }}
+          />
 
-        {(uploading || deleting) && (
-          <div
-            className='position-absolute top-50 start-50 translate-middle'
-            style={{ zIndex: 10 }}
-          >
-            <FontAwesomeIcon
-              icon={faSpinner}
-              spin
-              className='fs-1 text-primary'
-            />
+          {(uploading || deleting) && (
+            <div className='position-absolute top-50 start-50 translate-middle'>
+              <FontAwesomeIcon
+                icon={faSpinner}
+                spin
+                className='fs-1 text-primary'
+              />
+            </div>
+          )}
+
+          <input
+            ref={fileInputRef}
+            type='file'
+            accept='image/png,image/jpeg,image/jpg,image/gif,image/webp'
+            onChange={handleFileSelect}
+            className='d-none'
+          />
+
+          {/* bottom overlay inside circle */}
+          <div className='position-absolute bottom-0 start-0 w-100 d-flex justify-content-center align-items-center gap-3 bg-dark bg-opacity-75 py-1'>
+            {/* Upload / Change -> open modal */}
+            <button
+              type='button'
+              className='bg-transparent border-0 p-0 text-white'
+              title={hasPhoto ? 'Change photo' : 'Add photo'}
+              data-bs-toggle='modal'
+              data-bs-target='#profilePictureActionModal'
+              onClick={() => setActiveModal('upload')}
+              disabled={uploading || deleting}
+            >
+              <FontAwesomeIcon icon={hasPhoto ? faRefresh : faPlus} />
+            </button>
+
+            {hasPhoto && (
+              <button
+                type='button'
+                className='bg-transparent border-0 p-0 text-danger'
+                title='Delete photo'
+                data-bs-toggle='modal'
+                data-bs-target='#profilePictureActionModal'
+                onClick={() => setActiveModal('delete')}
+                disabled={uploading || deleting}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {error && (
+          <div className='alert alert-danger mb-0 w-100 text-center'>
+            {error}
           </div>
         )}
-
-        <input
-          ref={fileInputRef}
-          type='file'
-          accept='image/png,image/jpeg,image/jpg,image/gif,image/webp'
-          onChange={handleFileSelect}
-          className='d-none'
-        />
       </div>
 
-      {error && (
-        <div className='alert alert-danger mb-0 w-100 text-center animate-shake'>
-          {error}
-        </div>
-      )}
-
-      <div className='d-flex gap-2'>
-        <button
-          className='btn btn-primary'
-          onClick={triggerFileInput}
-          disabled={uploading || deleting}
-        >
-          <FontAwesomeIcon
-            icon={faCamera}
-            className='me-2'
-          />
-          {user?.profile_picture ? 'Change Picture' : 'Upload Picture'}
-        </button>
-
-        {user?.profile_picture && (
-          <button
-            className='btn btn-danger'
-            onClick={handleDelete}
-            disabled={uploading || deleting}
-          >
-            <FontAwesomeIcon
-              icon={faTrash}
-              className='me-2'
-            />
-            Delete
-          </button>
+      {/* Reusable modal, content depends on activeModal */}
+      <ActionModal
+        id='profilePictureActionModal'
+        title={
+          activeModal === 'delete'
+            ? 'Delete Profile Picture'
+            : 'Upload Profile Picture'
+        }
+        confirmText={activeModal === 'delete' ? 'Delete' : 'Confirm'}
+        confirmVariant={activeModal === 'delete' ? 'danger' : 'success'}
+        onConfirm={
+          activeModal === 'delete' ? confirmDelete : handleConfirmUpload
+        }
+      >
+        {activeModal === 'delete' ? (
+          <>
+            <p className='fs-5 mb-1'>
+              Are you sure you want to delete your profile picture?
+            </p>
+            <p className='mb-0'>
+              This action cannot be undone. You can upload a new one later.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className='fs-5 mb-1'>
+              Please select an image that meets the following requirements:
+            </p>
+            <ul className='mb-0'>
+              <li>Formats: PNG, JPG, JPEG, GIF, WebP</li>
+              <li>Maximum size: 5MB</li>
+              <li>Square / centered images look best</li>
+            </ul>
+          </>
         )}
-      </div>
-
-      <small className='text-muted text-center'>
-        Accepted formats: PNG, JPG, GIF, WebP
-        <br />
-        Max size: 5MB
-      </small>
-    </div>
+      </ActionModal>
+    </>
   )
 }

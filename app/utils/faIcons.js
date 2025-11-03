@@ -6,7 +6,8 @@ export {
   faChevronRight,
   faCamera,
   faTrash,
-  faSpinner
+  faSpinner,
+  faRefresh
 } from '@fortawesome/free-solid-svg-icons'
 
 export const faMicroCode = {
