@@ -105,7 +105,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className='navbar navbar-expand-lg bg-dark-subtle sticky-top z-3 p-2 px-5 shadow position-relative'
+      className='navbar navbar-expand-lg bg-dark-subtle sticky-top z-3 p-2 px-5 shadow'
       ref={navbarRef}
     >
       <div
