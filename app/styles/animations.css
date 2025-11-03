@@ -81,6 +81,64 @@
   }
 }
 
+/* Tab Fade Animation */
+@keyframes tabFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Loading Spinner Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Shake Animation (for errors/notifications) */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
 /* Utility Classes - Apply these to any element */
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out;
@@ -108,6 +166,22 @@
 
 .animate-zoom-in {
   animation: zoomIn 0.5s ease-out;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
 }
 
 /* Delay Utilities */
@@ -266,20 +340,6 @@
   animation: fadeInUp 0.5s ease-out;
 }
 
-/* Tab Transition - Subtle fade only, no transform */
-.tab-transition {
-  animation: tabFade 0.3s ease-out;
-}
-
-@keyframes tabFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 /* Tab Stagger Animation - for accordion items */
 .tab-stagger > * {
   opacity: 0;
@@ -326,103 +386,30 @@ html {
   display: none; /* Chrome, Safari, Opera */
 }
 
-/* Loading Spinner Animation */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Pulse Animation */
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-.animate-pulse {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-/* Bounce Animation */
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-bounce {
-  animation: bounce 1s ease-in-out infinite;
-}
-
-/* Shake Animation (for errors/notifications) */
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-10px);
-  }
-  75% {
-    transform: translateX(10px);
-  }
-}
-
-.animate-shake {
-  animation: shake 0.5s ease-in-out;
-}
-
-/* Enhanced Bootstrap Carousel Fade */
-#carouselInterval.carousel-fade .carousel-item {
-  transition: opacity 0.8s ease-in-out;
-}
-
 /* Enhanced Accordion Animation */
 .accordion-collapse {
   transition: height 0.35s ease;
 }
 
-/* Nav Pills Active State Animation */
-.nav-pills .nav-link.active {
-  transition: all 0.3s ease;
-}
-
-/* Badge Animations */
-.badge {
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.badge:hover {
-  transform: scale(1.1);
-}
-
 /* Universal Navbar Sliding Pill */
 .navbar-sliding-pill {
   position: absolute;
-  transition: opacity 0.05s ease, left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     top 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
   pointer-events: none;
+}
+
+/* Faster pill animations on mobile */
+@media (max-width: 991px) {
+  .navbar-sliding-pill-nav {
+    transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      top 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      height 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
 }
 
 /* Brand pill - border only */

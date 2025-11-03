@@ -6,7 +6,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <HtmlShell>
-        <main className='container-fluid d-flex flex-grow-1 py-3'>
+        <main className='container-fluid d-flex flex-grow-1 pb-3'>
           <Outlet />
         </main>
       </HtmlShell>

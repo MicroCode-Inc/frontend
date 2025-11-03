@@ -10,10 +10,10 @@ export default function Courses() {
         <div className='col-12 col-lg-8'>
           {/* Sticky nav pills */}
           <div
-            className='fixed-top bg-body pt-3'
-            style={{ top: '76px', zIndex: 2 }}
+            className='sticky-top bg-body z-2 pt-3'
+            style={{ top: '76px', width: '102%', transform: 'translateX(-1%)' }}
           >
-            <ul className='col-9 mx-auto nav nav-pills bg-dark-subtle flex-shrink-0 rounded-3 p-2 d-flex gap-1 shadow'>
+            <ul className='nav nav-pills bg-dark-subtle flex-shrink-0 rounded-3 p-2 d-flex gap-1 shadow'>
               {tabs.map(tab => (
                 <li
                   className='nav-item'
