@@ -5,17 +5,15 @@ export default function Courses() {
   const { tab } = useParams()
 
   return (
-    <div
-      className='container page-transition'
-      style={{ maxHeight: 'calc(100vh - 56px)' }}
-    >
+    <div className='container page-transition'>
       <div className='row justify-content-center'>
         <div className='col-12 col-lg-8'>
+          {/* Sticky nav pills */}
           <div
-            className='rounded-4 d-flex flex-column'
-            style={{ maxHeight: 'calc(100vh - 56px)' }}
+            className='fixed-top bg-body pt-3'
+            style={{ top: '76px', zIndex: 2 }}
           >
-            <ul className='nav nav-pills bg-dark-subtle flex-shrink-0 rounded-3 p-2 mb-3 d-flex gap-1'>
+            <ul className='col-9 mx-auto nav nav-pills bg-dark-subtle flex-shrink-0 rounded-3 p-2 d-flex gap-1 shadow'>
               {tabs.map(tab => (
                 <li
                   className='nav-item'
@@ -30,11 +28,10 @@ export default function Courses() {
                 </li>
               ))}
             </ul>
-
-            <div className='overflow-auto'>
-              <Outlet key={tab} />
-            </div>
           </div>
+
+          {/* Content scrolls normally with page */}
+          <Outlet key={tab} />
         </div>
       </div>
     </div>

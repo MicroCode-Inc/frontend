@@ -16,6 +16,7 @@ export default function Navbar() {
   const navPillsRef = useRef(null)
   const [pillStyle, setPillStyle] = useState({})
   const [pillType, setPillType] = useState('nav') // 'nav', 'brand', 'login', 'profile'
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true)
   const loggedIn = true
 
   useEffect(() => {
@@ -33,6 +34,31 @@ export default function Navbar() {
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  // Track navbar collapse state
+  useEffect(() => {
+    const navbar = navbarRef.current
+    const collapse = navbar?.querySelector('.navbar-collapse')
+
+    if (!collapse) return
+
+    const handleCollapse = () => setIsNavCollapsed(true)
+    const handleShow = () => setIsNavCollapsed(false)
+    const handleCollapsing = () => setIsNavCollapsed(true) // Hide immediately when starting to close
+
+    collapse.addEventListener('hidden.bs.collapse', handleCollapse)
+    collapse.addEventListener('shown.bs.collapse', handleShow)
+    collapse.addEventListener('hide.bs.collapse', handleCollapsing) // Listen to start of closing
+
+    // Set initial state
+    setIsNavCollapsed(!collapse.classList.contains('show'))
+
+    return () => {
+      collapse.removeEventListener('hidden.bs.collapse', handleCollapse)
+      collapse.removeEventListener('shown.bs.collapse', handleShow)
+      collapse.removeEventListener('hide.bs.collapse', handleCollapsing)
+    }
   }, [])
 
   useEffect(() => {
@@ -59,11 +85,18 @@ export default function Navbar() {
         containerElement = navbarRef.current
         newPillType = 'profile'
       }
-      // Check nav pills
+      // Check nav pills - only show if navbar is expanded on mobile, or on desktop
       else if (navPillsRef.current) {
-        activeElement = navPillsRef.current.querySelector('.nav-link.active')
-        containerElement = navPillsRef.current
-        newPillType = 'nav'
+        // On mobile: only show pill if navbar is open
+        // On desktop: always show pill
+        const isMobile = window.innerWidth < 992
+        const shouldShowNavPill = !isMobile || !isNavCollapsed
+
+        if (shouldShowNavPill) {
+          activeElement = navPillsRef.current.querySelector('.nav-link.active')
+          containerElement = navPillsRef.current
+          newPillType = 'nav'
+        }
       }
 
       if (activeElement && containerElement) {
@@ -91,7 +124,7 @@ export default function Navbar() {
       clearTimeout(timer)
       window.removeEventListener('resize', updatePillPosition)
     }
-  }, [location.pathname, loggedIn])
+  }, [location.pathname, loggedIn, isNavCollapsed])
 
   const handleLoginClick = () => {
     const navbar = navbarRef.current
@@ -110,7 +143,11 @@ export default function Navbar() {
     >
       <div
         className={`navbar-sliding-pill navbar-sliding-pill-${pillType}`}
-        style={pillStyle}
+        style={{
+          ...pillStyle,
+          transition:
+            'opacity 0.05s ease, left 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
       />
 
       <div className='container-fluid p-0'>

@@ -124,7 +124,10 @@ export default function CourseTab() {
   }
 
   return (
-    <div className='accordion d-grid gap-3 tab-stagger'>
+    <div
+      className='accordion d-grid gap-3 tab-stagger '
+      style={{ marginTop: '88px' }}
+    >
       {data.map(({ name, description, tags, summary }, i) => (
         <div
           className='accordion-item border-0 bg-dark-subtle rounded-4'
