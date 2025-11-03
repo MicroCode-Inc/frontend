@@ -92,19 +92,23 @@ export default function CourseTab() {
   }
 
   return (
-    <div className='accordion d-grid gap-3 tab-stagger pt-3' id='accordionCourses'>
+    <div
+      className='accordion d-grid gap-3 tab-stagger pt-3'
+      id='accordionCourses'
+    >
       {courses.map(course => {
         const isFavorited = favoriteCourses.includes(course.id)
         const anchorId = course.name.replace(/\s+/g, '-')
 
         return (
           <div
-            className='accordion-item border-0 bg-dark-subtle rounded-4'
+            className='accordion-item border-0 bg-dark-subtle rounded-4 overflow-hidden'
             key={course.id}
           >
-            <h2 className='accordion-header position-relative'>
+            {/* Card button that stays in place */}
+            <div className='position-relative'>
               <button
-                className='accordion-button rounded text-capitalize p-0 bg-transparent pe-3 shadow-none collapsed'
+                className='accordion-button rounded-4 text-capitalize p-0 bg-transparent pe-3 shadow-none collapsed w-100 border-0'
                 type='button'
                 data-bs-toggle='collapse'
                 data-bs-target={`#${anchorId}`}
@@ -115,9 +119,7 @@ export default function CourseTab() {
                   <div className='row g-0'>
                     <div className='col-auto'>
                       <img
-                        src={
-                          course.image_url || 'https://placehold.co/175x175'
-                        }
+                        src={course.image_url || 'https://placehold.co/175x175'}
                         className='img-fluid rounded-start-4'
                         style={{
                           width: '175px',
@@ -150,7 +152,7 @@ export default function CourseTab() {
                 </div>
               </button>
 
-              {/* Favorite button positioned absolutely relative to h2 */}
+              {/* Favorite button positioned absolutely */}
               {isLoggedIn && (
                 <FavoriteButton
                   itemId={course.id}
@@ -161,8 +163,9 @@ export default function CourseTab() {
                   }
                 />
               )}
-            </h2>
+            </div>
 
+            {/* Collapsible content that expands below */}
             <div
               id={anchorId}
               className='accordion-collapse collapse'

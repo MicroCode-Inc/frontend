@@ -23,14 +23,14 @@ export default function Carousel({ items }) {
     : items.map(item => [item])
 
   return (
-    <div className='position-relative w-100'>
+    <div className='position-relative w-100 px-4'>
       <div
         key={isLarge ? 'lg' : 'sm'}
         id='carouselInterval'
         className='carousel slide'
         data-bs-ride='carousel'
       >
-        <div className='carousel-inner'>
+        <div className='carousel-inner px-4'>
           {slides.map((group, i) => (
             <div
               key={i}
@@ -76,30 +76,38 @@ export default function Carousel({ items }) {
           ))}
         </div>
       </div>
-      <button
-        className='btn btn-outline-secondary border-0 p-1 py-3 position-absolute top-50 translate-middle-y d-grid align-items-center'
-        style={{ left: '-2.5rem' }}
-        type='button'
-        data-bs-target='#carouselInterval'
-        data-bs-slide='prev'
+      <div
+        className='h-100 bg-dark-subtle position-absolute top-50 translate-middle-y d-flex align-items-center'
+        style={{ left: '0.5rem' }}
       >
-        <FontAwesomeIcon
-          icon={faChevronLeft}
-          className='fs-5 text-bg-body'
-        />
-      </button>
-      <button
-        className='btn btn-outline-secondary border-0 p-1 py-3 position-absolute top-50 translate-middle-y d-grid align-items-center'
-        style={{ right: '-2.5rem' }}
-        type='button'
-        data-bs-target='#carouselInterval'
-        data-bs-slide='next'
+        <button
+          className='btn btn-outline-secondary border-0 p-1 py-3 d-grid align-items-center'
+          type='button'
+          data-bs-target='#carouselInterval'
+          data-bs-slide='prev'
+        >
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            className='fs-5 text-bg-body'
+          />
+        </button>
+      </div>
+      <div
+        className='h-100 bg-dark-subtle position-absolute top-50 translate-middle-y d-flex align-items-center'
+        style={{ right: '0.5rem' }}
       >
-        <FontAwesomeIcon
-          icon={faChevronRight}
-          className='fs-5 text-bg-body'
-        />
-      </button>
+        <button
+          className='btn btn-outline-secondary border-0 p-1 py-3  d-grid align-items-center'
+          type='button'
+          data-bs-target='#carouselInterval'
+          data-bs-slide='next'
+        >
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            className='fs-5 text-bg-body'
+          />
+        </button>
+      </div>
     </div>
   )
 }

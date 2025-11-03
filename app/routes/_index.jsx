@@ -31,8 +31,8 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div className='container-fluid p-5 bg-dark-subtle rounded-4 shadow'>
-        <h1 className='text-capitalize mb-3'>blogs</h1>
+      <div className='container-fluid bg-dark-subtle rounded-4 shadow p-0 pt-5 pb-4'>
+        <span className='text-capitalize h1 ps-5'>blogs</span>
         <Carousel items={blogs} />
       </div>
     </div>
