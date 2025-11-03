@@ -1,5 +1,7 @@
-import { Link, useNavigate, useLoaderData } from 'react-router'
+import { Link, useNavigate, useLoaderData, useRevalidator } from 'react-router'
 import { useAuth } from '../context/AuthContext'
+import { useState } from 'react'
+import ProfilePictureUpload from '../components/ProfilePictureUpload'
 
 // Use clientLoader to access localStorage (browser-only)
 export async function clientLoader() {
@@ -44,13 +46,24 @@ export async function clientLoader() {
 clientLoader.hydrate = true
 
 export default function Profile() {
-  const { user, logout } = useAuth()
+  const { user, logout, login } = useAuth()
   const navigate = useNavigate()
   const { ownedCourses, favouriteCourses, savedBlogs } = useLoaderData()
+  const revalidator = useRevalidator()
 
   const handleLogout = () => {
     logout()
     navigate('/')
+  }
+
+  const handleProfilePictureUpdate = updatedUser => {
+    // Update auth context with new user data
+    const token = localStorage.getItem('token')
+    if (token) {
+      login(token, updatedUser)
+    }
+    // Revalidate to refresh the page data
+    revalidator.revalidate()
   }
 
   const sections = [
@@ -123,16 +136,15 @@ export default function Profile() {
             >
               Logout
             </button>
-            <div className='row g-4 justify-content-center justify-content-md-start'>
-              <div className='col-auto'>
-                <img
-                  className='img-thumbnail rounded-circle'
-                  src='https://placehold.co/200'
-                  alt='User profile'
+            <div className='row g-4 justify-content-center justify-content-md-start w-100'>
+              <div className='col-12 col-md-auto d-flex justify-content-center'>
+                <ProfilePictureUpload
+                  user={user}
+                  onUpdate={handleProfilePictureUpdate}
                 />
               </div>
-              <div className='col'>
-                <div className='d-flex flex-column justify-content-center align-items-center align-items-sm-start h-100'>
+              <div className='col-12 col-md'>
+                <div className='d-flex flex-column justify-content-center align-items-center align-items-md-start h-100'>
                   <h2 className='text-capitalize'>
                     {user?.username || 'User Name'}
                   </h2>

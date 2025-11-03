@@ -132,6 +132,11 @@ export default function Navbar() {
     navigate('/')
   }
 
+  // Get profile picture URL
+  const profilePictureUrl = user?.profile_picture
+    ? `http://127.0.0.1:5000${user.profile_picture}`
+    : 'https://placehold.co/50'
+
   return (
     <nav
       className='navbar navbar-expand-lg bg-dark-subtle sticky-top z-3 p-2 px-5 shadow'
@@ -192,20 +197,23 @@ export default function Navbar() {
             <Link
               to='/profile'
               ref={profileRef}
-              className='d-flex align-items-center rounded-circle border border-5 position-relative'
+              className='d-flex align-items-center rounded-circle border border-5 position-relative overflow-hidden'
               style={{
                 '--bs-border-color':
                   location.pathname === '/profile'
                     ? 'var(--bs-primary)'
                     : 'transparent',
                 transition: 'border-color 0.3s ease',
-                zIndex: 2
+                zIndex: 2,
+                width: '60px',
+                height: '60px'
               }}
             >
               <img
-                src='https://placehold.co/50'
+                src={profilePictureUrl}
                 alt={user?.username || 'Profile'}
-                className='rounded-circle'
+                className='w-100 h-100'
+                style={{ objectFit: 'cover' }}
               />
             </Link>
           )}

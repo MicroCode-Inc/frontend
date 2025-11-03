@@ -4,6 +4,9 @@ export {
   faPaintBrush,
   faChevronLeft,
   faChevronRight,
+  faCamera,
+  faTrash,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons'
 
 export const faMicroCode = {
