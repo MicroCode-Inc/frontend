@@ -14,11 +14,11 @@ export default function Home() {
   const { courses, blogs } = useLoaderData()
 
   return (
-    <div className='container d-grid gap-4 my-4'>
+    <div className='container d-grid gap-4 my-4 page-transition'>
       <Jumbotron />
       <div className='container-fluid p-5 bg-dark-subtle rounded-4 shadow'>
         <h1 className='text-capitalize mb-3'>cursos</h1>
-        <div className='row row-cols-2 row-cols-lg-4 g-2'>
+        <div className='row row-cols-2 row-cols-lg-4 g-2 stagger-animation'>
           {courses.map(course => (
             <CardHome
               key={course.id}

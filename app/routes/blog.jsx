@@ -71,10 +71,10 @@ export default function Blog() {
   }
 
   return (
-    <div className='container'>
+    <div className='container page-transition'>
       <div className='row justify-content-center'>
         <div className='col-12 col-lg-8'>
-          <div className='d-grid gap-3'>
+          <div className='d-grid gap-3 tab-stagger'>
             {blogs.map(({ title, author, date, summary, tags }, i) => (
               <Link
                 className='card border-0 bg-dark-subtle text-decoration-none rounded-4 shadow'

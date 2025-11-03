@@ -1,11 +1,12 @@
-import { NavLink, Outlet } from 'react-router'
+import { NavLink, Outlet, useParams } from 'react-router'
 
 export default function Courses() {
   const tabs = ['frontend', 'backend', 'sql', 'git']
+  const { tab } = useParams()
 
   return (
     <div
-      className='container'
+      className='container page-transition'
       style={{ maxHeight: 'calc(100vh - 56px)' }}
     >
       <div className='row justify-content-center'>
@@ -31,7 +32,7 @@ export default function Courses() {
             </ul>
 
             <div className='overflow-auto'>
-              <Outlet />
+              <Outlet key={tab} />
             </div>
           </div>
         </div>

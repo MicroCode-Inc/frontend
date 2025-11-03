@@ -1,6 +1,6 @@
 export default function Course() {
   return (
-    <div className='container d-flex flex-column gap-5'>
+    <div className='container d-flex flex-column gap-5 page-transition'>
       <img
         className='img-fluid mt-3'
         src='https://placehold.co/1920x420'

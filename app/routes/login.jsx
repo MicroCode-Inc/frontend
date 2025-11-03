@@ -9,7 +9,7 @@ export default function Login() {
   }
 
   return (
-    <div className='container align-self-center'>
+    <div className='container align-self-center page-transition'>
       <div className='row justify-content-center'>
         <div className='col-12 col-md- col-lg-6'>
           <Form className='card border-0 bg-dark-subtle p-4 rounded-4'>

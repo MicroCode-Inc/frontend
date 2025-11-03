@@ -1,6 +1,6 @@
 export default function BlogPage() {
   return (
-    <div className='container d-flex flex-column gap-5'>
+    <div className='container d-flex flex-column gap-5 page-transition'>
       <img
         className='img-fluid'
         src='https://placehold.co/1920x420'

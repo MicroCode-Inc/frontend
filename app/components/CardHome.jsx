@@ -6,14 +6,14 @@ export default function CardHome({
 }) {
   return (
     <div className='col'>
-      <div className='card'>
+      <div className='card card-hover-effect rounded-4 overflow-hidden'>
         <div className='card-img-container'>
           <img
             src={imgUrl}
             alt={imgAlt}
             className='card-img'
           />
-          <div className='card-img-overlay text-dark d-flex flex-column p-2'>
+          <div className='card-img-overlay text-dark d-flex flex-column p-3'>
             <span className='card-title text-capitalize h5'>{title}</span>
             <div className='mt-auto'>
               {tags.map(({ label, color }, i) => (

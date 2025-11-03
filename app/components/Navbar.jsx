@@ -40,17 +40,19 @@ export default function Navbar() {
 
   return (
     <nav
-      className='navbar navbar-expand-lg bg-dark-subtle sticky-top z-3 p-2 shadow'
+      className='navbar navbar-expand-lg bg-dark-subtle sticky-top z-3 p-3 shadow'
       ref={navbarRef}
     >
       <div className='container-fluid p-0'>
         <Link
           to='/'
-          className='navbar-brand fw-bold'
+          className={`navbar-brand fw-bold px-3 py-2 pill rounded-3 ${
+            location.pathname === '/' ? 'bg-primary text-white' : ''
+          }`}
         >
           MicroCode
         </Link>
-        <div className='d-flex align-items-center gap-2 order-lg-last'>
+        <div className='d-flex align-items-center gap-3 order-lg-last'>
           {navRoutes
             .filter(route => route.path === '/login')
             .map(({ path, label }) => {
@@ -68,6 +70,20 @@ export default function Navbar() {
                 </Link>
               )
             })}
+          <Link
+            to='/profile'
+            className={`d-flex align-items-center rounded-circle border border-5 ${
+              location.pathname === '/profile'
+                ? 'border-primary'
+                : 'border-dark-subtle'
+            }`}
+          >
+            <img
+              src='https://placehold.co/50'
+              alt='Profile'
+              className='rounded-circle'
+            />
+          </Link>
           <button
             className={`btn btn-outline-${
               theme === 'dark' ? 'light' : 'dark'
@@ -77,7 +93,7 @@ export default function Navbar() {
             <FontAwesomeIcon icon={faLightbulb} />
           </button>
           <button
-            className='navbar-toggler'
+            className='navbar-toggler border-0'
             type='button'
             data-bs-toggle='collapse'
             data-bs-target='#navbarNav'

@@ -44,7 +44,7 @@ export default function Carousel({ items }) {
                     className='col'
                   >
                     <Link
-                      className='card border-0 bg-secondary-subtle text-decoration-none rounded-4 d-block'
+                      className='card carousel-card-hover border-0 bg-secondary-subtle text-decoration-none rounded-4 d-block'
                       to={`/blog/${isLarge ? i * 2 + j : i}`}
                     >
                       <div className='row g-0'>

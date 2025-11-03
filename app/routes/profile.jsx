@@ -40,7 +40,7 @@ export default function Profile() {
     }
   ]
   return (
-    <div className='container'>
+    <div className='container page-transition'>
       <style>{`
         .accordion-item:last-child .accordion-button.collapsed {
           border-radius: 0 0 1.5rem 1.5rem !important;

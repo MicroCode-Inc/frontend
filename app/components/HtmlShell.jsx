@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
+import '../styles/animations.css'
 import { Links, Meta, Scripts, ScrollRestoration } from 'react-router'
 import { useTheme } from '../context/ThemeContext'
 import Navbar from './Navbar'
