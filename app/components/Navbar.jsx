@@ -1,13 +1,16 @@
-import { Link, useLocation } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { faLightbulb, faMicroCode } from '../utils/faIcons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from '../context/ThemeContext'
+import { useAuth } from '../context/AuthContext'
 import routes from '../routes'
 import { useEffect, useRef, useState } from 'react'
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
+  const { isLoggedIn: loggedIn, user, logout } = useAuth()
   const location = useLocation()
+  const navigate = useNavigate()
   const navRoutes = routes.filter(e => e.showInNav)
   const navbarRef = useRef(null)
   const brandRef = useRef(null)
@@ -15,9 +18,8 @@ export default function Navbar() {
   const profileRef = useRef(null)
   const navPillsRef = useRef(null)
   const [pillStyle, setPillStyle] = useState({})
-  const [pillType, setPillType] = useState('nav') // 'nav', 'brand', 'login', 'profile'
+  const [pillType, setPillType] = useState('nav')
   const [isNavCollapsed, setIsNavCollapsed] = useState(true)
-  const loggedIn = false
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -36,7 +38,6 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Track navbar collapse state
   useEffect(() => {
     const navbar = navbarRef.current
     const collapse = navbar?.querySelector('.navbar-collapse')
@@ -45,13 +46,12 @@ export default function Navbar() {
 
     const handleCollapse = () => setIsNavCollapsed(true)
     const handleShow = () => setIsNavCollapsed(false)
-    const handleCollapsing = () => setIsNavCollapsed(true) // Hide immediately when starting to close
+    const handleCollapsing = () => setIsNavCollapsed(true)
 
     collapse.addEventListener('hidden.bs.collapse', handleCollapse)
     collapse.addEventListener('shown.bs.collapse', handleShow)
-    collapse.addEventListener('hide.bs.collapse', handleCollapsing) // Listen to start of closing
+    collapse.addEventListener('hide.bs.collapse', handleCollapsing)
 
-    // Set initial state
     setIsNavCollapsed(!collapse.classList.contains('show'))
 
     return () => {
@@ -67,28 +67,19 @@ export default function Navbar() {
       let containerElement = null
       let newPillType = 'nav'
 
-      // Check brand link
       if (location.pathname === '/' && brandRef.current) {
         activeElement = brandRef.current
         containerElement = navbarRef.current
         newPillType = 'brand'
-      }
-      // Check login button
-      else if (location.pathname === '/login' && loginRef.current) {
+      } else if (location.pathname === '/login' && loginRef.current) {
         activeElement = loginRef.current
         containerElement = navbarRef.current
         newPillType = 'login'
-      }
-      // Check profile
-      else if (location.pathname === '/profile' && profileRef.current) {
+      } else if (location.pathname === '/profile' && profileRef.current) {
         activeElement = profileRef.current
         containerElement = navbarRef.current
         newPillType = 'profile'
-      }
-      // Check nav pills - only show if navbar is expanded on mobile, or on desktop
-      else if (navPillsRef.current) {
-        // On mobile: only show pill if navbar is open
-        // On desktop: always show pill
+      } else if (navPillsRef.current) {
         const isMobile = window.innerWidth < 992
         const shouldShowNavPill = !isMobile || !isNavCollapsed
 
@@ -134,6 +125,11 @@ export default function Navbar() {
       const toggler = navbar.querySelector('.navbar-toggler')
       toggler?.click()
     }
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
   }
 
   return (
@@ -208,7 +204,7 @@ export default function Navbar() {
             >
               <img
                 src='https://placehold.co/50'
-                alt='Profile'
+                alt={user?.username || 'Profile'}
                 className='rounded-circle'
               />
             </Link>

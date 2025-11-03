@@ -1,5 +1,7 @@
+// app/routes/login.jsx
 import { useState } from 'react'
 import { Form, Link, useNavigate } from 'react-router'
+import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
   const [signupMode, setSignupMode] = useState(false)
@@ -11,6 +13,12 @@ export default function Login() {
   })
   const [error, setError] = useState(null)
   const navigate = useNavigate()
+  const { login, logout, isLoggedIn } = useAuth()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
 
   const toggleSignup = () => {
     setSignupMode(e => !e)
@@ -25,7 +33,6 @@ export default function Login() {
     e.preventDefault()
     setError(null)
 
-    // Validation for signup mode
     if (signupMode) {
       if (
         !values.username ||
@@ -69,14 +76,45 @@ export default function Login() {
         return
       }
 
-      // Store token and user data
-      localStorage.setItem('token', json.token)
-      localStorage.setItem('user', JSON.stringify(json.user))
+      login(json.token, json.user)
 
-      navigate('/')
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      navigate('/', { replace: true })
     } catch (err) {
       setError('Network error. Please try again.')
     }
+  }
+
+  // If user is logged in, show logout prompt
+  if (isLoggedIn) {
+    return (
+      <div className='container align-self-center page-transition'>
+        <div className='row justify-content-center'>
+          <div className='col-12 col-md- col-lg-6'>
+            <div className='card border-0 bg-dark-subtle p-4 rounded-4'>
+              <div className='card-body text-center'>
+                <p className='display-5 mb-4'>Would you like to logout?</p>
+                <div className='d-flex gap-3 justify-content-center'>
+                  <Link
+                    to='/'
+                    className='btn btn-primary btn-lg px-5'
+                  >
+                    Home
+                  </Link>
+                  <button
+                    className='btn btn-danger btn-lg px-5'
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

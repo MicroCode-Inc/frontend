@@ -1,6 +1,15 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+import { useAuth } from '../context/AuthContext'
 
 export default function Profile() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
+
   const sections = [
     {
       id: 'collapseOne',
@@ -54,8 +63,14 @@ export default function Profile() {
       `}</style>
       <div className='row justify-content-center'>
         <div className='col-12 col-lg-8'>
-          <div className='d-flex bg-dark-subtle p-4 rounded-4 mt-4 mb-5 shadow'>
-            <div className='row row-cols-1 row-cols-sm-2 g-4 g-sm-3 justify-content-center justify-content-md-start'>
+          <div className='d-flex bg-dark-subtle p-4 rounded-4 mt-4 mb-4 shadow position-relative'>
+            <button
+              className='btn btn-secondary position-absolute top-0 end-0 m-3'
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+            <div className='row row-cols-1 row-cols-sm-2 g-4 g-sm-5 justify-content-center justify-content-md-start'>
               <div className='col-auto'>
                 <img
                   className='img-thumbnail rounded-circle'
@@ -65,10 +80,16 @@ export default function Profile() {
               </div>
               <div className='col'>
                 <div className='d-flex flex-column justify-content-center align-items-center align-items-sm-start h-100'>
-                  <h2>User Name</h2>
-                  <h4>email@address.com</h4>
+                  <h2 className='text-capitalize'>
+                    {user?.username || 'User Name'}
+                  </h2>
+                  <h4>{user?.email || 'email@address.com'}</h4>
                   <p className='text-secondary fs-5 m-0'>
-                    Joined on 10/12/2024
+                    {user?.created_at
+                      ? `Joined on ${new Date(
+                          user.created_at
+                        ).toLocaleDateString()}`
+                      : 'Joined on 10/12/2024'}
                   </p>
                 </div>
               </div>
