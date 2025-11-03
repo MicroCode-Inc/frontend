@@ -23,7 +23,7 @@ export default function Carousel({ items }) {
     : items.map(item => [item])
 
   return (
-    <div className='position-relative'>
+    <div className='position-relative w-100'>
       <div
         key={isLarge ? 'lg' : 'sm'}
         id='carouselInterval'
@@ -44,7 +44,7 @@ export default function Carousel({ items }) {
                     className='col'
                   >
                     <Link
-                      className='card border-0 bg-dark-subtle text-decoration-none rounded-4 d-block'
+                      className='card border-0 bg-secondary-subtle text-decoration-none rounded-4 d-block'
                       to={`/blog/${isLarge ? i * 2 + j : i}`}
                     >
                       <div className='row g-0'>
@@ -76,30 +76,28 @@ export default function Carousel({ items }) {
           ))}
         </div>
       </div>
-
       <button
-        className='btn btn-outline-secondary border-0 p-1 py-3 position-absolute top-50 start-0 translate-middle-y d-grid align-items-center'
-        style={{ marginLeft: '-2rem' }}
+        className='btn btn-outline-secondary border-0 p-1 py-3 position-absolute top-50 translate-middle-y d-grid align-items-center'
+        style={{ left: '-2.5rem' }}
         type='button'
         data-bs-target='#carouselInterval'
         data-bs-slide='prev'
       >
         <FontAwesomeIcon
           icon={faChevronLeft}
-          className='fs-4 text-bg-body'
+          className='fs-5 text-bg-body'
         />
       </button>
-
       <button
-        className='btn btn-outline-secondary border-0 p-1 py-3 position-absolute top-50 end-0 translate-middle-y d-grid align-items-center'
-        style={{ marginRight: '-2rem' }}
+        className='btn btn-outline-secondary border-0 p-1 py-3 position-absolute top-50 translate-middle-y d-grid align-items-center'
+        style={{ right: '-2.5rem' }}
         type='button'
         data-bs-target='#carouselInterval'
         data-bs-slide='next'
       >
         <FontAwesomeIcon
           icon={faChevronRight}
-          className='fs-4 text-bg-body'
+          className='fs-5 text-bg-body'
         />
       </button>
     </div>

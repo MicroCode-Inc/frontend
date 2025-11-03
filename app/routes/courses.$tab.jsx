@@ -77,22 +77,22 @@ export default function CourseTab() {
     if (!summary) return null
 
     return (
-      <div className='container-fluid p-0 d-grid gap-3'>
-        <div className='card bg-dark-subtle rounded-4'>
-          <div className='card-header h4 border-0 border-bottom  rounded-top-4'>
-            Goal
+      <div className='container-fluid p-0 d-grid gap-4'>
+        <div className='card bg-secondary-subtle rounded-4 border-0 shadow'>
+          <div className='card-header h4 border-0 rounded-top-4 p-3'>Goal</div>
+          <div className='card-body shadow rounded-bottom-4 p-3'>
+            {summary.goal}
           </div>
-          <div className='card-body'>{summary.goal}</div>
         </div>
-        <div className='card bg-dark-subtle rounded-4 border-bottom-0'>
-          <div className='card-header border-0 h4 border-bottom  rounded-top-4'>
+        <div className='card bg-secondary-subtle rounded-4 border-0 shadow'>
+          <div className='card-header border-0 h4 rounded-top-4 shadow p-3'>
             Syllabus
           </div>
           <div className='card-body p-0'>
             <ol className='list-group list-group-numbered rounded-4'>
               {summary.syllabus.map((item, idx) => (
                 <li
-                  className='list-group-item bg-dark-subtle py-3 border-top-0 border-end-0 border-start-0'
+                  className='list-group-item bg-secondary-subtle py-3 border-0 rounded-top-0 shadow'
                   key={idx}
                 >
                   {item}
@@ -101,15 +101,15 @@ export default function CourseTab() {
             </ol>
           </div>
         </div>
-        <div className='card bg-dark-subtle rounded-4'>
-          <div className='card-header border border-0 border-bottom h4 rounded-top-4'>
+        <div className='card bg-secondary-subtle rounded-4 border-0 shadow'>
+          <div className='card-header border border-0 h4 rounded-top-4 p-3'>
             Requirements
           </div>
           <div className='card-body p-0'>
-            <ul className='list-group rounded-4'>
+            <ul className='list-group rounded-4 rounded-top-0'>
               {summary.requirements.map((req, idx) => (
                 <Link
-                  className='list-group-item list-group-item-action bg-dark-subtle p-3 border-top-0 border-end-0 border-start-0'
+                  className='list-group-item list-group-item-action bg-secondary-subtle text-body p-3 border-0 shadow'
                   to={`/courses/${tab}/${idx}`}
                   key={idx}
                 >
@@ -124,10 +124,7 @@ export default function CourseTab() {
   }
 
   return (
-    <div
-      className='accordion d-grid gap-4'
-      id='accordionCourses'
-    >
+    <div className='accordion d-grid gap-3'>
       {data.map(({ name, description, tags, summary }, i) => (
         <div
           className='accordion-item border-0 bg-dark-subtle rounded-4'
@@ -146,13 +143,13 @@ export default function CourseTab() {
                 <div className='row g-0'>
                   <div className='col-auto'>
                     <img
-                      src='https://placehold.co/150'
+                      src='https://placehold.co/175'
                       className='img-fluid rounded-start-4 h-100'
                       alt={name}
                     />
                   </div>
                   <div className='col'>
-                    <div className='card-body h-100 align-content-center py-0'>
+                    <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
                       <h5 className='card-title'>{name}</h5>
                       <p className='card-text'>{description}</p>
                       {tags && (
@@ -178,7 +175,7 @@ export default function CourseTab() {
             className='accordion-collapse collapse'
             data-bs-parent='#accordionCourses'
           >
-            <div className='accordion-body p-4'>{renderSummary(summary)}</div>
+            <div className='accordion-body p-5'>{renderSummary(summary)}</div>
           </div>
         </div>
       ))}

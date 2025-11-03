@@ -1,6 +1,6 @@
 export default function Jumbotron() {
   return (
-    <div className='bg-body-tertiary p-5 my-5 rounded-4'>
+    <div className='bg-dark-subtle p-5 rounded-4 shadow'>
       <p className='text-muted mb-0 fs-5'>Bienvenido a</p>
       <h1 className='display-1 fw-bold mb-3'>MicroCode</h1>
       <p className='lead'>

@@ -14,22 +14,24 @@ export default function Home() {
   const { courses, blogs } = useLoaderData()
 
   return (
-    <div className='container'>
+    <div className='container d-grid gap-4 my-4'>
       <Jumbotron />
-      <h2 className='text-capitalize mt-3'>cursos</h2>
-      <div className='row row-cols-2 row-cols-lg-4 g-2'>
-        {courses.map(course => (
-          <CardHome
-            key={course.id}
-            imgUrl={course.image_url}
-            imgAlt={course.name}
-            title={course.name}
-            tags={course.tags}
-          />
-        ))}
+      <div className='container-fluid p-5 bg-dark-subtle rounded-4 shadow'>
+        <h1 className='text-capitalize mb-3'>cursos</h1>
+        <div className='row row-cols-2 row-cols-lg-4 g-2'>
+          {courses.map(course => (
+            <CardHome
+              key={course.id}
+              imgUrl={course.image_url}
+              imgAlt={course.name}
+              title={course.name}
+              tags={course.tags}
+            />
+          ))}
+        </div>
       </div>
-      <div className='row mt-3'>
-        <h2 className='text-capitalize mt-5'>blogs</h2>
+      <div className='container-fluid p-5 bg-dark-subtle rounded-4 shadow'>
+        <h1 className='text-capitalize mb-3'>blogs</h1>
         <Carousel items={blogs} />
       </div>
     </div>

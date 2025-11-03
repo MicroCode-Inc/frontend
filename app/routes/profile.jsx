@@ -1,768 +1,154 @@
 import { Link } from 'react-router'
 
 export default function Profile() {
+  const sections = [
+    {
+      id: 'collapseOne',
+      title: 'Owned Courses',
+      badgeColor: 'success',
+      count: 8,
+      linkPath: '/courses/frontend/0',
+      items: Array(8).fill({
+        title: 'Card title',
+        description:
+          'This is a wider card with supporting text below as a natural lead-in to additional content.'
+      })
+    },
+    {
+      id: 'collapseTwo',
+      title: 'Favourited Courses',
+      badgeColor: 'primary',
+      count: 8,
+      linkPath: '/courses/frontend/0',
+      items: Array(8).fill({
+        title: 'Card title',
+        description:
+          'This is a wider card with supporting text below as a natural lead-in to additional content.'
+      })
+    },
+    {
+      id: 'collapseThree',
+      title: 'Saved Blogs',
+      badgeColor: 'warning',
+      count: 8,
+      linkPath: '/blog/0',
+      items: Array(8).fill({
+        title: 'Card title',
+        description:
+          'This is a wider card with supporting text below as a natural lead-in to additional content.'
+      })
+    }
+  ]
   return (
     <div className='container'>
-      <div className='d-flex bg-secondary-subtle p-5 rounded-4 mt-4 mb-5'>
-        <img
-          className='img-thumbnail rounded-circle'
-          src='https://placehold.co/200'
-        />
-        <div className='ms-5 d-flex flex-column justify-content-center'>
-          <h2>User Name</h2>
-          <h3 cl>Email@Address.com</h3>
-          <h4 className='text-secondary'>Joined on 10/12/2024</h4>
-        </div>
-      </div>
-      <div
-        className='accordion'
-        id='accordionExample'
-      >
-        <div className='accordion-item bg-secondary-subtle'>
-          <h2 className='accordion-header'>
-            <button
-              className='accordion-button bg-secondary-subtle fs-4 collapsed'
-              type='button'
-              data-bs-toggle='collapse'
-              data-bs-target='#collapseOne'
-              aria-expanded='true'
-              aria-controls='collapseOne'
-            >
-              <span className='badge text-bg-success me-3'>8</span>
-              Owned Courses
-            </button>
-          </h2>
-          <div
-            id='collapseOne'
-            className='accordion-collapse collapse'
-            data-bs-parent='#accordionExample'
-          >
-            <div className='accordion-body'>
-              <div className='row row-cols-1 row-cols-lg-2'>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
+      <style>{`
+        .accordion-item:last-child .accordion-button.collapsed {
+          border-radius: 0 0 1.5rem 1.5rem !important;
+        }
+        .accordion-item:last-child:has(.accordion-collapse.show) {
+          border-radius: 0 !important;
+        }
+        .accordion-item:last-child .accordion-body {
+          border-radius: 0 0 1.5rem 1.5rem;
+        }
+      `}</style>
+      <div className='row justify-content-center'>
+        <div className='col-12 col-lg-8'>
+          <div className='d-flex bg-dark-subtle p-4 rounded-4 mt-4 mb-5 shadow'>
+            <div className='row row-cols-1 row-cols-sm-2 g-4 g-sm-3 justify-content-center justify-content-md-start'>
+              <div className='col-auto'>
+                <img
+                  className='img-thumbnail rounded-circle'
+                  src='https://placehold.co/200'
+                  alt='User profile'
+                />
+              </div>
+              <div className='col'>
+                <div className='d-flex flex-column justify-content-center align-items-center align-items-sm-start h-100'>
+                  <h2>User Name</h2>
+                  <h4>email@address.com</h4>
+                  <p className='text-secondary fs-5 m-0'>
+                    Joined on 10/12/2024
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className='accordion-item bg-secondary-subtle'>
-          <h2 className='accordion-header'>
-            <button
-              className='accordion-button bg-secondary-subtle  collapsed fs-4'
-              type='button'
-              data-bs-toggle='collapse'
-              data-bs-target='#collapseTwo'
-              aria-expanded='false'
-              aria-controls='collapseTwo'
-            >
-              <span className='badge text-bg-primary me-3'>8</span>
-              Favourited Courses
-            </button>
-          </h2>
           <div
-            id='collapseTwo'
-            className='accordion-collapse collapse'
-            data-bs-parent='#accordionExample'
+            className='accordion rounded-4 shadow'
+            id='accordionExample'
           >
-            <div className='accordion-body'>
-              <div className='row row-cols-1 row-cols-lg-2'>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
+            {sections.map((section, sectionIndex) => (
+              <div
+                className={`accordion-item bg-dark-subtle border-0 ${
+                  sectionIndex === 0
+                    ? 'rounded-top-4'
+                    : sectionIndex === 2
+                    ? 'rounded-bottom-4'
+                    : ''
+                }`}
+                key={section.id}
+              >
+                <h2 className='accordion-header'>
+                  <button
+                    className={`accordion-button bg-dark-subtle fs-4 collapsed border-0 ${
+                      sectionIndex === 0 ? 'rounded-top-4' : ''
+                    }`}
+                    type='button'
+                    data-bs-toggle='collapse'
+                    data-bs-target={`#${section.id}`}
+                    aria-expanded={sectionIndex === 0 ? 'true' : 'false'}
+                    aria-controls={section.id}
                   >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
+                    <span
+                      className={`badge text-bg-${section.badgeColor} me-3`}
+                    >
+                      {section.count}
+                    </span>
+                    {section.title}
+                  </button>
+                </h2>
+                <div
+                  id={section.id}
+                  className='accordion-collapse collapse'
+                  data-bs-parent='#accordionExample'
+                >
+                  <div className='accordion-body p-4'>
+                    <div className='row row-cols-1 row-cols-lg-2 g-3'>
+                      {section.items.map((item, itemIndex) => (
+                        <div
+                          className='col'
+                          key={itemIndex}
+                        >
+                          <Link
+                            className='card border-0 bg-secondary-subtle text-decoration-none rounded-4 shadow'
+                            to={section.linkPath}
+                          >
+                            <div className='row g-0'>
+                              <div className='col-auto'>
+                                <img
+                                  src='https://placehold.co/175'
+                                  className='img-fluid rounded-start-4 h-100'
+                                  alt={item.title}
+                                />
+                              </div>
+                              <div className='col'>
+                                <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
+                                  <h5 className='card-title'>{item.title}</h5>
+                                  <p className='card-text m-0'>
+                                    {item.description}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
                         </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/courses/frontend/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className='accordion-item bg-secondary-subtle '>
-          <h2 className='accordion-header'>
-            <button
-              className='accordion-button bg-secondary-subtle  collapsed fs-4'
-              type='button'
-              data-bs-toggle='collapse'
-              data-bs-target='#collapseThree'
-              aria-expanded='false'
-              aria-controls='collapseThree'
-            >
-              <span className='badge text-bg-warning me-3'>8</span>
-              Saved Blogs
-            </button>
-          </h2>
-          <div
-            id='collapseThree'
-            className='accordion-collapse collapse'
-            data-bs-parent='#accordionExample'
-          >
-            <div className='accordion-body'>
-              <div className='row row-cols-1 row-cols-lg-2'>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/blog/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/blog/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/blog/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/blog/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/blog/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/blog/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/blog/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className='col'>
-                  <Link
-                    className='card mb-3 text-decoration-none bg-dark-subtle border-0 rounded-4'
-                    to='/blog/0'
-                  >
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src='https://placehold.co/150'
-                          className='img-fluid rounded-start-4'
-                          alt='...'
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-header border-0 bg-transparent mt-2 pb-0'>
-                          <h5 className='card-title'>Card title</h5>
-                        </div>
-                        <div className='card-body pt-2'>
-                          <p className='card-text'>
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content. This content
-                            is a little bit longer.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
