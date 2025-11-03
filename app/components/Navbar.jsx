@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router'
-import { faLightbulb } from '../utils/faIcons'
+import { faLightbulb, faMicroCode } from '../utils/faIcons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from '../context/ThemeContext'
 import routes from '../routes'
@@ -40,19 +40,28 @@ export default function Navbar() {
 
   return (
     <nav
-      className='navbar navbar-expand-lg bg-dark-subtle sticky-top z-3 p-3 shadow'
+      className='navbar navbar-expand-lg bg-dark-subtle sticky-top z-3 p-2 px-5 shadow'
       ref={navbarRef}
     >
       <div className='container-fluid p-0'>
-        <Link
-          to='/'
-          className={`navbar-brand fw-bold px-3 py-2 pill rounded-3 ${
-            location.pathname === '/' ? 'bg-primary text-white' : ''
-          }`}
-        >
-          MicroCode
-        </Link>
-        <div className='d-flex align-items-center gap-3 order-lg-last'>
+        <div className='d-flex align-items-center gap-3'>
+          <Link
+            to='/'
+            className='navbar-brand p-2 py-2 rounded-3 d-flex align-items-center gap-3 border border-2'
+            style={{
+              '--bs-border-color':
+                location.pathname === '/' ? 'var(--bs-primary)' : 'transparent'
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faMicroCode}
+              widthAuto={true}
+              className='fs-2 ms-1 text-primary'
+            />
+            <span className='fs-4 fw-light text-body-emphasis'>MicroCode</span>
+          </Link>
+        </div>
+        <div className='d-flex align-items-center gap-2 order-lg-last'>
           {navRoutes
             .filter(route => route.path === '/login')
             .map(({ path, label }) => {
@@ -93,7 +102,7 @@ export default function Navbar() {
             <FontAwesomeIcon icon={faLightbulb} />
           </button>
           <button
-            className='navbar-toggler border-0'
+            className='navbar-toggler border-0 p-1'
             type='button'
             data-bs-toggle='collapse'
             data-bs-target='#navbarNav'

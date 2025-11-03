@@ -35,16 +35,16 @@ type Pages = {
       "id": string;
     };
   };
-  "/contact": {
-    params: {};
-  };
-  "/profile": {
-    params: {};
-  };
   "/about": {
     params: {};
   };
+  "/contact": {
+    params: {};
+  };
   "/login": {
+    params: {};
+  };
+  "/profile": {
     params: {};
   };
 };
@@ -52,7 +52,7 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/contact" | "/profile" | "/about" | "/login";
+    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
@@ -78,20 +78,20 @@ type RouteFiles = {
     id: "routes/blog.$blogId";
     page: "/blog/:id";
   };
-  "routes/contact.jsx": {
-    id: "routes/contact";
-    page: "/contact";
-  };
-  "routes/profile.jsx": {
-    id: "routes/profile";
-    page: "/profile";
-  };
   "routes/about.jsx": {
     id: "routes/about";
     page: "/about";
   };
+  "routes/contact.jsx": {
+    id: "routes/contact";
+    page: "/contact";
+  };
   "routes/login.jsx": {
     id: "routes/login";
     page: "/login";
+  };
+  "routes/profile.jsx": {
+    id: "routes/profile";
+    page: "/profile";
   };
 };
