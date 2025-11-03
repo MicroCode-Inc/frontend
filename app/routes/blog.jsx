@@ -22,7 +22,9 @@ export default function Blog() {
                 author_name,
                 publication_date,
                 description,
-                tags
+                tags,
+                image_url,
+                image_alt
               }) => (
                 <Link
                   className='card border-0 bg-dark-subtle text-decoration-none rounded-4 shadow'
@@ -32,14 +34,14 @@ export default function Blog() {
                   <div className='row g-0'>
                     <div className='col-auto'>
                       <img
-                        src='https://placehold.co/175x175'
+                        src={image_url || 'https://placehold.co/400x300'}
                         className='img-fluid rounded-start-4'
                         style={{
                           width: '175px',
                           height: '175px',
                           objectFit: 'cover'
                         }}
-                        alt={title}
+                        alt={image_alt || title}
                       />
                     </div>
                     <div className='col'>

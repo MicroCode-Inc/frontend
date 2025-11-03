@@ -1,9 +1,52 @@
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useLoaderData } from 'react-router'
 import { useAuth } from '../context/AuthContext'
+
+// Use clientLoader to access localStorage (browser-only)
+export async function clientLoader() {
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+
+  if (!user.id) {
+    return {
+      ownedCourses: [],
+      favouriteCourses: [],
+      savedBlogs: []
+    }
+  }
+
+  try {
+    // Fetch user data with expanded details
+    const response = await fetch(
+      `http://127.0.0.1:5000/users/${user.id}?expand=true`
+    )
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch user data')
+    }
+
+    const userData = await response.json()
+
+    return {
+      ownedCourses: userData.owned_courses || [],
+      favouriteCourses: userData.favourite_courses || [],
+      savedBlogs: userData.saved_blogs || []
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+    return {
+      ownedCourses: [],
+      favouriteCourses: [],
+      savedBlogs: []
+    }
+  }
+}
+
+// Hydrate the client loader on page load
+clientLoader.hydrate = true
 
 export default function Profile() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const { ownedCourses, favouriteCourses, savedBlogs } = useLoaderData()
 
   const handleLogout = () => {
     logout()
@@ -15,39 +58,49 @@ export default function Profile() {
       id: 'collapseOne',
       title: 'Owned Courses',
       badgeColor: 'success',
-      count: 8,
-      linkPath: '/courses/frontend/0',
-      items: Array(8).fill({
-        title: 'Card title',
-        description:
-          'This is a wider card with supporting text below as a natural lead-in to additional content.'
-      })
+      count: ownedCourses.length,
+      items: ownedCourses.map(course => ({
+        id: course.id,
+        title: course.name,
+        description: course.description,
+        linkPath: `/courses/${course.topic}/${course.id}`,
+        imgUrl: course.image_url || 'https://placehold.co/175',
+        imgAlt: course.image_alt || course.name,
+        tags: course.tags || []
+      }))
     },
     {
       id: 'collapseTwo',
       title: 'Favourited Courses',
       badgeColor: 'primary',
-      count: 8,
-      linkPath: '/courses/frontend/0',
-      items: Array(8).fill({
-        title: 'Card title',
-        description:
-          'This is a wider card with supporting text below as a natural lead-in to additional content.'
-      })
+      count: favouriteCourses.length,
+      items: favouriteCourses.map(course => ({
+        id: course.id,
+        title: course.name,
+        description: course.description,
+        linkPath: `/courses/${course.topic}/${course.id}`,
+        imgUrl: course.image_url || 'https://placehold.co/175',
+        imgAlt: course.image_alt || course.name,
+        tags: course.tags || []
+      }))
     },
     {
       id: 'collapseThree',
       title: 'Saved Blogs',
       badgeColor: 'warning',
-      count: 8,
-      linkPath: '/blog/0',
-      items: Array(8).fill({
-        title: 'Card title',
-        description:
-          'This is a wider card with supporting text below as a natural lead-in to additional content.'
-      })
+      count: savedBlogs.length,
+      items: savedBlogs.map(blog => ({
+        id: blog.id,
+        title: blog.title,
+        description: blog.description,
+        linkPath: `/blog/${blog.id}`,
+        imgUrl: blog.image_url || 'https://placehold.co/400x300',
+        imgAlt: blog.image_alt || blog.title,
+        tags: blog.tags || []
+      }))
     }
   ]
+
   return (
     <div className='container page-transition'>
       <style>{`
@@ -63,14 +116,14 @@ export default function Profile() {
       `}</style>
       <div className='row justify-content-center'>
         <div className='col-12 col-lg-8'>
-          <div className='d-flex bg-dark-subtle p-4 rounded-4 mt-4 mb-4 shadow position-relative'>
+          <div className='d-flex bg-dark-subtle p-4 rounded-4 mt-4 mb-5 shadow position-relative'>
             <button
               className='btn btn-secondary position-absolute top-0 end-0 m-3'
               onClick={handleLogout}
             >
               Logout
             </button>
-            <div className='row row-cols-1 row-cols-sm-2 g-4 g-sm-5 justify-content-center justify-content-md-start'>
+            <div className='row g-4 justify-content-center justify-content-md-start'>
               <div className='col-auto'>
                 <img
                   className='img-thumbnail rounded-circle'
@@ -135,37 +188,65 @@ export default function Profile() {
                   data-bs-parent='#accordionExample'
                 >
                   <div className='accordion-body p-4'>
-                    <div className='row row-cols-1 row-cols-lg-2 g-3'>
-                      {section.items.map((item, itemIndex) => (
-                        <div
-                          className='col'
-                          key={itemIndex}
-                        >
-                          <Link
-                            className='card border-0 bg-secondary-subtle text-decoration-none rounded-4 shadow'
-                            to={section.linkPath}
+                    {section.items.length === 0 ? (
+                      <div className='text-center py-5'>
+                        <p className='text-muted fs-5'>
+                          No {section.title.toLowerCase()} yet
+                        </p>
+                      </div>
+                    ) : (
+                      <div className='row row-cols-1 row-cols-lg-2 g-3'>
+                        {section.items.map((item, itemIndex) => (
+                          <div
+                            className='col'
+                            key={item.id}
                           >
-                            <div className='row g-0'>
-                              <div className='col-auto'>
-                                <img
-                                  src='https://placehold.co/175'
-                                  className='img-fluid rounded-start-4 h-100'
-                                  alt={item.title}
-                                />
-                              </div>
-                              <div className='col'>
-                                <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
-                                  <h5 className='card-title'>{item.title}</h5>
-                                  <p className='card-text m-0'>
-                                    {item.description}
-                                  </p>
+                            <Link
+                              className='card border-0 bg-secondary-subtle text-decoration-none rounded-4 shadow'
+                              to={item.linkPath}
+                            >
+                              <div className='row g-0'>
+                                <div className='col-auto'>
+                                  <img
+                                    src={item.imgUrl}
+                                    className='img-fluid rounded-start-4'
+                                    style={{
+                                      width: '175px',
+                                      height: '175px',
+                                      objectFit: 'cover'
+                                    }}
+                                    alt={item.imgAlt}
+                                  />
+                                </div>
+                                <div className='col'>
+                                  <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
+                                    <h5 className='card-title'>{item.title}</h5>
+                                    <p className='card-text m-0'>
+                                      {item.description}
+                                    </p>
+                                    {item.tags && item.tags.length > 0 && (
+                                      <div className='d-flex gap-1 mt-2'>
+                                        {item.tags.map((tag, tagIndex) => (
+                                          <span
+                                            className='badge text-capitalize'
+                                            style={{
+                                              backgroundColor: tag.color
+                                            }}
+                                            key={`${item.title}-${tag.label}-${tagIndex}`}
+                                          >
+                                            {tag.label}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

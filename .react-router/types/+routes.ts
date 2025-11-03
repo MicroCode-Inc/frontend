@@ -47,12 +47,15 @@ type Pages = {
   "/profile": {
     params: {};
   };
+  "/logout": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile";
+    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile" | "/logout";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
@@ -93,5 +96,9 @@ type RouteFiles = {
   "routes/profile.jsx": {
     id: "routes/profile";
     page: "/profile";
+  };
+  "routes/logout.jsx": {
+    id: "routes/logout";
+    page: "/logout";
   };
 };

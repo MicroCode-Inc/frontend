@@ -17,4 +17,5 @@ export default [
   { path: '/contact', file: 'routes/contact.jsx', showInNav: true, label: "contact" },
   { path: '/login', file: 'routes/login.jsx', showInNav: true, label: "login | signup" },
   { path: '/profile', file: 'routes/profile.jsx', showInNav: false },
+  { path: '/logout', file: 'routes/logout.jsx', showInNav: false }
 ]
