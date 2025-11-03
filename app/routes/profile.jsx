@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { useState } from 'react'
 import ProfilePictureUpload from '../components/ProfilePictureUpload'
 import DeleteSavedItemButton from '../components/DeleteSavedItemButton'
+import { apiRequest } from '../utils/api'
 
 // Use clientLoader to access localStorage (browser-only)
 export async function clientLoader() {
@@ -18,9 +19,7 @@ export async function clientLoader() {
 
   try {
     // Fetch user data with expanded details
-    const response = await fetch(
-      `http://127.0.0.1:5000/users/${user.id}?expand=true`
-    )
+    const response = await apiRequest(`/users/${user.id}?expand=true`)
 
     if (!response.ok) {
       throw new Error('Failed to fetch user data')
@@ -216,7 +215,7 @@ export default function Profile() {
                         </p>
                       </div>
                     ) : (
-                      <div className='row row-cols-1 row-cols-lg-2 g-3'>
+                      <div className='row row-cols-1 g-3'>
                         {section.items.map(item => (
                           <div
                             className='col'

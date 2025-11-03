@@ -8,6 +8,7 @@ import {
   faSpinner
 } from '@fortawesome/free-solid-svg-icons'
 import ActionModal from './ActionModal'
+import { apiUpload, apiRequest, API_BASE_URL } from '../utils/api'
 
 export default function ProfilePictureUpload({ user, onUpdate }) {
   const [uploading, setUploading] = useState(false)
@@ -51,12 +52,7 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
     formData.append('file', file)
 
     try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/upload/profile-picture/${user.id}`,
-        { method: 'POST', body: formData }
-      )
-      const data = await response.json()
-      if (!response.ok) throw new Error(data.error || 'Upload failed')
+      const data = await apiUpload(`/upload/profile-picture/${user.id}`, formData)
 
       const updatedUser = data.user
       localStorage.setItem('user', JSON.stringify(updatedUser))
@@ -75,8 +71,8 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
     setError(null)
 
     try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/upload/profile-picture/${user.id}`,
+      const response = await apiRequest(
+        `/upload/profile-picture/${user.id}`,
         { method: 'DELETE' }
       )
       const data = await response.json()
@@ -98,7 +94,7 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
   const currentPicture =
     previewUrl ||
     (user?.profile_picture
-      ? `http://127.0.0.1:5000${user.profile_picture}`
+      ? `${API_BASE_URL}${user.profile_picture}`
       : null)
 
   const hasPhoto = Boolean(user?.profile_picture || previewUrl)

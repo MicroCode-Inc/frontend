@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { Form, Link, useNavigate } from 'react-router'
 import { useAuth } from '../context/AuthContext'
+import { apiRequest } from '../utils/api'
 
 export default function Login() {
   const [signupMode, setSignupMode] = useState(false)
@@ -65,9 +66,8 @@ export default function Login() {
       : { email: values.email, password: values.password }
 
     try {
-      const res = await fetch(`http://127.0.0.1:5000${endpoint}`, {
+      const res = await apiRequest(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
 

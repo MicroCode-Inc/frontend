@@ -2,9 +2,10 @@ import { Link, useLoaderData } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import FavoriteButton from '../components/FavoriteButton'
 import { useState } from 'react'
+import { apiRequest } from '../utils/api'
 
 export async function loader() {
-  const response = await fetch('http://127.0.0.1:5000/blogs')
+  const response = await apiRequest('/blogs')
   const json = await response.json()
   return json
 }

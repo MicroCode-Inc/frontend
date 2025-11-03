@@ -2,14 +2,15 @@ import { Link, useLoaderData, useParams } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import FavoriteButton from '../components/FavoriteButton'
 import { useState } from 'react'
+import { apiRequest } from '../utils/api'
 
 export async function loader({ params }) {
   const { tab } = params
-  const response = await fetch(`http://127.0.0.1:5000/courses/${tab}`)
+  const response = await apiRequest(`/courses/${tab}`)
   const json = await response.json()
 
   // Fetch all courses to build a lookup map for requirements
-  const allCoursesResponse = await fetch(`http://127.0.0.1:5000/courses`)
+  const allCoursesResponse = await apiRequest(`/courses`)
   const allCoursesJson = await allCoursesResponse.json()
 
   // Create a map of course ID to course data
@@ -91,7 +92,7 @@ export default function CourseTab() {
   }
 
   return (
-    <div className='accordion d-grid gap-3 tab-stagger pt-3'>
+    <div className='accordion d-grid gap-3 tab-stagger pt-3' id='accordionCourses'>
       {courses.map(course => {
         const isFavorited = favoriteCourses.includes(course.id)
         const anchorId = course.name.replace(/\s+/g, '-')
@@ -101,69 +102,65 @@ export default function CourseTab() {
             className='accordion-item border-0 bg-dark-subtle rounded-4'
             key={course.id}
           >
-            <h2 className='accordion-header'>
-              {/* parent for positioning */}
-              <div className='position-relative'>
-                {/* the actual accordion toggle */}
-                <button
-                  className='accordion-button rounded text-capitalize p-0 bg-transparent pe-3 shadow-none collapsed'
-                  type='button'
-                  data-bs-toggle='collapse'
-                  data-bs-target={`#${anchorId}`}
-                  aria-expanded='false'
-                  aria-controls={anchorId}
-                >
-                  <div className='card border-0 bg-transparent w-100'>
-                    <div className='row g-0'>
-                      <div className='col-auto'>
-                        <img
-                          src={
-                            course.image_url || 'https://placehold.co/175x175'
-                          }
-                          className='img-fluid rounded-start-4'
-                          style={{
-                            width: '175px',
-                            height: '175px',
-                            objectFit: 'cover'
-                          }}
-                          alt={course.image_alt || course.name}
-                        />
-                      </div>
-                      <div className='col'>
-                        <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
-                          <h5 className='card-title'>{course.name}</h5>
-                          <p className='card-text mb-2'>{course.description}</p>
-                          {course.tags && course.tags.length > 0 && (
-                            <div className='d-flex gap-1'>
-                              {course.tags.map((tag, i) => (
-                                <span
-                                  key={i}
-                                  className='badge'
-                                  style={{ backgroundColor: tag.color }}
-                                >
-                                  {tag.label}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
+            <h2 className='accordion-header position-relative'>
+              <button
+                className='accordion-button rounded text-capitalize p-0 bg-transparent pe-3 shadow-none collapsed'
+                type='button'
+                data-bs-toggle='collapse'
+                data-bs-target={`#${anchorId}`}
+                aria-expanded='false'
+                aria-controls={anchorId}
+              >
+                <div className='card border-0 bg-transparent w-100'>
+                  <div className='row g-0'>
+                    <div className='col-auto'>
+                      <img
+                        src={
+                          course.image_url || 'https://placehold.co/175x175'
+                        }
+                        className='img-fluid rounded-start-4'
+                        style={{
+                          width: '175px',
+                          height: '175px',
+                          objectFit: 'cover'
+                        }}
+                        alt={course.image_alt || course.name}
+                      />
+                    </div>
+                    <div className='col'>
+                      <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
+                        <h5 className='card-title'>{course.name}</h5>
+                        <p className='card-text mb-2'>{course.description}</p>
+                        {course.tags && course.tags.length > 0 && (
+                          <div className='d-flex gap-1'>
+                            {course.tags.map((tag, i) => (
+                              <span
+                                key={i}
+                                className='badge'
+                                style={{ backgroundColor: tag.color }}
+                              >
+                                {tag.label}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
-                </button>
+                </div>
+              </button>
 
-                {/* ✅ overlay button, now a sibling, not nested */}
-                {isLoggedIn && (
-                  <FavoriteButton
-                    itemId={course.id}
-                    itemType='course'
-                    isFavorited={isFavorited}
-                    onToggle={newState =>
-                      handleFavoriteToggle(course.id, newState)
-                    }
-                  />
-                )}
-              </div>
+              {/* Favorite button positioned absolutely relative to h2 */}
+              {isLoggedIn && (
+                <FavoriteButton
+                  itemId={course.id}
+                  itemType='course'
+                  isFavorited={isFavorited}
+                  onToggle={newState =>
+                    handleFavoriteToggle(course.id, newState)
+                  }
+                />
+              )}
             </h2>
 
             <div

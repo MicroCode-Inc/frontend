@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
+import { apiRequest } from '../utils/api'
 
 export default function Contact() {
   const [values, setValues] = useState({
@@ -36,11 +37,8 @@ export default function Contact() {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/contacts', {
+      const response = await apiRequest('/contacts', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: JSON.stringify(values)
       })
 

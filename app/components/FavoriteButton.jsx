@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeartSolid, faHeartRegular } from '../utils/faIcons'
 import { useAuth } from '../context/AuthContext'
+import { apiRequest } from '../utils/api'
 
 export default function FavoriteButton({
   itemId,
@@ -36,9 +37,8 @@ export default function FavoriteButton({
           })
         : undefined
 
-      const response = await fetch(`http://127.0.0.1:5000${endpoint}`, {
+      const response = await apiRequest(endpoint, {
         method,
-        headers: body ? { 'Content-Type': 'application/json' } : {},
         body
       })
 

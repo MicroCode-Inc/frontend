@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '../utils/faIcons'
 import { useAuth } from '../context/AuthContext'
+import { apiRequest } from '../utils/api'
 
 export default function DeleteSavedItemButton({
   itemId,
@@ -27,7 +28,7 @@ export default function DeleteSavedItemButton({
           ? `/users/${user.id}/favourite-courses/${itemId}`
           : `/users/${user.id}/saved-blogs/${itemId}`
 
-      const response = await fetch(`http://127.0.0.1:5000${endpoint}`, {
+      const response = await apiRequest(endpoint, {
         method: 'DELETE'
       })
 

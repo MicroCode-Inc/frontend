@@ -2,9 +2,10 @@ import CardHome from '../components/CardHome'
 import Carousel from '../components/Carousel'
 import { useLoaderData } from 'react-router'
 import Jumbotron from '../components/Jumbotron'
+import { apiRequest } from '../utils/api'
 
 export async function loader() {
-  const response = await fetch('http://127.0.0.1:5000/home')
+  const response = await apiRequest('/home')
   const json = await response.json()
 
   return json

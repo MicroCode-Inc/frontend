@@ -5,6 +5,7 @@ import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import routes from '../routes'
 import { useEffect, useRef, useState } from 'react'
+import { API_BASE_URL } from '../utils/api'
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
@@ -134,7 +135,7 @@ export default function Navbar() {
 
   // Get profile picture URL
   const profilePictureUrl = user?.profile_picture
-    ? `http://127.0.0.1:5000${user.profile_picture}`
+    ? `${API_BASE_URL}${user.profile_picture}`
     : 'https://placehold.co/50'
 
   return (
