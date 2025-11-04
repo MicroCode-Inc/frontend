@@ -7,7 +7,7 @@ import Footer from './Footer'
 
 export default function HtmlShell({
   children,
-  title = 'React Router Template'
+  title = 'MicroCode Inc - Cursos Para Todos'
 }) {
   const { theme } = useTheme()
 
