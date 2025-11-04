@@ -1,4 +1,4 @@
 {
-  "buildCommand": "npm run build",
-  "installCommand": "npm install --include=optional"
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm run build"
 }
