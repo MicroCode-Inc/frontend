@@ -1,0 +1,109 @@
+// ============================================
+// CUSTOM BOOTSTRAP VARIABLES - LIGHT MODE
+// ============================================
+
+$primary: #0E6575; // Deep Ocean Teal – main brand color
+$secondary: #F07C3A; // Warm Coral – replaces gray, adds vibrancy
+$success: #4A8E73; // Soft Pine Green – natural and calm
+$info: #52B6C8; // Seafoam Blue – fresh and bright
+$warning: #E2B659; // Sandy Amber – warm and grounded
+$danger: #D04F4F; // Clay Red – balanced warmth without aggression
+$light: #FAF6F2; // Off-white Sand – gentle background alternative
+$dark: #10343A; // Deep Teal-Black – elegant dark contrast
+
+// Additional Color Variables
+// --------------------------------------------
+$body-bg:       #ffffff;  // Background color
+$body-color:    #212529;  // Text color
+$link-color:    $primary; // Link color
+$link-hover-color: darken($primary, 15%); // Link hover color
+
+// Typography
+// --------------------------------------------
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+
+// Spacing
+// --------------------------------------------
+// $spacer: 1rem;
+
+// Border Radius
+// --------------------------------------------
+// $border-radius: 0.375rem;
+// $border-radius-sm: 0.25rem;
+// $border-radius-lg: 0.5rem;
+
+// Shadows
+// --------------------------------------------
+// $box-shadow: 0 0.5rem 1rem rgba($dark, 0.15);
+// $box-shadow-sm: 0 0.125rem 0.25rem rgba($dark, 0.075);
+// $box-shadow-lg: 0 1rem 3rem rgba($dark, 0.175);
+
+// Component Specific Variables
+// --------------------------------------------
+// Buttons
+// $btn-padding-y: 0.375rem;
+// $btn-padding-x: 0.75rem;
+// $btn-font-size: 1rem;
+
+// Cards
+// $card-border-radius: $border-radius;
+// $card-border-color: rgba($dark, 0.125);
+
+// Navbar
+// $navbar-padding-y: 0.5rem;
+// $navbar-padding-x: 1rem;
+
+// For more variables, check:
+// node_modules/bootstrap/scss/_variables.scss
+
+// ============================================
+// IMPORT BOOTSTRAP
+// ============================================
+// This imports all of Bootstrap's SCSS with your custom variables
+@import 'bootstrap/scss/bootstrap';
+
+// ============================================
+// CUSTOM BOOTSTRAP VARIABLES - DARK MODE
+// ============================================
+// Modify these variables to customize Bootstrap colors for DARK MODE
+// Note: Dark mode requires both HEX and RGB values
+
+// Theme Colors (Dark Mode)
+// --------------------------------------------
+// Customize the main theme colors here
+[data-bs-theme="dark"] {
+  --bs-primary: #26A3B8; // Brightened Teal
+    --bs-primary-rgb: 38, 163, 184;
+  
+    --bs-secondary: #89979C; // Cool Muted Gray
+    --bs-secondary-rgb: 137, 151, 156;
+  
+    --bs-success: #6FBF9A; // Soft Green-Teal
+    --bs-success-rgb: 111, 191, 154;
+  
+    --bs-info: #7FCAD5; // Gentle Aqua
+    --bs-info-rgb: 127, 202, 213;
+  
+    --bs-warning: #E6C56F; // Warm Sand Yellow
+    --bs-warning-rgb: 230, 197, 111;
+  
+    --bs-danger: #D97C7C; // Muted Coral Red
+    --bs-danger-rgb: 217, 124, 124;
+  
+    --bs-light: #121212; // Deep Slate (light surfaces in dark mode)
+    --bs-light-rgb: 43, 47, 49;
+  
+    --bs-dark: #D9DEE0; // Soft Cool Gray (text color, replaces dark gray)
+    --bs-dark-rgb: 217, 222, 224;
+
+  // Additional Color Variables
+  // --------------------------------------------
+  --bs-body-bg:       #121212;  // Background color
+  --bs-body-bg-rgb:   33, 37, 41;
+  --bs-body-color:    #dee2e6;  // Text color
+  --bs-body-color-rgb: 222, 226, 230;
+  --bs-link-color:    #6ea8fe;  // Link color
+  --bs-link-color-rgb: 110, 168, 254;
+}

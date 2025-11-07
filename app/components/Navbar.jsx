@@ -140,7 +140,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className='navbar navbar-expand-lg bg-dark-subtle sticky-top p-2 px-5 shadow'
+      className='navbar navbar-expand-lg sticky-top p-3 px-5 shadow'
       ref={navbarRef}
       style={{ zIndex: 99 }}
     >

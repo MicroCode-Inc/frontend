@@ -1,0 +1,282 @@
+{
+  "buildManifest": {
+    "serverBundles": {
+      "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0": {
+        "id": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+        "file": "build/server/nodejs_eyJydW50aW1lIjoibm9kZWpzIn0/index.js",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    },
+    "routeIdToServerBundleId": {
+      "root": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/_index": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/courses": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/courses.$tab": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/courses.$tab.$courseId": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/blog": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/blog.$blogId": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/about": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/contact": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/login": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/profile": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/logout": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0"
+    },
+    "routes": {
+      "root": {
+        "id": "root",
+        "file": "app/root.jsx",
+        "path": "",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/_index": {
+        "id": "routes/_index",
+        "parentId": "root",
+        "file": "app/routes/_index.jsx",
+        "path": "/",
+        "config": {}
+      },
+      "routes/courses": {
+        "id": "routes/courses",
+        "parentId": "root",
+        "file": "app/routes/courses.jsx",
+        "path": "/courses",
+        "config": {}
+      },
+      "routes/courses.$tab": {
+        "id": "routes/courses.$tab",
+        "parentId": "routes/courses",
+        "file": "app/routes/courses.$tab.jsx",
+        "path": ":tab",
+        "config": {}
+      },
+      "routes/courses.$tab.$courseId": {
+        "id": "routes/courses.$tab.$courseId",
+        "parentId": "root",
+        "file": "app/routes/courses.$tab.$courseId.jsx",
+        "path": "/courses/:tab/:courseId",
+        "config": {}
+      },
+      "routes/blog": {
+        "id": "routes/blog",
+        "parentId": "root",
+        "file": "app/routes/blog.jsx",
+        "path": "/blog",
+        "config": {}
+      },
+      "routes/blog.$blogId": {
+        "id": "routes/blog.$blogId",
+        "parentId": "root",
+        "file": "app/routes/blog.$blogId.jsx",
+        "path": "/blog/:id",
+        "config": {}
+      },
+      "routes/about": {
+        "id": "routes/about",
+        "parentId": "root",
+        "file": "app/routes/about.jsx",
+        "path": "/about",
+        "config": {}
+      },
+      "routes/contact": {
+        "id": "routes/contact",
+        "parentId": "root",
+        "file": "app/routes/contact.jsx",
+        "path": "/contact",
+        "config": {}
+      },
+      "routes/login": {
+        "id": "routes/login",
+        "parentId": "root",
+        "file": "app/routes/login.jsx",
+        "path": "/login",
+        "config": {}
+      },
+      "routes/profile": {
+        "id": "routes/profile",
+        "parentId": "root",
+        "file": "app/routes/profile.jsx",
+        "path": "/profile",
+        "config": {}
+      },
+      "routes/logout": {
+        "id": "routes/logout",
+        "parentId": "root",
+        "file": "app/routes/logout.jsx",
+        "path": "/logout",
+        "config": {}
+      }
+    }
+  },
+  "reactRouterConfig": {
+    "appDirectory": "/home/siku/code/4geeks/projects/proyecto-final/frontend/app",
+    "basename": "/",
+    "buildDirectory": "/home/siku/code/4geeks/projects/proyecto-final/frontend/build",
+    "future": {
+      "unstable_middleware": false,
+      "unstable_optimizeDeps": false,
+      "unstable_splitRouteModules": false,
+      "unstable_subResourceIntegrity": false,
+      "unstable_viteEnvironmentApi": false
+    },
+    "routes": {
+      "root": {
+        "id": "root",
+        "file": "root.jsx",
+        "path": ""
+      },
+      "routes/_index": {
+        "id": "routes/_index",
+        "parentId": "root",
+        "file": "routes/_index.jsx",
+        "path": "/"
+      },
+      "routes/courses": {
+        "id": "routes/courses",
+        "parentId": "root",
+        "file": "routes/courses.jsx",
+        "path": "/courses"
+      },
+      "routes/courses.$tab": {
+        "id": "routes/courses.$tab",
+        "parentId": "routes/courses",
+        "file": "routes/courses.$tab.jsx",
+        "path": ":tab"
+      },
+      "routes/courses.$tab.$courseId": {
+        "id": "routes/courses.$tab.$courseId",
+        "parentId": "root",
+        "file": "routes/courses.$tab.$courseId.jsx",
+        "path": "/courses/:tab/:courseId"
+      },
+      "routes/blog": {
+        "id": "routes/blog",
+        "parentId": "root",
+        "file": "routes/blog.jsx",
+        "path": "/blog"
+      },
+      "routes/blog.$blogId": {
+        "id": "routes/blog.$blogId",
+        "parentId": "root",
+        "file": "routes/blog.$blogId.jsx",
+        "path": "/blog/:id"
+      },
+      "routes/about": {
+        "id": "routes/about",
+        "parentId": "root",
+        "file": "routes/about.jsx",
+        "path": "/about"
+      },
+      "routes/contact": {
+        "id": "routes/contact",
+        "parentId": "root",
+        "file": "routes/contact.jsx",
+        "path": "/contact"
+      },
+      "routes/login": {
+        "id": "routes/login",
+        "parentId": "root",
+        "file": "routes/login.jsx",
+        "path": "/login"
+      },
+      "routes/profile": {
+        "id": "routes/profile",
+        "parentId": "root",
+        "file": "routes/profile.jsx",
+        "path": "/profile"
+      },
+      "routes/logout": {
+        "id": "routes/logout",
+        "parentId": "root",
+        "file": "routes/logout.jsx",
+        "path": "/logout"
+      }
+    },
+    "routeDiscovery": {
+      "mode": "lazy",
+      "manifestPath": "/__manifest"
+    },
+    "serverBuildFile": "index.js",
+    "serverModuleFormat": "esm",
+    "ssr": true,
+    "unstable_routeConfig": [
+      {
+        "id": "root",
+        "path": "",
+        "file": "root.jsx",
+        "children": [
+          {
+            "path": "/",
+            "file": "routes/_index.jsx",
+            "showInNav": false
+          },
+          {
+            "path": "/courses",
+            "file": "routes/courses.jsx",
+            "showInNav": true,
+            "label": "courses",
+            "navTo": "/courses/frontend",
+            "children": [
+              {
+                "path": ":tab",
+                "file": "routes/courses.$tab.jsx"
+              }
+            ]
+          },
+          {
+            "path": "/courses/:tab/:courseId",
+            "file": "routes/courses.$tab.$courseId.jsx",
+            "showInNav": false
+          },
+          {
+            "path": "/blog",
+            "file": "routes/blog.jsx",
+            "showInNav": true,
+            "label": "blogs"
+          },
+          {
+            "path": "/blog/:id",
+            "file": "routes/blog.$blogId.jsx",
+            "showInNav": false
+          },
+          {
+            "path": "/about",
+            "file": "routes/about.jsx",
+            "showInNav": true,
+            "label": "about us"
+          },
+          {
+            "path": "/contact",
+            "file": "routes/contact.jsx",
+            "showInNav": true,
+            "label": "contact"
+          },
+          {
+            "path": "/login",
+            "file": "routes/login.jsx",
+            "showInNav": true,
+            "label": "login | signup"
+          },
+          {
+            "path": "/profile",
+            "file": "routes/profile.jsx",
+            "showInNav": false
+          },
+          {
+            "path": "/logout",
+            "file": "routes/logout.jsx",
+            "showInNav": false
+          }
+        ]
+      }
+    ]
+  },
+  "viteConfig": {
+    "build": {
+      "assetsDir": "assets"
+    }
+  }
+}
