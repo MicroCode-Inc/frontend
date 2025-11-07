@@ -7,10 +7,13 @@ export default function Courses() {
   return (
     <div className='container page-transition'>
       <div className='row justify-content-center'>
-        <div className='col-12 col-lg-8'>
+        <div
+          className='col-12 col-lg-8 rounded-4 px-4 py-4'
+          style={{ background: '#121212ee' }}
+        >
           {/* Sticky nav pills */}
           <div
-            className='sticky-top bg-body z-2 pt-3'
+            className='sticky-top z-2'
             style={{ top: '76px', width: '102%', transform: 'translateX(-1%)' }}
           >
             <ul className='nav nav-pills bg-dark-subtle flex-shrink-0 rounded-3 p-2 d-flex gap-1 shadow'>
