@@ -51,9 +51,9 @@ export default function AdminCourses() {
     <AdminLayout>
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h2 className="mb-0">Cursos</h2>
+          <h2 className="mb-0 h4 fw-bold">Cursos</h2>
           <button
-            className="btn btn-primary rounded-pill px-4"
+            className="btn btn-primary btn-sm rounded-pill px-4"
             onClick={() => setEditing({})}
           >
             Nuevo Curso
@@ -69,14 +69,11 @@ export default function AdminCourses() {
                     src={c.image_url}
                     alt=""
                     className="card-img-top rounded-top"
-                    style={{
-                      objectFit: "cover",
-                      height: "180px",
-                    }}
+                    style={{ objectFit: "cover", height: "180px" }}
                   />
                 )}
                 <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{c.name}</h5>
+                  <h5 className="card-title fw-semibold">{c.name}</h5>
                   <p className="card-text text-muted small mb-2">
                     {c.topic} · {c.level}
                   </p>
@@ -99,7 +96,6 @@ export default function AdminCourses() {
             </div>
           ))}
         </div>
-
         {editing !== null && (
           <div className="mt-4">
             <CourseForm
@@ -116,15 +112,21 @@ export default function AdminCourses() {
       </div>
       <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
         <button
-          className="btn btn-primary rounded-pill px-4"
+          className="btn btn-primary btn-sm rounded-pill px-4"
           onClick={() => setEditing({})}
         >
           Nuevo curso
         </button>
-        <a href="/admin/blogs" className="btn btn-success rounded-pill px-4">
+        <a
+          href="/admin/blogs"
+          className="btn btn-success btn-sm rounded-pill px-4"
+        >
           Nueva publicación
         </a>
-        <a href="/admin/users" className="btn btn-danger rounded-pill px-4">
+        <a
+          href="/admin/users"
+          className="btn btn-danger btn-sm rounded-pill px-4"
+        >
           Nuevo usuario
         </a>
       </div>

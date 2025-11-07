@@ -1,32 +1,33 @@
+/* Solo ajustes mínimos, el resto usar clases Bootstrap */
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  background: #f7f9fb;
+  background: var(--bs-gray-100, #f8f9fa);
 }
 .admin-sidebar {
   width: 220px;
   min-height: 100vh;
-  background: #151c25;
+  background: var(--bs-dark, #151c25);
   color: #fff;
-  border-radius: 16px 0 0 16px;
+  border-radius: 1rem 0 0 1rem;
   margin: 8px 0 8px 8px;
   padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--bs-box-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 .admin-sidebar .nav-link {
   color: #fff;
   opacity: 0.85;
   font-size: 1.08rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   margin-bottom: 2px;
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   transition:
     background 0.2s,
     color 0.2s;
 }
 .admin-sidebar .nav-link.active,
 .admin-sidebar .nav-link:hover {
-  background: #22304a;
+  background: var(--bs-primary, #0d6efd);
   color: #fff;
   opacity: 1;
 }
@@ -44,82 +45,17 @@
 }
 .admin-topbar {
   height: 56px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid var(--bs-border-color, #dee2e6);
   display: flex;
   align-items: center;
   padding: 0 0.75rem;
   background: #fff;
-  border-radius: 0 16px 0 0;
+  border-radius: 0 1rem 0 0;
   margin: 8px 8px 0 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--bs-box-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.04));
 }
 .admin-main {
   padding: 1.5rem;
-}
-.card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e6eaf0;
-}
-.card-img-top {
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-.btn.rounded-pill {
-  border-radius: 50rem !important;
-}
-.btn-primary {
-  background: #2563eb;
-  border: none;
-}
-.btn-primary:active,
-.btn-primary:focus,
-.btn-primary:hover {
-  background: #1746a2;
-}
-.btn-success {
-  background: #1fa463;
-  border: none;
-}
-.btn-success:active,
-.btn-success:focus,
-.btn-success:hover {
-  background: #157347;
-}
-.btn-danger {
-  background: #e23c3c;
-  border: none;
-}
-.btn-danger:active,
-.btn-danger:focus,
-.btn-danger:hover {
-  background: #b91c1c;
-}
-.list-group-item {
-  background: #f7f9fb;
-  border: none;
-  border-radius: 10px;
-  margin-bottom: 8px;
-}
-.list-group-item:last-child {
-  margin-bottom: 0;
-}
-body,
-.admin-content,
-.card,
-.admin-main {
-  color: #23272f;
-}
-.card-title,
-h1,
-h5,
-h6 {
-  color: #1a2233;
-}
-.text-muted,
-.admin-layout {
-  color: #6c757d !important;
 }
 @media (max-width: 767px) {
   .admin-sidebar {

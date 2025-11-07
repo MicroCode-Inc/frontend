@@ -15,7 +15,7 @@ function UserForm({ onSave, onCancel }) {
   const [form, setForm] = useState({ username: "", email: "" });
   return (
     <form
-      className="card p-3 mb-3"
+      className="card p-4 shadow-sm border-0 mb-3"
       onSubmit={(e) => {
         e.preventDefault();
         onSave(form);
@@ -109,45 +109,44 @@ export default function AdminIndex() {
 
   return (
     <AdminLayout>
-      <div className="container">
-        <h1 className="mb-4">Admin Dashboard</h1>
-        <div className="card-body p-0 mb-4">
-          <div className="row g-3 mb-3">
-            <div className="col">
-              <div className="p-3 border rounded shadow-sm text-center">
-                <div className="text-muted">Cursos</div>
-                <div className="fw-bold fs-4 text-primary">
-                  {counts.courses}
-                </div>
-              </div>
+      <div className="container-fluid">
+        <h2 className="mb-4">Panel de administración</h2>
+        <div className="row g-3 mb-4">
+          <div className="col">
+            <div className="p-3 border rounded shadow-sm text-center bg-white">
+              <div className="text-muted">Cursos</div>
+              <div className="fw-bold fs-4 text-primary">{counts.courses}</div>
             </div>
-            <div className="col">
-              <div className="p-3 border rounded shadow-sm text-center">
-                <div className="text-muted">Publicaciones</div>
-                <div className="fw-bold fs-4 text-primary">{counts.blogs}</div>
-              </div>
+          </div>
+          <div className="col">
+            <div className="p-3 border rounded shadow-sm text-center bg-white">
+              <div className="text-muted">Publicaciones</div>
+              <div className="fw-bold fs-4 text-primary">{counts.blogs}</div>
             </div>
-            <div className="col">
-              <div className="p-3 border rounded shadow-sm text-center">
-                <div className="text-muted">Usuarios</div>
-                <div className="fw-bold fs-4 text-primary">{counts.users}</div>
-              </div>
+          </div>
+          <div className="col">
+            <div className="p-3 border rounded shadow-sm text-center bg-white">
+              <div className="text-muted">Usuarios</div>
+              <div className="fw-bold fs-4 text-primary">{counts.users}</div>
             </div>
           </div>
         </div>
         <div className="row g-3">
           <div className="col-md-6">
-            <div className="card h-100 shadow-sm">
+            <div className="card h-100 shadow-sm border-0">
               <div className="card-body">
                 <h6 className="card-title">Últimos cursos</h6>
-                <ul className="list-unstyled mt-3 mb-0">
+                <ul className="list-group list-group-flush mt-3 mb-0">
                   {recentCourses.length === 0 ? (
-                    <li className="mb-2 p-3 rounded bg-light text-center">
+                    <li className="list-group-item text-center text-muted">
                       No hay cursos recientes.
                     </li>
                   ) : (
                     recentCourses.map((c) => (
-                      <li key={c.id} className="mb-2 p-3 rounded bg-light">
+                      <li
+                        key={c.id}
+                        className="list-group-item bg-transparent border-0 border-bottom"
+                      >
                         <strong>{c.name}</strong>
                         <div className="small text-muted">
                           {c.topic} · {c.level}
@@ -160,17 +159,20 @@ export default function AdminIndex() {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="card h-100 shadow-sm">
+            <div className="card h-100 shadow-sm border-0">
               <div className="card-body">
                 <h6 className="card-title">Últimas publicaciones</h6>
-                <ul className="list-unstyled mt-3 mb-0">
+                <ul className="list-group list-group-flush mt-3 mb-0">
                   {recentBlogs.length === 0 ? (
-                    <li className="mb-2 p-3 rounded bg-light text-center">
+                    <li className="list-group-item text-center text-muted">
                       No hay publicaciones recientes.
                     </li>
                   ) : (
                     recentBlogs.map((b) => (
-                      <li key={b.id} className="mb-2 p-3 rounded bg-light">
+                      <li
+                        key={b.id}
+                        className="list-group-item bg-transparent border-0 border-bottom"
+                      >
                         <strong>{b.title}</strong>
                         <div className="small text-muted">
                           {b.published_at ? b.published_at.slice(0, 4) : ""} ·{" "}
@@ -184,22 +186,21 @@ export default function AdminIndex() {
             </div>
           </div>
         </div>
-        <div className="mt-4 p-3 bg-white rounded shadow-sm d-flex align-items-center">
-          <span className="me-auto text-muted">Acciones rápidas:</span>
+        <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
           <button
-            className="btn btn-primary btn-sm me-2"
+            className="btn btn-primary rounded-pill px-4"
             onClick={() => setShowForm("course")}
           >
             Nuevo curso
           </button>
           <button
-            className="btn btn-success btn-sm me-2"
+            className="btn btn-success rounded-pill px-4"
             onClick={() => setShowForm("blog")}
           >
             Nueva publicación
           </button>
           <button
-            className="btn btn-danger btn-sm"
+            className="btn btn-danger rounded-pill px-4"
             onClick={() => setShowForm("user")}
           >
             Nuevo usuario
@@ -207,26 +208,32 @@ export default function AdminIndex() {
         </div>
         {showForm === "course" && (
           <div className="mt-4">
-            <CourseForm
-              onSave={handleSaveCourse}
-              onCancel={() => setShowForm(null)}
-            />
+            <div className="card p-4 shadow-sm border-0">
+              <CourseForm
+                onSave={handleSaveCourse}
+                onCancel={() => setShowForm(null)}
+              />
+            </div>
           </div>
         )}
         {showForm === "blog" && (
           <div className="mt-4">
-            <BlogForm
-              onSave={handleSaveBlog}
-              onCancel={() => setShowForm(null)}
-            />
+            <div className="card p-4 shadow-sm border-0">
+              <BlogForm
+                onSave={handleSaveBlog}
+                onCancel={() => setShowForm(null)}
+              />
+            </div>
           </div>
         )}
         {showForm === "user" && (
           <div className="mt-4">
-            <UserForm
-              onSave={handleSaveUser}
-              onCancel={() => setShowForm(null)}
-            />
+            <div className="card p-4 shadow-sm border-0">
+              <UserForm
+                onSave={handleSaveUser}
+                onCancel={() => setShowForm(null)}
+              />
+            </div>
           </div>
         )}
       </div>

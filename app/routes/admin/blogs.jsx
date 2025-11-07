@@ -59,6 +59,13 @@ export default function AdminBlogs() {
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
         <div className="row g-4">
+          {blogs.length === 0 && (
+            <div className="col-12">
+              <div className="alert alert-info text-center mb-0">
+                No hay publicaciones.
+              </div>
+            </div>
+          )}
           {blogs.map((b) => (
             <div className="col-12 col-md-6 col-lg-4" key={b.id}>
               <div className="card h-100 shadow-sm border-0">
@@ -97,34 +104,38 @@ export default function AdminBlogs() {
             </div>
           ))}
         </div>
-
         {editing !== null && (
           <div className="mt-4">
-            <BlogForm
-              initial={editing}
-              onSave={async (p) => {
-                if (editing.id) await handleUpdate(editing.id, p);
-                else await handleCreate(p);
-                setEditing(null);
-              }}
-              onCancel={() => setEditing(null)}
-            />
+            <div className="card p-4 shadow-sm border-0">
+              <BlogForm
+                initial={editing}
+                onSave={async (p) => {
+                  if (editing.id) await handleUpdate(editing.id, p);
+                  else await handleCreate(p);
+                  setEditing(null);
+                }}
+                onCancel={() => setEditing(null)}
+              />
+            </div>
           </div>
         )}
-      </div>
-      <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
-        <a href="/admin/courses" className="btn btn-primary rounded-pill px-4">
-          Nuevo curso
-        </a>
-        <button
-          className="btn btn-success rounded-pill px-4"
-          onClick={() => setEditing({})}
-        >
-          Nueva publicación
-        </button>
-        <a href="/admin/users" className="btn btn-danger rounded-pill px-4">
-          Nuevo usuario
-        </a>
+        <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
+          <a
+            href="/admin/courses"
+            className="btn btn-primary rounded-pill px-4"
+          >
+            Nuevo curso
+          </a>
+          <button
+            className="btn btn-success rounded-pill px-4"
+            onClick={() => setEditing({})}
+          >
+            Nueva publicación
+          </button>
+          <a href="/admin/users" className="btn btn-danger rounded-pill px-4">
+            Nuevo usuario
+          </a>
+        </div>
       </div>
     </AdminLayout>
   );

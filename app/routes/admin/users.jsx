@@ -7,7 +7,7 @@ function UserForm({ onSave, onCancel }) {
   const [form, setForm] = useState({ username: "", email: "" });
   return (
     <form
-      className="card p-3 mb-3"
+      className="card p-4 shadow-sm border-0 mb-3"
       onSubmit={(e) => {
         e.preventDefault();
         onSave(form);
@@ -98,6 +98,11 @@ export default function AdminUsers() {
         )}
         <div className="card p-3 border-0 shadow-sm rounded-4">
           <div className="list-group list-group-flush">
+            {users.length === 0 && (
+              <div className="alert alert-info text-center mb-0">
+                No hay usuarios.
+              </div>
+            )}
             {users.map((u) => (
               <UserRow
                 key={u.id}
@@ -107,6 +112,23 @@ export default function AdminUsers() {
               />
             ))}
           </div>
+        </div>
+        <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
+          <a
+            href="/admin/courses"
+            className="btn btn-primary rounded-pill px-4"
+          >
+            Nuevo curso
+          </a>
+          <a href="/admin/blogs" className="btn btn-success rounded-pill px-4">
+            Nueva publicación
+          </a>
+          <button
+            className="btn btn-danger rounded-pill px-4"
+            onClick={() => setAdding(true)}
+          >
+            Nuevo usuario
+          </button>
         </div>
       </div>
     </AdminLayout>
