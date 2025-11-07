@@ -1,0 +1,128 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f7f9fb;
+}
+.admin-sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: #151c25;
+  color: #fff;
+  border-radius: 16px 0 0 16px;
+  margin: 8px 0 8px 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.admin-sidebar .nav-link {
+  color: #fff;
+  opacity: 0.85;
+  font-size: 1.08rem;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  padding: 8px 16px;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.admin-sidebar .nav-link.active,
+.admin-sidebar .nav-link:hover {
+  background: #22304a;
+  color: #fff;
+  opacity: 1;
+}
+.admin-sidebar h5 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.admin-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+.admin-topbar {
+  height: 56px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  background: #fff;
+  border-radius: 0 16px 0 0;
+  margin: 8px 8px 0 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.admin-main {
+  padding: 1.5rem;
+}
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e6eaf0;
+}
+.card-img-top {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+.btn.rounded-pill {
+  border-radius: 50rem !important;
+}
+.btn-primary {
+  background: #2563eb;
+  border: none;
+}
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:hover {
+  background: #1746a2;
+}
+.btn-success {
+  background: #1fa463;
+  border: none;
+}
+.btn-success:active,
+.btn-success:focus,
+.btn-success:hover {
+  background: #157347;
+}
+.btn-danger {
+  background: #e23c3c;
+  border: none;
+}
+.btn-danger:active,
+.btn-danger:focus,
+.btn-danger:hover {
+  background: #b91c1c;
+}
+.list-group-item {
+  background: #f7f9fb;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.list-group-item:last-child {
+  margin-bottom: 0;
+}
+body,
+.admin-content,
+.card,
+.admin-main {
+  color: #23272f;
+}
+.card-title,
+h1,
+h5,
+h6 {
+  color: #1a2233;
+}
+.text-muted,
+.admin-layout {
+  color: #6c757d !important;
+}
+@media (max-width: 767px) {
+  .admin-sidebar {
+    display: none;
+  }
+}
