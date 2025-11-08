@@ -1,3 +1,4 @@
+import '../styles/custom.css'
 import '../styles/custom-bootstrap.scss'
 import '../styles/animations.css'
 import { Links, Meta, Scripts, ScrollRestoration } from 'react-router'
@@ -26,7 +27,10 @@ export default function HtmlShell({
         <Meta />
         <Links />
       </head>
-      <body className='d-flex flex-column min-vh-100'>
+      <body
+        className='d-flex flex-column min-vh-100'
+        style={{ overflow: 'hidden', height: '100vh' }}
+      >
         <PixelBlast
           variant='square'
           pixelSize={6}

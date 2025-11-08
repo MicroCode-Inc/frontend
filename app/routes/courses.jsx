@@ -5,18 +5,21 @@ export default function Courses() {
   const { tab } = useParams()
 
   return (
-    <div className='container page-transition'>
-      <div className='row justify-content-center'>
-        <div
-          className='col-12 col-lg-8 rounded-4 px-4 py-4'
-          style={{ background: '#121212ee' }}
-        >
-          {/* Sticky nav pills */}
+    <div
+      className='container page-transition'
+      style={{ height: '100%' }}
+    >
+      <div
+        className='row justify-content-center mt-3'
+        // style={{ height: '100%' }}
+      >
+        <div className='col-12 col-lg-8 rounded-4 px-4 py-4 d-flex flex-column bg-secondary bg-opacity-90'>
+          {/* Static nav pills */}
           <div
-            className='sticky-top z-2'
-            style={{ top: '76px', width: '102%', transform: 'translateX(-1%)' }}
+            className='flex-shrink-0 z-2'
+            style={{ width: '102%', transform: 'translateX(-1%)' }}
           >
-            <ul className='nav nav-pills bg-dark-subtle flex-shrink-0 rounded-3 p-2 d-flex gap-1 shadow'>
+            <ul className='nav nav-pills bg-light flex-shrink-0 rounded-3 p-2 d-flex gap-1 shadow'>
               {tabs.map(tab => (
                 <li
                   className='nav-item'
@@ -33,8 +36,13 @@ export default function Courses() {
             </ul>
           </div>
 
-          {/* Content scrolls normally with page */}
-          <Outlet key={tab} />
+          {/* Scrollable content container */}
+          <div
+            className='flex-grow-1'
+            style={{ overflowY: 'auto' }}
+          >
+            <Outlet key={tab} />
+          </div>
         </div>
       </div>
     </div>

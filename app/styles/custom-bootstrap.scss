@@ -2,14 +2,14 @@
 // CUSTOM BOOTSTRAP VARIABLES - LIGHT MODE
 // ============================================
 
-$primary: #0E6575; // Deep Ocean Teal – main brand color
-$secondary: #F07C3A; // Warm Coral – replaces gray, adds vibrancy
-$success: #4A8E73; // Soft Pine Green – natural and calm
+$primary: #38b0c5; // Deep Ocean Teal – main brand color
+$secondary: #f8fffe; // Warm Coral – replaces gray, adds vibrancy
+$success: #128356; // Soft Pine Green – natural and calm
 $info: #52B6C8; // Seafoam Blue – fresh and bright
 $warning: #E2B659; // Sandy Amber – warm and grounded
-$danger: #D04F4F; // Clay Red – balanced warmth without aggression
-$light: #FAF6F2; // Off-white Sand – gentle background alternative
-$dark: #10343A; // Deep Teal-Black – elegant dark contrast
+$danger: #99382b; // Clay Red – balanced warmth without aggression
+$light: #f1feff; // Off-white Sand – gentle background alternative
+// $dark: #121212; // Deep Teal-Black – elegant dark contrast $dark: #d5f4f8; // Deep Teal-Black – elegant dark contrast
 
 // Additional Color Variables
 // --------------------------------------------
@@ -74,11 +74,11 @@ $line-height-base: 1.5;
 // --------------------------------------------
 // Customize the main theme colors here
 [data-bs-theme="dark"] {
-  --bs-primary: #26A3B8; // Brightened Teal
-    --bs-primary-rgb: 38, 163, 184;
+  --bs-primary: rgb(18, 150, 173); // Brightened Teal
+    --bs-primary-rgb: 18, 150, 173;
   
-    --bs-secondary: #89979C; // Cool Muted Gray
-    --bs-secondary-rgb: 137, 151, 156;
+    --bs-secondary: #121212; // Cool Muted Gray
+    --bs-secondary-rgb: 18, 18, 18;
   
     --bs-success: #6FBF9A; // Soft Green-Teal
     --bs-success-rgb: 111, 191, 154;
@@ -89,14 +89,14 @@ $line-height-base: 1.5;
     --bs-warning: #E6C56F; // Warm Sand Yellow
     --bs-warning-rgb: 230, 197, 111;
   
-    --bs-danger: #D97C7C; // Muted Coral Red
+    --bs-danger: #7cd98b; // Muted Coral Red
     --bs-danger-rgb: 217, 124, 124;
   
     --bs-light: #121212; // Deep Slate (light surfaces in dark mode)
-    --bs-light-rgb: 43, 47, 49;
+    --bs-light-rgb: 24, 24, 24;
   
-    --bs-dark: #D9DEE0; // Soft Cool Gray (text color, replaces dark gray)
-    --bs-dark-rgb: 217, 222, 224;
+    --bs-dark: #121212; // Soft Cool Gray (text color, replaces dark gray)
+    --bs-dark-rgb: 24, 24, 24;
 
   // Additional Color Variables
   // --------------------------------------------
@@ -104,6 +104,20 @@ $line-height-base: 1.5;
   --bs-body-bg-rgb:   33, 37, 41;
   --bs-body-color:    #dee2e6;  // Text color
   --bs-body-color-rgb: 222, 226, 230;
-  --bs-link-color:    #6ea8fe;  // Link color
-  --bs-link-color-rgb: 110, 168, 254;
+  --bs-link-color:    #15b4c9;  // Link color
+  --bs-link-color-rgb: 21, 180, 201;
+
+  // Subtle Background Overrides
+  // --------------------------------------------
+  --bs-dark-bg-subtle: #1a1a1a;  // Darker background for nav pills container
+  --bs-dark-bg-subtle-rgb: 26, 26, 26;
+}
+
+// ============================================
+// CUSTOM UTILITY CLASSES
+// ============================================
+
+// Background opacity utility
+.bg-opacity-90 {
+  --bs-bg-opacity: 0.9;
 }

@@ -50,12 +50,15 @@ type Pages = {
   "/logout": {
     params: {};
   };
+  "/admin": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile" | "/logout";
+    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile" | "/logout" | "/admin";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
@@ -100,5 +103,9 @@ type RouteFiles = {
   "routes/logout.jsx": {
     id: "routes/logout";
     page: "/logout";
+  };
+  "routes/admin/index.jsx": {
+    id: "routes/admin/index";
+    page: "/admin";
   };
 };

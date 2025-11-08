@@ -102,7 +102,7 @@ export default function CourseTab() {
 
         return (
           <div
-            className='accordion-item border-0 bg-dark-subtle rounded-4 overflow-hidden'
+            className='accordion-item border-0 bg-light rounded-4 overflow-hidden'
             key={course.id}
           >
             {/* Card button that stays in place */}

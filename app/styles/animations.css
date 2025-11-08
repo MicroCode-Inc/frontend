@@ -458,5 +458,5 @@ html {
 
 .nav-pills-animated .nav-link.active {
   background-color: transparent !important;
-  color: white !important;
+  color: var(--bs-body-emphasis) !important;
 }

@@ -1,0 +1,9 @@
+@media (max-width: 991px) {
+  .navbar-gradient-mobile {
+    background: linear-gradient(to left, #121212 70%, transparent 100%);
+  }
+
+  [data-bs-theme='light'] .navbar-gradient-mobile {
+    background: linear-gradient(to left, #ffffff 70%, transparent 100%);
+  }
+}

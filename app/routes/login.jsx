@@ -93,7 +93,7 @@ export default function Login() {
       <div className='row justify-content-center'>
         <div className='col-12 col-md- col-lg-6'>
           <Form
-            className='card border-0 bg-dark-subtle p-4 rounded-4'
+            className='card border-0 bg-secondary bg-opacity-90 p-4 rounded-4'
             onSubmit={handleSubmit}
           >
             <div className='card-header border-0 bg-transparent'>

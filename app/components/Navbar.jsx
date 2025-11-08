@@ -140,9 +140,9 @@ export default function Navbar() {
 
   return (
     <nav
-      className='navbar navbar-expand-lg sticky-top p-3 px-5 shadow'
+      className='navbar navbar-expand-lg sticky-top p-3 px-5'
       ref={navbarRef}
-      style={{ zIndex: 99 }}
+      style={{ zIndex: 99, background: 'transparent' }}
     >
       <div
         className={`navbar-sliding-pill navbar-sliding-pill-${pillType}`}
@@ -186,7 +186,7 @@ export default function Navbar() {
                     ref={loginRef}
                     className={`btn ${
                       isActive ? 'btn-primary' : 'btn-success'
-                    } text-capitalize position-relative`}
+                    } text-capitalize position-relative ms-2`}
                     style={{ zIndex: 2 }}
                     key={label}
                     onClick={handleLoginClick}
@@ -244,8 +244,12 @@ export default function Navbar() {
           id='navbarNav'
         >
           <ul
-            className='nav nav-pills nav-pills-animated mx-auto gap-1 fw-bold flex-column flex-lg-row align-items-end align-items-lg-center mt-3 mt-lg-0 position-relative'
+            className='nav nav-pills nav-pills-animated mx-auto gap-1 fw-bold flex-column flex-lg-row align-items-end align-items-lg-center mt-3 mt-lg-0 position-relative rounded-4 text-nowrap ps-5 ps-lg-0 me-0 navbar-gradient-mobile mx-lg-auto'
             ref={navPillsRef}
+            style={{
+              width: 'fit-content',
+              padding: '0 0 0 1rem'
+            }}
           >
             {navRoutes
               .filter(route => route.path !== '/login')
