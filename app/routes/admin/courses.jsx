@@ -58,6 +58,19 @@ export default function AdminCourses() {
             Nuevo Curso
           </button>
         </div>
+        {editing !== null && (
+          <div className="mt-4 mb-5 p-1 border rounded-3 shadow-sm">
+            <CourseForm
+              initial={editing}
+              onSave={async (p) => {
+                if (editing.id) await handleUpdate(editing.id, p);
+                else await handleCreate(p);
+                setEditing(null);
+              }}
+              onCancel={() => setEditing(null)}
+            />
+          </div>
+        )}
         {error && <div className="alert alert-danger">{error}</div>}
         <div className="row g-4">
           {courses.map((c) => (
@@ -95,19 +108,6 @@ export default function AdminCourses() {
             </div>
           ))}
         </div>
-        {editing !== null && (
-          <div className="mt-4">
-            <CourseForm
-              initial={editing}
-              onSave={async (p) => {
-                if (editing.id) await handleUpdate(editing.id, p);
-                else await handleCreate(p);
-                setEditing(null);
-              }}
-              onCancel={() => setEditing(null)}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

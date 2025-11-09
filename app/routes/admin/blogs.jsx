@@ -57,6 +57,22 @@ export default function AdminBlogs() {
             Nuevo Blog
           </button>
         </div>
+        {editing !== null && (
+          <div className="mt-4">
+            <div className="card p-4 shadow-sm border-0">
+              <BlogForm
+                initial={editing}
+                onSave={async (p) => {
+                  if (editing.id) await handleUpdate(editing.id, p);
+                  else await handleCreate(p);
+                  setEditing(null);
+                }}
+                onCancel={() => setEditing(null)}
+              />
+            </div>
+          </div>
+        )}
+
         {error && <div className="alert alert-danger">{error}</div>}
         <div className="row g-4">
           {blogs.length === 0 && (
@@ -104,21 +120,6 @@ export default function AdminBlogs() {
             </div>
           ))}
         </div>
-        {editing !== null && (
-          <div className="mt-4">
-            <div className="card p-4 shadow-sm border-0">
-              <BlogForm
-                initial={editing}
-                onSave={async (p) => {
-                  if (editing.id) await handleUpdate(editing.id, p);
-                  else await handleCreate(p);
-                  setEditing(null);
-                }}
-                onCancel={() => setEditing(null)}
-              />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ export default function UserRow({ user, onEdit, onDelete }) {
           <div className="fw-bold">{user.username || user.name}</div>
           <div className="small text-muted">{user.email}</div>
         </div>
-        <div className="small text-secondary">
+        <div className="small text-secondary-muted">
           <span className="me-2">
             <strong>Rol:</strong> {user.role || "Usuario"}
           </span>
