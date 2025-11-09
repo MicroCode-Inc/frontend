@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation } from "react-router-dom";
 import routes from "../routes";
 
 export default function AdminSidebar() {

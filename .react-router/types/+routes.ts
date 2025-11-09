@@ -54,10 +54,10 @@ type Pages = {
   "/admin": {
     params: {};
   };
-  "/admin/admin/users": {
+  "/admin/admin/dashboard": {
     params: {};
   };
-  "/admin/admin/dashboard": {
+  "/admin/admin/users": {
     params: {};
   };
   "/admin/admin/courses": {
@@ -71,7 +71,7 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile" | "/logout" | "/admin" | "/admin/admin/users" | "/admin/admin/dashboard" | "/admin/admin/courses" | "/admin/admin/blogs";
+    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile" | "/logout" | "/admin" | "/admin/admin/dashboard" | "/admin/admin/users" | "/admin/admin/courses" | "/admin/admin/blogs";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
@@ -119,15 +119,15 @@ type RouteFiles = {
   };
   "routes/admin/index.jsx": {
     id: "routes/admin/index";
-    page: "/admin" | "/admin/admin/users" | "/admin/admin/dashboard" | "/admin/admin/courses" | "/admin/admin/blogs";
-  };
-  "routes/admin/users.jsx": {
-    id: "routes/admin/users";
-    page: "/admin/admin/users";
+    page: "/admin" | "/admin/admin/dashboard" | "/admin/admin/users" | "/admin/admin/courses" | "/admin/admin/blogs";
   };
   "routes/admin/dashboard.jsx": {
     id: "routes/admin/dashboard";
     page: "/admin/admin/dashboard";
+  };
+  "routes/admin/users.jsx": {
+    id: "routes/admin/users";
+    page: "/admin/admin/users";
   };
   "routes/admin/courses.jsx": {
     id: "routes/admin/courses";
@@ -153,8 +153,8 @@ type RouteModules = {
   "routes/profile": typeof import("./app/routes/profile.jsx");
   "routes/logout": typeof import("./app/routes/logout.jsx");
   "routes/admin/index": typeof import("./app/routes/admin/index.jsx");
-  "routes/admin/users": typeof import("./app/routes/admin/users.jsx");
   "routes/admin/dashboard": typeof import("./app/routes/admin/dashboard.jsx");
+  "routes/admin/users": typeof import("./app/routes/admin/users.jsx");
   "routes/admin/courses": typeof import("./app/routes/admin/courses.jsx");
   "routes/admin/blogs": typeof import("./app/routes/admin/blogs.jsx");
 };
