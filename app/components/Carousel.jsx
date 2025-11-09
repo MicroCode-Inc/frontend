@@ -44,15 +44,20 @@ export default function Carousel({ items }) {
                     className='col'
                   >
                     <Link
-                      className='card carousel-card-hover border-0 bg-secondary-subtle text-decoration-none rounded-4 d-block'
+                      className='card carousel-card-hover border-0 bg-light text-decoration-none rounded-4 d-block'
                       to={`/blog/${isLarge ? i * 2 + j : i}`}
                     >
                       <div className='row g-0'>
                         <div className='col-auto'>
                           <img
-                            src='https://placehold.co/175'
-                            className='img-fluid rounded-start-4 h-100'
-                            alt={item.title}
+                            src={item.image_url || 'https://placehold.co/175'}
+                            className='img-fluid rounded-start-4'
+                            alt={item.image_alt || item.title}
+                            style={{
+                              width: '175px',
+                              height: '175px',
+                              objectFit: 'cover'
+                            }}
                           />
                         </div>
                         <div className='col'>
@@ -60,7 +65,7 @@ export default function Carousel({ items }) {
                             <div className='d-flex'>
                               <h5 className='mb-1'>{item.title}</h5>
                               <span className='ms-auto text-secondary'>
-                                {formatDateShort(item.publication_date)}
+                                {/* {formatDateShort(item.publication_date)} */}
                               </span>
                             </div>
                             <h6 className='mb-2'>{item.author_name}</h6>
@@ -77,7 +82,7 @@ export default function Carousel({ items }) {
         </div>
       </div>
       <div
-        className='h-100 bg-dark-subtle position-absolute top-50 translate-middle-y d-flex align-items-center'
+        className='h-100 position-absolute top-50 translate-middle-y d-flex align-items-center'
         style={{ left: '0.5rem' }}
       >
         <button
@@ -93,7 +98,7 @@ export default function Carousel({ items }) {
         </button>
       </div>
       <div
-        className='h-100 bg-dark-subtle position-absolute top-50 translate-middle-y d-flex align-items-center'
+        className='h-100 position-absolute top-50 translate-middle-y d-flex align-items-center'
         style={{ right: '0.5rem' }}
       >
         <button

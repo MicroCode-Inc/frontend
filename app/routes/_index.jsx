@@ -15,7 +15,7 @@ export default function Home() {
   const { courses, blogs } = useLoaderData()
 
   return (
-    <div className='container d-grid gap-4 my-4 page-transition'>
+    <div className='container d-grid gap-5 my-4 page-transition'>
       <Jumbotron />
       <div className='container-fluid p-5 bg-secondary bg-opacity-75 rounded-4 bg-opacity-90'>
         <h1 className='text-capitalize mb-3'>cursos</h1>

@@ -6,7 +6,6 @@ declare module "react-router" {
   interface Register {
     pages: Pages
     routeFiles: RouteFiles
-    routeModules: RouteModules
   }
 }
 
@@ -137,24 +136,4 @@ type RouteFiles = {
     id: "routes/admin/blogs";
     page: "/admin/admin/blogs";
   };
-};
-
-type RouteModules = {
-  "root": typeof import("./app/root.jsx");
-  "routes/_index": typeof import("./app/routes/_index.jsx");
-  "routes/courses": typeof import("./app/routes/courses.jsx");
-  "routes/courses.$tab": typeof import("./app/routes/courses.$tab.jsx");
-  "routes/courses.$tab.$courseId": typeof import("./app/routes/courses.$tab.$courseId.jsx");
-  "routes/blog": typeof import("./app/routes/blog.jsx");
-  "routes/blog.$blogId": typeof import("./app/routes/blog.$blogId.jsx");
-  "routes/about": typeof import("./app/routes/about.jsx");
-  "routes/contact": typeof import("./app/routes/contact.jsx");
-  "routes/login": typeof import("./app/routes/login.jsx");
-  "routes/profile": typeof import("./app/routes/profile.jsx");
-  "routes/logout": typeof import("./app/routes/logout.jsx");
-  "routes/admin/index": typeof import("./app/routes/admin/index.jsx");
-  "routes/admin/dashboard": typeof import("./app/routes/admin/dashboard.jsx");
-  "routes/admin/users": typeof import("./app/routes/admin/users.jsx");
-  "routes/admin/courses": typeof import("./app/routes/admin/courses.jsx");
-  "routes/admin/blogs": typeof import("./app/routes/admin/blogs.jsx");
 };
