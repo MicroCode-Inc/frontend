@@ -13,7 +13,8 @@ import {
   faTrash,
   faPlus,
   faRefresh,
-  faSpinner
+  faSpinner,
+  faShoppingCart
 } from '@fortawesome/free-solid-svg-icons'
 
 export {
@@ -27,7 +28,8 @@ export {
   faTrash,
   faPlus,
   faRefresh,
-  faSpinner
+  faSpinner,
+  faShoppingCart
 }
 
 

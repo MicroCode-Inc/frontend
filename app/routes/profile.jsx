@@ -233,8 +233,8 @@ export default function Profile() {
                                       src={item.imgUrl}
                                       className='img-fluid rounded-start-4'
                                       style={{
-                                        width: '175px',
-                                        height: '175px',
+                                        width: '200px',
+                                        height: '200px',
                                         objectFit: 'cover'
                                       }}
                                       alt={item.imgAlt}

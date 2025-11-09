@@ -23,9 +23,9 @@ export default function Blog() {
 
   return (
     <div className='container page-transition'>
-      <div className='row justify-content-center'>
-        <div className='col-12 col-lg-8'>
-          <h1 className='my-4'>Blogs</h1>
+      <div className='row justify-content-center mt-3'>
+        <div className='col-12 col-lg-8 bg-body rounded-4 p-4'>
+          {/* <h1 className='my-4'>Blogs</h1> */}
           <div className='d-grid gap-3 tab-stagger'>
             {blogs.map(
               ({
@@ -63,11 +63,11 @@ export default function Blog() {
                       <div className='row g-0'>
                         <div className='col-auto'>
                           <img
-                            src={image_url || 'https://placehold.co/400x300'}
+                            src={image_url || 'https://placehold.co/200x200'}
                             className='img-fluid rounded-start-4'
                             style={{
-                              width: '175px',
-                              height: '175px',
+                              width: '200px',
+                              height: '200px',
                               objectFit: 'cover'
                             }}
                             alt={image_alt || title}

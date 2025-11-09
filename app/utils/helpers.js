@@ -8,3 +8,35 @@ export const formatDateShort = value => {
     .format(date)
     .replace(/\//g, " / ")
 }
+
+/**
+ * Calculate final price after applying discount
+ * @param {number} price - Original price
+ * @param {number} discount - Discount amount
+ * @returns {number} - Final price (never negative)
+ */
+export const calculateFinalPrice = (price, discount = 0) => {
+  return Math.max(0, price - discount)
+}
+
+/**
+ * Format a number as currency (USD)
+ * @param {number} amount - Amount to format
+ * @returns {string} - Formatted currency string (e.g., "$29.99")
+ */
+export const formatCurrency = (amount) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD"
+  }).format(amount)
+}
+
+/**
+ * Check if a course is owned by the user
+ * @param {number} courseId - Course ID to check
+ * @param {Array<number>} ownedCourses - Array of owned course IDs
+ * @returns {boolean} - True if course is owned
+ */
+export const isCourseOwned = (courseId, ownedCourses = []) => {
+  return ownedCourses.includes(courseId)
+}

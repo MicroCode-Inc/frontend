@@ -1,8 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router'
-import { faLightbulb, faMicroCode } from '../utils/faIcons'
+import { faLightbulb, faMicroCode, faShoppingCart } from '../utils/faIcons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
+import { useCart } from '../context/CartContext'
 import routes from '../routes'
 import { useEffect, useRef, useState } from 'react'
 import { API_BASE_URL } from '../utils/api'
@@ -10,6 +11,7 @@ import { API_BASE_URL } from '../utils/api'
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
   const { isLoggedIn: loggedIn, user, logout } = useAuth()
+  const { getCartCount } = useCart()
   const location = useLocation()
   const navigate = useNavigate()
   const navRoutes = routes.filter(e => e.showInNav)
@@ -217,6 +219,23 @@ export default function Navbar() {
                 className='w-100 h-100'
                 style={{ objectFit: 'cover' }}
               />
+            </Link>
+          )}
+          {loggedIn && (
+            <Link
+              to='/cart'
+              className='btn btn-outline-primary border-0 p-1 fs-5 position-relative'
+              style={{ zIndex: 2 }}
+            >
+              <FontAwesomeIcon icon={faShoppingCart} />
+              {getCartCount() > 0 && (
+                <span
+                  className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'
+                  style={{ fontSize: '0.65rem' }}
+                >
+                  {getCartCount()}
+                </span>
+              )}
             </Link>
           )}
           <button
