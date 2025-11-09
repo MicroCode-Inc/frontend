@@ -7,7 +7,6 @@ export default function AdminSidebar() {
   const sidebarRef = useRef(null);
   const [pillStyle, setPillStyle] = useState({});
 
-  // Obtiene los hijos de la ruta /admin desde la configuración
   const adminRoute = routes.find((r) => r.path === "/admin");
   const adminLinks = adminRoute?.children ?? [];
 
@@ -57,7 +56,9 @@ export default function AdminSidebar() {
             to={path}
             className={({ isActive }) =>
               `nav-link text-capitalize position-relative${
-                isActive ? " active" : " text-body"
+                isActive
+                  ? " active border border-2 border-primary rounded-pill"
+                  : " text-white"
               }`
             }
             style={{ zIndex: 2 }}

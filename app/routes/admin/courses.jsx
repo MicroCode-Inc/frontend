@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import AdminLayout from "../../components/AdminLayout";
 import CourseForm from "../../components/CourseForm";
 import {
   fetchCourses,
@@ -48,7 +47,7 @@ export default function AdminCourses() {
   };
 
   return (
-    <AdminLayout>
+    <div>
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h2 className="mb-0 h4 fw-bold">Cursos</h2>
@@ -130,6 +129,6 @@ export default function AdminCourses() {
           Nuevo usuario
         </a>
       </div>
-    </AdminLayout>
+    </div>
   );
 }

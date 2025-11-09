@@ -46,42 +46,85 @@ export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [adding, setAdding] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
 
   useEffect(() => {
-    fetchUsers()
-      .then((d) => setUsers(d.users ?? d))
-      .catch((e) => setError(e?.error || "Error"));
+    loadUsers();
   }, []);
+
+  async function loadUsers() {
+    setLoading(true);
+    try {
+      const d = await fetchUsers();
+      setUsers(d.users ?? d);
+      setError(null);
+    } catch (e) {
+      setError(e?.error || "Error cargando usuarios");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const handleEdit = async (user) => {
     const name = prompt("Nuevo nombre de usuario", user.username || user.name);
     if (!name) return;
+    setLoading(true);
     try {
       const updated = await updateUser(user.id, { ...user, username: name });
       setUsers((prev) => prev.map((u) => (u.id === user.id ? updated : u)));
+      setError(null);
     } catch (e) {
       setError(e?.error || "Error actualizando usuario");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
     if (!confirm("Eliminar usuario?")) return;
+    setLoading(true);
     try {
       await deleteUser(id);
       setUsers((prev) => prev.filter((u) => u.id !== id));
+      setError(null);
     } catch (e) {
       setError(e?.error || "Error eliminando usuario");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleAdd = async (data) => {
-    // Aquí deberías llamar a tu API para crear usuario
-    setUsers((prev) => [{ id: Date.now(), ...data }, ...prev]);
-    setAdding(false);
+    setLoading(true);
+    try {
+      // Aquí deberías llamar a tu API para crear usuario
+      setUsers((prev) => [{ id: Date.now(), ...data }, ...prev]);
+      setError(null);
+    } catch (e) {
+      setError(e?.error || "Error creando usuario");
+    } finally {
+      setAdding(false);
+      setLoading(false);
+    }
   };
 
+  // Filtro y paginación
+  const filteredUsers = users.filter(
+    (u) =>
+      u.username?.toLowerCase().includes(filter.toLowerCase()) ||
+      u.email?.toLowerCase().includes(filter.toLowerCase()),
+  );
+  const totalPages = Math.ceil(filteredUsers.length / pageSize);
+  const paginatedUsers = filteredUsers.slice(
+    (page - 1) * pageSize,
+    page * pageSize,
+  );
+
   return (
-    <AdminLayout>
+    <div>
       <div className="container-lg py-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h2 className="mb-0">Usuarios</h2>
@@ -92,18 +135,31 @@ export default function AdminUsers() {
             Nuevo usuario
           </button>
         </div>
+        <div className="mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Buscar por nombre o email..."
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              setPage(1);
+            }}
+          />
+        </div>
         {error && <div className="alert alert-danger">{error}</div>}
+        {loading && <div className="alert alert-info">Cargando...</div>}
         {adding && (
           <UserForm onSave={handleAdd} onCancel={() => setAdding(false)} />
         )}
         <div className="card p-3 border-0 shadow-sm rounded-4">
           <div className="list-group list-group-flush">
-            {users.length === 0 && (
+            {paginatedUsers.length === 0 && !loading && (
               <div className="alert alert-info text-center mb-0">
                 No hay usuarios.
               </div>
             )}
-            {users.map((u) => (
+            {paginatedUsers.map((u) => (
               <UserRow
                 key={u.id}
                 user={u}
@@ -113,24 +169,36 @@ export default function AdminUsers() {
             ))}
           </div>
         </div>
-        <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
-          <a
-            href="/admin/courses"
-            className="btn btn-primary rounded-pill px-4"
-          >
-            Nuevo curso
-          </a>
-          <a href="/admin/blogs" className="btn btn-success rounded-pill px-4">
-            Nueva publicación
-          </a>
-          <button
-            className="btn btn-danger rounded-pill px-4"
-            onClick={() => setAdding(true)}
-          >
-            Nuevo usuario
-          </button>
-        </div>
+        {/* Paginación */}
+        {totalPages > 1 && (
+          <nav className="mt-3 d-flex justify-content-center">
+            <ul className="pagination">
+              <li className={`page-item${page === 1 ? " disabled" : ""}`}>
+                <button className="page-link" onClick={() => setPage(page - 1)}>
+                  Anterior
+                </button>
+              </li>
+              {[...Array(totalPages)].map((_, i) => (
+                <li
+                  key={i}
+                  className={`page-item${page === i + 1 ? " active" : ""}`}
+                >
+                  <button className="page-link" onClick={() => setPage(i + 1)}>
+                    {i + 1}
+                  </button>
+                </li>
+              ))}
+              <li
+                className={`page-item${page === totalPages ? " disabled" : ""}`}
+              >
+                <button className="page-link" onClick={() => setPage(page + 1)}>
+                  Siguiente
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
       </div>
-    </AdminLayout>
+    </div>
   );
 }

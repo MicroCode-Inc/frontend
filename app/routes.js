@@ -41,12 +41,12 @@ export default [
     showInNav: true,
     label: "admin",
     children: [
-      { path: "/admin/users", file: "routes/admin/users.jsx", label: "users" },
       {
         path: "/admin/dashboard",
         file: "routes/admin/dashboard.jsx",
         label: "dashboard",
       },
+      { path: "/admin/users", file: "routes/admin/users.jsx", label: "users" },
       {
         path: "/admin/courses",
         file: "routes/admin/courses.jsx",

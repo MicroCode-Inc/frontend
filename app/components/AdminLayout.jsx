@@ -1,6 +1,5 @@
 import React from "react";
 import AdminSidebar from "./AdminSidebar";
-import AdminTopbar from "./AdminTopbar";
 
 export default function AdminLayout({ children }) {
   return (
