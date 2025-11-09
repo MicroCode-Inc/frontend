@@ -109,26 +109,6 @@ export default function AdminCourses() {
           </div>
         )}
       </div>
-      <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
-        <button
-          className="btn btn-primary btn-sm rounded-pill px-4"
-          onClick={() => setEditing({})}
-        >
-          Nuevo curso
-        </button>
-        <a
-          href="/admin/blogs"
-          className="btn btn-success btn-sm rounded-pill px-4"
-        >
-          Nueva publicación
-        </a>
-        <a
-          href="/admin/users"
-          className="btn btn-danger btn-sm rounded-pill px-4"
-        >
-          Nuevo usuario
-        </a>
-      </div>
     </div>
   );
 }
