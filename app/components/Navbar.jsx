@@ -253,6 +253,7 @@ export default function Navbar() {
           >
             {navRoutes
               .filter(route => route.path !== '/login')
+              .filter(route => route.path !== '/admin' || user?.role === 'admin')
               .map(({ path, label, navTo }) => {
                 const linkPath = navTo || path
                 const isActive =
