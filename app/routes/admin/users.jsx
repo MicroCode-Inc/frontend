@@ -4,7 +4,7 @@ import UserRow from "../../components/UserRow";
 import { fetchUsers, updateUser, deleteUser } from "../../services/adminApi";
 
 function UserForm({ onSave, onCancel }) {
-  const [form, setForm] = useState({ username: "", email: "" });
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
   return (
     <form
       className="card p-4 shadow-sm border-0 mb-3"
@@ -28,6 +28,18 @@ function UserForm({ onSave, onCancel }) {
         onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
         required
       />
+      <div className="form-floating mb-2">
+        <input
+          className="form-control"
+          type="password"
+          id="floatingPassword"
+          placeholder="Contraseña"
+          value={form.password}
+          onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+          required
+        />
+        <label htmlFor="floatingPassword">Contraseña</label>
+      </div>
       <div className="d-flex gap-2">
         <button className="btn btn-success rounded-pill px-3">Guardar</button>
         <button
