@@ -9,7 +9,10 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
     discount: initial.discount ?? 0,
     description: initial.description ?? "",
     image_url: initial.image_url ?? "",
+    image_alt: initial.image_alt ?? "",
     tags: (initial.tags || []).map((t) => t.label || t) || [],
+    summary: initial.summary ? JSON.stringify(initial.summary, null, 2) : "",
+    content: initial.content ? JSON.stringify(initial.content, null, 2) : "",
   });
   const [saving, setSaving] = useState(false);
 
@@ -27,10 +30,18 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
   const submit = async (e) => {
     e.preventDefault();
     setSaving(true);
-    const payload = {
+    let payload = {
       ...form,
       tags: form.tags.map((t) => ({ label: t })),
+      image_alt: form.image_alt,
     };
+    // Parse summary y content si son JSON válidos
+    try {
+      payload.summary = form.summary ? JSON.parse(form.summary) : null;
+    } catch {}
+    try {
+      payload.content = form.content ? JSON.parse(form.content) : null;
+    } catch {}
     try {
       await onSave(payload);
     } finally {
@@ -45,7 +56,7 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
         className="form-control mb-2"
         value={form.name}
         onChange={handleChange}
-        placeholder="Name"
+        placeholder="Nombre"
         required
       />
       <div className="d-flex gap-2 mb-2">
@@ -61,7 +72,7 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
           className="form-control"
           value={form.level}
           onChange={handleChange}
-          placeholder="Level"
+          placeholder="Nivel"
         />
       </div>
       <div className="d-flex gap-2 mb-2">
@@ -71,7 +82,7 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
           className="form-control"
           value={form.price}
           onChange={handleChange}
-          placeholder="Price"
+          placeholder="Precio"
         />
         <input
           name="discount"
@@ -79,37 +90,60 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
           className="form-control"
           value={form.discount}
           onChange={handleChange}
-          placeholder="Discount"
+          placeholder="Descuento"
         />
       </div>
-      <textarea
-        name="description"
-        className="form-control mb-2"
-        value={form.description}
-        onChange={handleChange}
-        placeholder="Description"
-        rows="4"
-      />
       <input
         name="image_url"
         className="form-control mb-2"
         value={form.image_url}
         onChange={handleChange}
-        placeholder="Image URL"
+        placeholder="URL de imagen"
+      />
+      <input
+        name="image_alt"
+        className="form-control mb-2"
+        value={form.image_alt}
+        onChange={handleChange}
+        placeholder="Texto alternativo de imagen"
+      />
+      <textarea
+        name="description"
+        className="form-control mb-2"
+        value={form.description}
+        onChange={handleChange}
+        placeholder="Descripción"
+        rows="3"
       />
       <input
         name="tags"
         className="form-control mb-2"
         value={form.tags.join(", ")}
         onChange={handleTags}
-        placeholder="tag1, tag2"
+        placeholder="Etiquetas (separadas por coma)"
+      />
+      <textarea
+        name="summary"
+        className="form-control mb-2"
+        value={form.summary}
+        onChange={handleChange}
+        placeholder="Resumen (JSON)"
+        rows="2"
+      />
+      <textarea
+        name="content"
+        className="form-control mb-2"
+        value={form.content}
+        onChange={handleChange}
+        placeholder="Contenido (JSON)"
+        rows="4"
       />
       <div className="d-flex gap-2">
         <button className="btn btn-primary" disabled={saving}>
-          {saving ? "Saving..." : "Save"}
+          {saving ? "Guardando..." : "Guardar"}
         </button>
         <button type="button" className="btn btn-secondary" onClick={onCancel}>
-          Cancel
+          Cancelar
         </button>
       </div>
     </form>
