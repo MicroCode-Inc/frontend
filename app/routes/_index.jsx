@@ -3,6 +3,8 @@ import Carousel from '../components/Carousel'
 import { useLoaderData } from 'react-router'
 import Jumbotron from '../components/Jumbotron'
 import { apiRequest } from '../utils/api'
+import { useAuth } from '../context/AuthContext'
+import { isCourseOwned } from '../utils/helpers'
 
 export async function loader() {
   const response = await apiRequest('/home')
@@ -13,6 +15,21 @@ export async function loader() {
 
 export default function Home() {
   const { courses, blogs } = useLoaderData()
+  const { user, isLoggedIn } = useAuth()
+
+  const getCourseLink = (course) => {
+    // Determine the tab based on course tags or category
+    // Default to 'frontend' if no specific category found
+    const tab = course.category || 'frontend'
+
+    // If user owns the course, link to the full course page
+    if (isLoggedIn && isCourseOwned(course.id, user?.owned_courses)) {
+      return `/courses/${tab}/${course.id}`
+    }
+
+    // Otherwise, link to preview
+    return `/courses/${tab}/${course.id}/preview`
+  }
 
   return (
     <div className='container d-grid gap-5 my-4 page-transition'>
@@ -27,6 +44,7 @@ export default function Home() {
               imgAlt={course.name}
               title={course.name}
               tags={course.tags}
+              to={getCourseLink(course)}
             />
           ))}
         </div>

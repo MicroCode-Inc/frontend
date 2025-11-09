@@ -13,6 +13,11 @@ export default [
     file: "routes/courses.$tab.$courseId.jsx",
     showInNav: false,
   },
+  {
+    path: "/courses/:tab/:courseId/preview",
+    file: "routes/courses.$tab.$courseId.preview.jsx",
+    showInNav: false,
+  },
   { path: "/blog", file: "routes/blog.jsx", showInNav: true, label: "blogs" },
   { path: "/blog/:id", file: "routes/blog.$blogId.jsx", showInNav: false },
   {
@@ -35,6 +40,9 @@ export default [
   },
   { path: "/profile", file: "routes/profile.jsx", showInNav: false },
   { path: "/logout", file: "routes/logout.jsx", showInNav: false },
+  { path: "/cart", file: "routes/cart.jsx", showInNav: false },
+  { path: "/checkout", file: "routes/checkout.jsx", showInNav: false },
+  { path: "/invoice/:invoiceNumber", file: "routes/invoice.$invoiceNumber.jsx", showInNav: false },
   {
     path: "/admin",
     file: "routes/admin/index.jsx",

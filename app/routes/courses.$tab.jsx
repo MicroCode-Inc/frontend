@@ -1,8 +1,10 @@
 import { Link, useLoaderData, useParams } from 'react-router'
 import { useAuth } from '../context/AuthContext'
-import FavoriteButton from '../components/FavoriteButton'
-import { useState } from 'react'
+import PurchaseButton from '../components/PurchaseButton'
+import { useState, useEffect } from 'react'
 import { apiRequest } from '../utils/api'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeartSolid, faHeartRegular } from '../utils/faIcons'
 
 export async function loader({ params }) {
   const { tab } = params
@@ -35,6 +37,25 @@ export default function CourseTab() {
       isFavorited ? [...prev, courseId] : prev.filter(id => id !== courseId)
     )
   }
+
+  // Handle scrolling to anchor when hash changes
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      const elementId = hash.substring(1) // Remove the # character
+      setTimeout(() => {
+        const element = document.getElementById(elementId)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          // Open the accordion
+          const accordionButton = element.querySelector('.accordion-button')
+          if (accordionButton && accordionButton.classList.contains('collapsed')) {
+            accordionButton.click()
+          }
+        }
+      }, 100)
+    }
+  }, [tab])
 
   const renderSummary = summary => {
     if (!summary) return null
@@ -71,18 +92,37 @@ export default function CourseTab() {
             </div>
             <div className='card-body p-0'>
               <ul className='list-group rounded-4 rounded-top-0'>
-                {summary.requirements.map((reqId, idx) => {
-                  const reqCourse = courseLookup[reqId]
-                  return (
-                    <Link
-                      className='list-group-item list-group-item-action bg-secondary-subtle text-body p-3 border-0 shadow'
-                      to={`/courses/${tab}/${reqId}`}
-                      key={idx}
-                    >
-                      {reqCourse ? reqCourse.name : `Course ${reqId}`}
-                    </Link>
-                  )
-                })}
+                {summary.requirements
+                  .map((reqId, idx) => {
+                    const reqCourse = courseLookup[reqId]
+                    if (!reqCourse) {
+                      // Fallback if course not found in lookup
+                      return (
+                        <li
+                          className='list-group-item bg-secondary-subtle p-3 border-0 shadow'
+                          key={idx}
+                        >
+                          Course {reqId}
+                        </li>
+                      )
+                    }
+
+                    // Determine which tab the required course belongs to
+                    const reqTab = reqCourse.category || 'frontend'
+
+                    // Generate anchor ID from course name (same as accordion ID)
+                    const anchorId = reqCourse.name.replace(/\s+/g, '-')
+
+                    return (
+                      <Link
+                        className='list-group-item list-group-item-action bg-secondary-subtle text-body p-3 border-0 shadow'
+                        to={`/courses/${reqTab}#${anchorId}`}
+                        key={idx}
+                      >
+                        {reqCourse.name}
+                      </Link>
+                    )
+                  })}
               </ul>
             </div>
           </div>
@@ -102,72 +142,129 @@ export default function CourseTab() {
 
         return (
           <div
-            className='accordion-item border-0 bg-light rounded-4 overflow-hidden'
+            id={anchorId}
+            className='accordion-item border-0 bg-light rounded-4 overflow-hidden position-relative'
             key={course.id}
           >
             {/* Card button that stays in place */}
-            <div className='position-relative'>
-              <button
-                className='accordion-button rounded-4 text-capitalize p-0 bg-transparent pe-3 shadow-none collapsed w-100 border-0'
-                type='button'
-                data-bs-toggle='collapse'
-                data-bs-target={`#${anchorId}`}
-                aria-expanded='false'
-                aria-controls={anchorId}
-              >
-                <div className='card border-0 bg-transparent w-100'>
-                  <div className='row g-0'>
-                    <div className='col-auto'>
-                      <img
-                        src={course.image_url || 'https://placehold.co/175x175'}
-                        className='img-fluid rounded-start-4'
-                        style={{
-                          width: '175px',
-                          height: '175px',
-                          objectFit: 'cover'
-                        }}
-                        alt={course.image_alt || course.name}
-                      />
-                    </div>
-                    <div className='col'>
-                      <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
-                        <h5 className='card-title'>{course.name}</h5>
-                        <p className='card-text mb-2'>{course.description}</p>
-                        {course.tags && course.tags.length > 0 && (
-                          <div className='d-flex gap-1'>
-                            {course.tags.map((tag, i) => (
-                              <span
-                                key={i}
-                                className='badge'
-                                style={{ backgroundColor: tag.color }}
-                              >
-                                {tag.label}
-                              </span>
-                            ))}
-                          </div>
-                        )}
+            <button
+              className='accordion-button rounded-4 text-capitalize p-0 bg-transparent pe-3 shadow-none collapsed w-100 border-0'
+              type='button'
+              data-bs-toggle='collapse'
+              data-bs-target={`#${anchorId}-collapse`}
+              aria-expanded='false'
+              aria-controls={`${anchorId}-collapse`}
+            >
+              <div className='card border-0 bg-transparent w-100'>
+                <div
+                  className='row g-0'
+                  style={{ height: '200px' }}
+                >
+                  <div className='col-auto'>
+                    <img
+                      src={course.image_url || 'https://placehold.co/200x200'}
+                      className='rounded-start-4'
+                      style={{
+                        width: '200px',
+                        height: '200px',
+                        objectFit: 'cover'
+                      }}
+                      alt={course.image_alt || course.name}
+                    />
+                  </div>
+                  <div className='col'>
+                    <div className='card-body h-100 py-3 d-flex flex-column justify-content-between pb-5'>
+                      <div>
+                        <h5 className='card-title mb-2'>{course.name}</h5>
+                        <p
+                          className='card-text mb-2'
+                          style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: '3',
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
+                          }}
+                        >
+                          {course.description}
+                        </p>
                       </div>
+                      {course.tags && course.tags.length > 0 && (
+                        <div className='d-flex gap-1 flex-wrap'>
+                          {course.tags.map((tag, i) => (
+                            <span
+                              key={i}
+                              className='badge'
+                              style={{ backgroundColor: tag.color }}
+                            >
+                              {tag.label}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              </button>
+              </div>
+            </button>
 
-              {/* Favorite button positioned absolutely */}
+            {/* Action buttons positioned absolutely at bottom-right */}
+            <div
+              className='position-absolute d-flex align-items-center gap-2'
+              style={{
+                bottom: '16px',
+                right: '16px',
+                zIndex: 10,
+                pointerEvents: 'auto'
+              }}
+            >
+              <PurchaseButton
+                course={course}
+                showBuyNow={false}
+                variant='card'
+                tab={tab}
+              />
               {isLoggedIn && (
-                <FavoriteButton
-                  itemId={course.id}
-                  itemType='course'
-                  isFavorited={isFavorited}
-                  onToggle={newState =>
-                    handleFavoriteToggle(course.id, newState)
-                  }
-                />
+                <button
+                  className={`btn btn-sm p-2 rounded-3 ${
+                    isFavorited ? 'btn-danger' : 'btn-outline-danger'
+                  }`}
+                  onClick={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    // Trigger the favorite toggle logic
+                    const endpoint = `/users/${user.id}/favourite-courses${
+                      isFavorited ? `/${course.id}` : ''
+                    }`
+                    const method = isFavorited ? 'DELETE' : 'POST'
+                    const body = !isFavorited
+                      ? JSON.stringify({ course_id: course.id })
+                      : undefined
+
+                    apiRequest(endpoint, { method, body })
+                      .then(res => res.json())
+                      .then(updatedUser => {
+                        const token = localStorage.getItem('token')
+                        if (token) {
+                          localStorage.setItem(
+                            'user',
+                            JSON.stringify(updatedUser)
+                          )
+                        }
+                        handleFavoriteToggle(course.id, !isFavorited)
+                      })
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={isFavorited ? faHeartSolid : faHeartRegular}
+                  />
+                </button>
               )}
             </div>
 
             {/* Collapsible content that expands below */}
             <div
-              id={anchorId}
+              id={`${anchorId}-collapse`}
               className='accordion-collapse collapse'
               data-bs-parent='#accordionCourses'
             >

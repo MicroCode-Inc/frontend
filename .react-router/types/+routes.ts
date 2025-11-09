@@ -27,6 +27,12 @@ type Pages = {
       "courseId": string;
     };
   };
+  "/courses/:tab/:courseId/preview": {
+    params: {
+      "tab": string;
+      "courseId": string;
+    };
+  };
   "/blog": {
     params: {};
   };
@@ -50,6 +56,17 @@ type Pages = {
   "/logout": {
     params: {};
   };
+  "/cart": {
+    params: {};
+  };
+  "/checkout": {
+    params: {};
+  };
+  "/invoice/:invoiceNumber": {
+    params: {
+      "invoiceNumber": string;
+    };
+  };
   "/admin": {
     params: {};
   };
@@ -70,7 +87,7 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile" | "/logout" | "/admin" | "/admin/admin/dashboard" | "/admin/admin/users" | "/admin/admin/courses" | "/admin/admin/blogs";
+    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/courses/:tab/:courseId/preview" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile" | "/logout" | "/cart" | "/checkout" | "/invoice/:invoiceNumber" | "/admin" | "/admin/admin/dashboard" | "/admin/admin/users" | "/admin/admin/courses" | "/admin/admin/blogs";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
@@ -87,6 +104,10 @@ type RouteFiles = {
   "routes/courses.$tab.$courseId.jsx": {
     id: "routes/courses.$tab.$courseId";
     page: "/courses/:tab/:courseId";
+  };
+  "routes/courses.$tab.$courseId.preview.jsx": {
+    id: "routes/courses.$tab.$courseId.preview";
+    page: "/courses/:tab/:courseId/preview";
   };
   "routes/blog.jsx": {
     id: "routes/blog";
@@ -115,6 +136,18 @@ type RouteFiles = {
   "routes/logout.jsx": {
     id: "routes/logout";
     page: "/logout";
+  };
+  "routes/cart.jsx": {
+    id: "routes/cart";
+    page: "/cart";
+  };
+  "routes/checkout.jsx": {
+    id: "routes/checkout";
+    page: "/checkout";
+  };
+  "routes/invoice.$invoiceNumber.jsx": {
+    id: "routes/invoice.$invoiceNumber";
+    page: "/invoice/:invoiceNumber";
   };
   "routes/admin/index.jsx": {
     id: "routes/admin/index";

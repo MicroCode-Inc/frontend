@@ -1,9 +1,8 @@
-import { useLoaderData } from 'react-router'
+import { useLoaderData, useParams } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import { apiRequest } from '../utils/api'
 import { isCourseOwned } from '../utils/helpers'
 import PurchaseButton from '../components/PurchaseButton'
-import ReactMarkdown from 'react-markdown'
 
 export async function loader({ params }) {
   const { courseId } = params
@@ -13,12 +12,11 @@ export async function loader({ params }) {
   return json
 }
 
-export default function Course() {
+export default function CoursePreview() {
   const data = useLoaderData()
+  const { tab } = useParams()
   const { user } = useAuth()
-  const content = data.content
   const owned = isCourseOwned(data.id, user?.owned_courses)
-  console.log(content)
 
   return (
     <div className='container page-transition'>
@@ -33,36 +31,30 @@ export default function Course() {
             <h1 className='display-4'>{data.name}</h1>
             <p className='fs-5 text-muted'>{data.description}</p>
           </div>
-          {!owned && (
-            <div className='flex-shrink-0'>
-              <PurchaseButton
-                course={data}
-                variant='detail'
-                showPreview={false}
-              />
-            </div>
-          )}
         </div>
 
-        {/* Show content only if user owns the course */}
-        {owned ? (
-          <div className='fs-4 fw-light d-flex flex-column gap-4 px-5 mt-3'>
-            {content &&
-              content.map((e, i) => (
+        {/* Preview content with fade effect */}
+        <div className='position-relative px-5 mt-3'>
+          <div
+            className='fs-4 fw-light d-flex flex-column gap-4'
+            style={{
+              maxHeight: '500px',
+              overflow: 'hidden',
+              position: 'relative'
+            }}
+          >
+            {data.content &&
+              data.content.slice(0, 2).map((e, i) => (
                 <div key={i}>
-                  {/* {e.title && <h3 className='fs-2 fw-bold mb-3'>{e.title}</h3>} */}
-                  {e.body && (
-                    <div className='mb-5'>
-                      <ReactMarkdown>{e.body}</ReactMarkdown>
-                    </div>
-                  )}
+                  {e.title && <h3 className='fs-2 fw-bold mb-3'>{e.title}</h3>}
+                  {e.body && <p className='mb-5'>{e.body}</p>}
                   {e.expected_output && (
                     <>
                       <h4 className='fw-bold'>Expected Output</h4>
                       <p className='mb-5'>{e.expected_output}</p>
                       <h3 className='fs-2 fw-bold mb-3'>Instructions</h3>
                       <ol>
-                        {e.instructions.map((f, i) => (
+                        {e.instructions.slice(0, 3).map((f, i) => (
                           <li
                             className='mb-3'
                             key={i * 10}
@@ -71,27 +63,45 @@ export default function Course() {
                           </li>
                         ))}
                       </ol>
-                      <h3 className='fs-2 fw-bold mb-3'>Congratulations!</h3>
-                      {e.conclusion && <p>{e.conclusion}</p>}
                     </>
                   )}
                 </div>
               ))}
           </div>
-        ) : (
-          <div className='alert alert-info mt-4'>
-            <h4 className='alert-heading'>Course Content Locked</h4>
-            <p>
+
+          {/* Fade overlay */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '200px',
+              background:
+                'linear-gradient(to bottom, transparent, var(--bs-secondary))',
+              pointerEvents: 'none'
+            }}
+          ></div>
+        </div>
+
+        {/* Purchase section */}
+        <div className='card border-0 bg-light rounded-4 shadow-sm my-4'>
+          <div className='card-body p-5 text-center'>
+            <h3 className='mb-3'>Want to see more?</h3>
+            <p className='text-muted mb-4'>
               Purchase this course to access the full content and start
               learning!
             </p>
-            <hr />
-            <p className='mb-0'>
-              You'll get lifetime access to all course materials, exercises, and
-              updates.
-            </p>
+            <div className='d-flex justify-content-center'>
+              <PurchaseButton
+                course={data}
+                variant='detail'
+                tab={tab}
+                showPreview={false}
+              />
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
