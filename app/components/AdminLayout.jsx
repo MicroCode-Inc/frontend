@@ -1,15 +1,19 @@
 import React from "react";
 import AdminSidebar from "./AdminSidebar";
 import AdminTopbar from "./AdminTopbar";
-import "../styles/admin.css";
 
 export default function AdminLayout({ children }) {
   return (
-    <div className="admin-layout d-flex">
+    <div className="container d-flex min-vh-100 bg-light">
       <AdminSidebar />
-      <div className="admin-content flex-grow-1 d-flex flex-column bg-light">
-        <AdminTopbar />
-        <main className="admin-main flex-grow-1 p-4">{children}</main>
+      <div className="flex-grow-1 d-flex flex-column">
+        <main className="flex-grow-1 d-flex flex-column justify-content-center">
+          <div className="container-lg py-4">
+            <div className="row justify-content-center">
+              <div className="col-12 col-md-11 col-lg-10">{children}</div>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ export default function AdminDashboard() {
         <h2 className="mb-4">Resumen rápido</h2>
         <div className="row g-4">
           <div className="col-12 col-lg-6">
-            <div className="card p-4 shadow-sm border-0 h-100">
+            <div className="card p-4 shadow-sm bo h-100">
               <h5 className="mb-3">Últimos cursos</h5>
               <ul className="list-group list-group-flush">
                 {recentCourses.length === 0 ? (

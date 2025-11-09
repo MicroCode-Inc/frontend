@@ -99,7 +99,6 @@ export default function AdminIndex() {
     });
   };
   const handleSaveUser = async (data) => {
-    // Aquí deberías llamar a tu API para crear usuario
     setShowForm(null);
     fetchUsers().then((d) => {
       const arr = d.users ?? d;
@@ -109,7 +108,7 @@ export default function AdminIndex() {
 
   return (
     <AdminLayout>
-      <div className="container-fluid">
+      <div className="container-lg py-4">
         <h2 className="mb-4">Panel de administración</h2>
         <div className="row g-3 mb-4">
           <div className="col">
