@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:5000";
+const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
 function authHeaders() {
   const token = localStorage.getItem("token");
@@ -7,7 +7,12 @@ function authHeaders() {
 
 async function handleRes(res) {
   const json = await res.json().catch(() => ({}));
-  if (!res.ok) throw json;
+  if (!res.ok) {
+    const error = new Error(json.error || json.message || `API request failed with status ${res.status}`);
+    error.status = res.status;
+    error.details = json;
+    throw error;
+  }
   return json;
 }
 

@@ -31,6 +31,10 @@ export default function App() {
   )
 }
 
+export function HydrateFallback() {
+  return null
+}
+
 export function ErrorBoundary({ error }) {
   return (
     <AuthProvider>

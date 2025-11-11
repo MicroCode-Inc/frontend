@@ -1,6 +1,6 @@
 import { useLoaderData } from 'react-router'
 import { useAuth } from '../context/AuthContext'
-import { apiRequest } from '../utils/api'
+import { apiRequest, apiDownload } from '../utils/api'
 import { isCourseOwned } from '../utils/helpers'
 import PurchaseButton from '../components/PurchaseButton'
 import ReactMarkdown from 'react-markdown'
@@ -18,7 +18,6 @@ export default function Course() {
   const { user } = useAuth()
   const content = data.content
   const owned = isCourseOwned(data.id, user?.owned_courses)
-  console.log(content)
 
   return (
     <div className='container page-transition'>
@@ -33,15 +32,68 @@ export default function Course() {
             <h1 className='display-4'>{data.name}</h1>
             <p className='fs-5 text-muted'>{data.description}</p>
           </div>
-          {!owned && (
-            <div className='flex-shrink-0'>
+          <div className='flex-shrink-0'>
+            {owned ? (
+              <div className='btn-group dropup'>
+                <button
+                  type='button'
+                  className='btn btn-primary btn-lg dropdown-toggle'
+                  data-bs-toggle='dropdown'
+                  aria-expanded='false'
+                >
+                  Download as PDF
+                </button>
+                <ul className='dropdown-menu'>
+                  <li>
+                    <a
+                      className='dropdown-item'
+                      href='#'
+                      onClick={async e => {
+                        e.preventDefault()
+                        try {
+                          await apiDownload(
+                            `/courses/${data.id}/download-pdf?theme=light`,
+                            `${data.name.replace(/\s+/g, '_')}_light.pdf`
+                          )
+                        } catch (error) {
+                          console.error('Error downloading PDF:', error)
+                          alert('Failed to download PDF. Please try again.')
+                        }
+                      }}
+                    >
+                      Light Mode
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className='dropdown-item'
+                      href='#'
+                      onClick={async e => {
+                        e.preventDefault()
+                        try {
+                          await apiDownload(
+                            `/courses/${data.id}/download-pdf?theme=dark`,
+                            `${data.name.replace(/\s+/g, '_')}_dark.pdf`
+                          )
+                        } catch (error) {
+                          console.error('Error downloading PDF:', error)
+                          alert('Failed to download PDF. Please try again.')
+                        }
+                      }}
+                    >
+                      Dark Mode
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            ) : (
               <PurchaseButton
                 course={data}
                 variant='detail'
                 showPreview={false}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Show content only if user owns the course */}

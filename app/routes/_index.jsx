@@ -17,7 +17,7 @@ export default function Home() {
   const { courses, blogs } = useLoaderData()
   const { user, isLoggedIn } = useAuth()
 
-  const getCourseLink = (course) => {
+  const getCourseLink = course => {
     // Determine the tab based on course tags or category
     // Default to 'frontend' if no specific category found
     const tab = course.category || 'frontend'

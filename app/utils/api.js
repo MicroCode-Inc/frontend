@@ -117,3 +117,54 @@ export async function apiUpload(endpoint, formData) {
 
   return response.json();
 }
+
+/**
+ * Download a file with authentication
+ * @param {string} endpoint - API endpoint
+ * @param {string} filename - Default filename for download
+ * @returns {Promise<void>}
+ */
+export async function apiDownload(endpoint, filename) {
+  const token = getAuthToken();
+  const headers = {};
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    method: "GET",
+    headers,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({
+      error: response.statusText,
+    }));
+    throw new Error(errorData.error || `Download failed: ${response.status}`);
+  }
+
+  // Get the blob from response
+  const blob = await response.blob();
+
+  // Extract filename from Content-Disposition header if available
+  const contentDisposition = response.headers.get("Content-Disposition");
+  let downloadFilename = filename;
+
+  if (contentDisposition) {
+    const filenameMatch = contentDisposition.match(/filename="?(.+)"?/i);
+    if (filenameMatch) {
+      downloadFilename = filenameMatch[1];
+    }
+  }
+
+  // Create a download link and trigger download
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = downloadFilename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+}

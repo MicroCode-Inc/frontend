@@ -1,8 +1,10 @@
 import { Link, useLoaderData } from 'react-router'
 import { useAuth } from '../context/AuthContext'
-import FavoriteButton from '../components/FavoriteButton'
 import { useState } from 'react'
 import { apiRequest } from '../utils/api'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export async function loader() {
   const response = await apiRequest('/blogs')
@@ -41,40 +43,30 @@ export default function Blog() {
                 const isFavorited = savedBlogs.includes(id)
 
                 return (
-                  <div
+                  <Link
                     key={id}
-                    className='position-relative'
+                    className='card border-0 bg-dark-subtle text-decoration-none rounded-4 shadow d-block'
+                    to={`/blog/${id}`}
                   >
-                    {isLoggedIn && (
-                      <FavoriteButton
-                        itemId={id}
-                        itemType='blog'
-                        isFavorited={isFavorited}
-                        onToggle={newState =>
-                          handleFavoriteToggle(id, newState)
-                        }
-                      />
-                    )}
-
-                    <Link
-                      className='card border-0 bg-dark-subtle text-decoration-none rounded-4 shadow d-block'
-                      to={`/blog/${id}`}
+                    <div
+                      className='row g-0'
+                      style={{ minHeight: '200px' }}
                     >
-                      <div className='row g-0'>
-                        <div className='col-auto'>
-                          <img
-                            src={image_url || 'https://placehold.co/200x200'}
-                            className='img-fluid rounded-start-4'
-                            style={{
-                              width: '200px',
-                              height: '200px',
-                              objectFit: 'cover'
-                            }}
-                            alt={image_alt || title}
-                          />
-                        </div>
-                        <div className='col'>
-                          <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
+                      <div className='col-auto align-self-stretch d-flex'>
+                        <img
+                          src={image_url || 'https://placehold.co/200x200'}
+                          className='rounded-start-4'
+                          style={{
+                            width: '200px',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                          alt={image_alt || title}
+                        />
+                      </div>
+                      <div className='col'>
+                        <div className='card-body h-100 py-2 px-3 d-flex flex-column justify-content-between'>
+                          <div>
                             <div className='d-flex'>
                               <div className='d-grid'>
                                 <h5 className='card-title mb-1'>{title}</h5>
@@ -89,25 +81,71 @@ export default function Blog() {
                                 ).toLocaleDateString()}
                               </span>
                             </div>
-                            <p className='card-text'>{description}</p>
+                            <p className='card-text mb-2'>{description}</p>
+                          </div>
+                          <div className='d-flex align-items-center gap-2'>
                             {tags && tags.length > 0 && (
-                              <div className='d-flex gap-1'>
+                              <div className='d-flex gap-1 flex-wrap'>
                                 {tags.map((tag, tagIndex) => (
                                   <span
                                     className='badge text-capitalize'
-                                    style={{ backgroundColor: tag.color }}
-                                    key={`${title}-${tag.label}-${tagIndex}`}
+                                    style={{
+                                      backgroundColor: tag.color || '#6c757d'
+                                    }}
+                                    key={`${title}-${
+                                      tag.label || tag.name
+                                    }-${tagIndex}`}
                                   >
-                                    {tag.label}
+                                    {tag.label || tag.name}
                                   </span>
                                 ))}
                               </div>
                             )}
+                            {isLoggedIn && (
+                              <button
+                                className={`btn ms-auto ${
+                                  isFavorited
+                                    ? 'btn-danger'
+                                    : 'btn-outline-danger'
+                                }`}
+                                onClick={e => {
+                                  e.preventDefault()
+                                  e.stopPropagation()
+                                  const endpoint = `/users/${
+                                    user.id
+                                  }/saved-blogs${isFavorited ? `/${id}` : ''}`
+                                  const method = isFavorited ? 'DELETE' : 'POST'
+                                  const body = !isFavorited
+                                    ? JSON.stringify({ blog_id: id })
+                                    : undefined
+
+                                  apiRequest(endpoint, { method, body })
+                                    .then(res => res.json())
+                                    .then(updatedUser => {
+                                      const token =
+                                        localStorage.getItem('token')
+                                      if (token) {
+                                        localStorage.setItem(
+                                          'user',
+                                          JSON.stringify(updatedUser)
+                                        )
+                                      }
+                                      handleFavoriteToggle(id, !isFavorited)
+                                    })
+                                }}
+                              >
+                                <FontAwesomeIcon
+                                  icon={
+                                    isFavorited ? faHeartSolid : faHeartRegular
+                                  }
+                                />
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>
-                    </Link>
-                  </div>
+                    </div>
+                  </Link>
                 )
               }
             )}

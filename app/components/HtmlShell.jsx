@@ -16,6 +16,7 @@ export default function HtmlShell({
     <html
       lang='en'
       data-bs-theme={theme}
+      suppressHydrationWarning
     >
       <head>
         <meta charSet='UTF-8' />
@@ -23,14 +24,12 @@ export default function HtmlShell({
           name='viewport'
           content='width=device-width, initial-scale=1.0'
         />
+        <meta name='darkreader-lock' />
         <title>{title}</title>
         <Meta />
         <Links />
       </head>
-      <body
-        className='d-flex flex-column min-vh-100'
-        style={{ overflow: 'hidden', height: '100vh' }}
-      >
+      <body className='d-flex flex-column min-vh-100'>
         <PixelBlast
           variant='square'
           pixelSize={6}
@@ -56,7 +55,7 @@ export default function HtmlShell({
             width: '100vw',
             height: '100vh',
             zIndex: -1,
-            pointerEvents: 'auto'
+            pointerEvents: 'none'
           }}
         />
         <Navbar />

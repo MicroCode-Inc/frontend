@@ -3,7 +3,10 @@ import { useAuth } from '../context/AuthContext'
 import { useState } from 'react'
 import ProfilePictureUpload from '../components/ProfilePictureUpload'
 import DeleteSavedItemButton from '../components/DeleteSavedItemButton'
-import { apiRequest } from '../utils/api'
+import PurchaseButton from '../components/PurchaseButton'
+import { apiRequest, apiDownload } from '../utils/api'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeartSolid, faHeartRegular, faTrash } from '../utils/faIcons'
 
 // Use clientLoader to access localStorage (browser-only)
 export async function clientLoader() {
@@ -54,6 +57,15 @@ export default function Profile() {
   // put favs and blogs in state so we can remove on click
   const [favCoursesState, setFavCoursesState] = useState(favouriteCourses)
   const [savedBlogsState, setSavedBlogsState] = useState(savedBlogs)
+  const [favoriteCourseIds, setFavoriteCourseIds] = useState(
+    user?.favourite_courses || []
+  )
+
+  const handleFavoriteToggle = (courseId, isFavorited) => {
+    setFavoriteCourseIds(prev =>
+      isFavorited ? [...prev, courseId] : prev.filter(id => id !== courseId)
+    )
+  }
 
   const handleLogout = () => {
     logout()
@@ -83,7 +95,9 @@ export default function Profile() {
         imgAlt: course.image_alt || course.name,
         tags: course.tags || [],
         removable: false, // owned, so no trash
-        type: 'course'
+        type: 'course',
+        course: course, // full course object for buttons
+        topic: course.topic
       }))
     },
     {
@@ -100,7 +114,9 @@ export default function Profile() {
         imgAlt: course.image_alt || course.name,
         tags: course.tags || [],
         removable: true,
-        type: 'course'
+        type: 'course',
+        course: course, // full course object for buttons
+        topic: course.topic
       }))
     },
     {
@@ -117,7 +133,9 @@ export default function Profile() {
         imgAlt: blog.image_alt || blog.title,
         tags: blog.tags || [],
         removable: true,
-        type: 'blog'
+        type: 'blog',
+        authorName: blog.author_name,
+        publicationDate: blog.publication_date
       }))
     }
   ]
@@ -137,7 +155,7 @@ export default function Profile() {
       `}</style>
       <div className='row justify-content-center'>
         <div className='col-12 col-lg-8'>
-          <div className='d-flex bg-dark-subtle p-4 rounded-4 mt-4 mb-5 shadow position-relative'>
+          <div className='d-flex bg-secondary p-4 rounded-4 mt-4 mb-5 shadow position-relative'>
             <button
               className='btn btn-secondary position-absolute top-0 end-0 m-3'
               onClick={handleLogout}
@@ -174,7 +192,7 @@ export default function Profile() {
           >
             {sections.map((section, sectionIndex) => (
               <div
-                className={`accordion-item bg-dark-subtle border-0 ${
+                className={`accordion-item bg-secondary border-0 ${
                   sectionIndex === 0
                     ? 'rounded-top-4'
                     : sectionIndex === 2
@@ -185,7 +203,7 @@ export default function Profile() {
               >
                 <h2 className='accordion-header'>
                   <button
-                    className={`accordion-button bg-dark-subtle fs-4 collapsed border-0 ${
+                    className={`accordion-button bg-secondary fs-4 collapsed border-0 ${
                       sectionIndex === 0 ? 'rounded-top-4' : ''
                     }`}
                     type='button'
@@ -222,74 +240,376 @@ export default function Profile() {
                             key={item.id}
                           >
                             <div className='position-relative'>
-                              {/* card */}
-                              <Link
-                                className='card border-0 bg-secondary-subtle text-decoration-none rounded-4 shadow'
-                                to={item.linkPath}
-                              >
-                                <div className='row g-0'>
-                                  <div className='col-auto'>
-                                    <img
-                                      src={item.imgUrl}
-                                      className='img-fluid rounded-start-4'
-                                      style={{
-                                        width: '200px',
-                                        height: '200px',
-                                        objectFit: 'cover'
-                                      }}
-                                      alt={item.imgAlt}
-                                    />
-                                  </div>
-                                  <div className='col'>
-                                    <div className='card-body h-100 align-content-center py-3 d-flex flex-column justify-content-between'>
-                                      <h5 className='card-title'>
-                                        {item.title}
-                                      </h5>
-                                      <p className='card-text m-0'>
-                                        {item.description}
-                                      </p>
-                                      {item.tags && item.tags.length > 0 && (
-                                        <div className='d-flex gap-1 mt-2'>
-                                          {item.tags.map((tag, tagIndex) => (
-                                            <span
-                                              className='badge text-capitalize'
-                                              style={{
-                                                backgroundColor: tag.color
-                                              }}
-                                              key={`${item.title}-${tag.label}-${tagIndex}`}
-                                            >
-                                              {tag.label}
-                                            </span>
-                                          ))}
+                              {/* Course card - matches courses.$tab.jsx design */}
+                              {item.type === 'course' && (
+                                <Link
+                                  className='card border-0 bg-dark-subtle text-decoration-none rounded-4 shadow'
+                                  to={item.linkPath}
+                                >
+                                  <div
+                                    className='row g-0'
+                                    style={{ minHeight: '200px' }}
+                                  >
+                                    <div className='col-auto align-self-stretch d-flex'>
+                                      <img
+                                        src={item.imgUrl}
+                                        className='rounded-start-4'
+                                        style={{
+                                          width: '200px',
+                                          height: '100%',
+                                          objectFit: 'cover'
+                                        }}
+                                        alt={item.imgAlt}
+                                      />
+                                    </div>
+                                    <div className='col'>
+                                      <div className='card-body h-100 py-2 px-3 d-flex flex-column justify-content-between'>
+                                        <div>
+                                          <h5 className='card-title mb-2'>
+                                            {item.title}
+                                          </h5>
+                                          <p
+                                            className='card-text mb-2'
+                                            style={{
+                                              display: '-webkit-box',
+                                              WebkitLineClamp: '2',
+                                              WebkitBoxOrient: 'vertical',
+                                              overflow: 'hidden',
+                                              textOverflow: 'ellipsis'
+                                            }}
+                                          >
+                                            {item.description}
+                                          </p>
                                         </div>
-                                      )}
+                                        <div className='d-flex flex-column gap-1'>
+                                          {item.tags && item.tags.length > 0 && (
+                                            <div className='d-flex gap-1 flex-wrap mb-1'>
+                                              {item.tags.map((tag, tagIndex) => (
+                                                <span
+                                                  className='badge text-capitalize'
+                                                  style={{
+                                                    backgroundColor:
+                                                      tag.color || '#6c757d'
+                                                  }}
+                                                  key={`${item.title}-${tag.label}-${tagIndex}`}
+                                                >
+                                                  {tag.label}
+                                                </span>
+                                              ))}
+                                            </div>
+                                          )}
+                                          <div
+                                            className='d-flex align-items-center gap-2 justify-content-start flex-shrink-0'
+                                            style={{ pointerEvents: 'auto' }}
+                                          >
+                                            <PurchaseButton
+                                              course={item.course}
+                                              showBuyNow={false}
+                                              variant='card'
+                                              tab={item.topic}
+                                            />
+                                            {!item.removable && (
+                                              <div className='btn-group dropup'>
+                                                <button
+                                                  type='button'
+                                                  className='btn btn-primary dropdown-toggle'
+                                                  data-bs-toggle='dropdown'
+                                                  aria-expanded='false'
+                                                  onClick={e => {
+                                                    e.preventDefault()
+                                                    e.stopPropagation()
+                                                  }}
+                                                >
+                                                  PDF
+                                                </button>
+                                                <ul className='dropdown-menu'>
+                                                  <li>
+                                                    <a
+                                                      className='dropdown-item'
+                                                      href='#'
+                                                      onClick={async e => {
+                                                        e.preventDefault()
+                                                        e.stopPropagation()
+                                                        try {
+                                                          await apiDownload(
+                                                            `/courses/${
+                                                              item.id
+                                                            }/download-pdf?theme=light`,
+                                                            `${item.title.replace(
+                                                              /\s+/g,
+                                                              '_'
+                                                            )}_light.pdf`
+                                                          )
+                                                        } catch (error) {
+                                                          console.error(
+                                                            'Error downloading PDF:',
+                                                            error
+                                                          )
+                                                          alert(
+                                                            'Failed to download PDF. Please try again.'
+                                                          )
+                                                        }
+                                                      }}
+                                                    >
+                                                      Light Mode
+                                                    </a>
+                                                  </li>
+                                                  <li>
+                                                    <a
+                                                      className='dropdown-item'
+                                                      href='#'
+                                                      onClick={async e => {
+                                                        e.preventDefault()
+                                                        e.stopPropagation()
+                                                        try {
+                                                          await apiDownload(
+                                                            `/courses/${
+                                                              item.id
+                                                            }/download-pdf?theme=dark`,
+                                                            `${item.title.replace(
+                                                              /\s+/g,
+                                                              '_'
+                                                            )}_dark.pdf`
+                                                          )
+                                                        } catch (error) {
+                                                          console.error(
+                                                            'Error downloading PDF:',
+                                                            error
+                                                          )
+                                                          alert(
+                                                            'Failed to download PDF. Please try again.'
+                                                          )
+                                                        }
+                                                      }}
+                                                    >
+                                                      Dark Mode
+                                                    </a>
+                                                  </li>
+                                                </ul>
+                                              </div>
+                                            )}
+                                            {!item.removable && (
+                                              <button
+                                                className={`btn ms-auto ${
+                                                  favoriteCourseIds.includes(
+                                                    item.id
+                                                  )
+                                                    ? 'btn-danger'
+                                                    : 'btn-outline-danger'
+                                                }`}
+                                                onClick={e => {
+                                                  e.preventDefault()
+                                                  e.stopPropagation()
+                                                  const isFavorited =
+                                                    favoriteCourseIds.includes(
+                                                      item.id
+                                                    )
+                                                  const endpoint = `/users/${
+                                                    user.id
+                                                  }/favourite-courses${
+                                                    isFavorited
+                                                      ? `/${item.id}`
+                                                      : ''
+                                                  }`
+                                                  const method = isFavorited
+                                                    ? 'DELETE'
+                                                    : 'POST'
+                                                  const body = !isFavorited
+                                                    ? JSON.stringify({
+                                                        course_id: item.id
+                                                      })
+                                                    : undefined
+
+                                                  apiRequest(endpoint, {
+                                                    method,
+                                                    body
+                                                  })
+                                                    .then(res => res.json())
+                                                    .then(updatedUser => {
+                                                      const token =
+                                                        localStorage.getItem(
+                                                          'token'
+                                                        )
+                                                      if (token) {
+                                                        localStorage.setItem(
+                                                          'user',
+                                                          JSON.stringify(
+                                                            updatedUser
+                                                          )
+                                                        )
+                                                      }
+                                                      handleFavoriteToggle(
+                                                        item.id,
+                                                        !isFavorited
+                                                      )
+                                                    })
+                                                }}
+                                              >
+                                                <FontAwesomeIcon
+                                                  icon={
+                                                    favoriteCourseIds.includes(
+                                                      item.id
+                                                    )
+                                                      ? faHeartSolid
+                                                      : faHeartRegular
+                                                  }
+                                                />
+                                              </button>
+                                            )}
+                                            {item.removable && (
+                                              <button
+                                                className='btn btn-danger ms-auto'
+                                                onClick={e => {
+                                                  e.preventDefault()
+                                                  e.stopPropagation()
+                                                  const endpoint = `/users/${user.id}/favourite-courses/${item.id}`
+                                                  apiRequest(endpoint, {
+                                                    method: 'DELETE'
+                                                  })
+                                                    .then(res => res.json())
+                                                    .then(updatedUser => {
+                                                      const token =
+                                                        localStorage.getItem(
+                                                          'token'
+                                                        )
+                                                      if (token) {
+                                                        localStorage.setItem(
+                                                          'user',
+                                                          JSON.stringify(
+                                                            updatedUser
+                                                          )
+                                                        )
+                                                      }
+                                                      setFavCoursesState(prev =>
+                                                        prev.filter(
+                                                          c => c.id !== item.id
+                                                        )
+                                                      )
+                                                    })
+                                                }}
+                                              >
+                                                <FontAwesomeIcon icon={faTrash} />
+                                              </button>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </Link>
-
-                              {/* show delete button only for favourited / saved */}
-                              {item.removable && item.type === 'course' && (
-                                <DeleteSavedItemButton
-                                  itemId={item.id}
-                                  itemType='course'
-                                  onRemove={id =>
-                                    setFavCoursesState(prev =>
-                                      prev.filter(c => c.id !== id)
-                                    )
-                                  }
-                                />
+                                </Link>
                               )}
-                              {item.removable && item.type === 'blog' && (
-                                <DeleteSavedItemButton
-                                  itemId={item.id}
-                                  itemType='blog'
-                                  onRemove={id =>
-                                    setSavedBlogsState(prev =>
-                                      prev.filter(b => b.id !== id)
-                                    )
-                                  }
-                                />
+
+                              {/* Blog card - matches blog.jsx design */}
+                              {item.type === 'blog' && (
+                                <Link
+                                  className='card border-0 bg-dark-subtle text-decoration-none rounded-4 shadow'
+                                  to={item.linkPath}
+                                >
+                                  <div
+                                    className='row g-0'
+                                    style={{ minHeight: '200px' }}
+                                  >
+                                    <div className='col-auto align-self-stretch d-flex'>
+                                      <img
+                                        src={item.imgUrl}
+                                        className='rounded-start-4'
+                                        style={{
+                                          width: '200px',
+                                          height: '100%',
+                                          objectFit: 'cover'
+                                        }}
+                                        alt={item.imgAlt}
+                                      />
+                                    </div>
+                                    <div className='col'>
+                                      <div className='card-body h-100 py-2 px-3 d-flex flex-column justify-content-between'>
+                                        <div>
+                                          <div className='d-flex'>
+                                            <div className='d-grid'>
+                                              <h5 className='card-title mb-1'>
+                                                {item.title}
+                                              </h5>
+                                              {item.authorName && (
+                                                <h6 className=''>
+                                                  <span className='fw-light'>
+                                                    Written by
+                                                  </span>{' '}
+                                                  {item.authorName}
+                                                </h6>
+                                              )}
+                                            </div>
+                                            {item.publicationDate && (
+                                              <span className='ms-auto text-secondary'>
+                                                {new Date(
+                                                  item.publicationDate
+                                                ).toLocaleDateString()}
+                                              </span>
+                                            )}
+                                          </div>
+                                          <p className='card-text mb-2'>
+                                            {item.description}
+                                          </p>
+                                        </div>
+                                        <div
+                                          className='d-flex align-items-center gap-2'
+                                          style={{ pointerEvents: 'auto' }}
+                                        >
+                                          {item.tags && item.tags.length > 0 && (
+                                            <div className='d-flex gap-1 flex-wrap'>
+                                              {item.tags.map((tag, tagIndex) => (
+                                                <span
+                                                  className='badge text-capitalize'
+                                                  style={{
+                                                    backgroundColor:
+                                                      tag.color || '#6c757d'
+                                                  }}
+                                                  key={`${item.title}-${tag.label}-${tagIndex}`}
+                                                >
+                                                  {tag.label}
+                                                </span>
+                                              ))}
+                                            </div>
+                                          )}
+                                          {item.removable && (
+                                            <button
+                                              className='btn btn-danger ms-auto'
+                                              onClick={e => {
+                                                e.preventDefault()
+                                                e.stopPropagation()
+                                                const endpoint = `/users/${user.id}/saved-blogs/${item.id}`
+                                                apiRequest(endpoint, {
+                                                  method: 'DELETE'
+                                                })
+                                                  .then(res => res.json())
+                                                  .then(updatedUser => {
+                                                    const token =
+                                                      localStorage.getItem(
+                                                        'token'
+                                                      )
+                                                    if (token) {
+                                                      localStorage.setItem(
+                                                        'user',
+                                                        JSON.stringify(
+                                                          updatedUser
+                                                        )
+                                                      )
+                                                    }
+                                                    setSavedBlogsState(prev =>
+                                                      prev.filter(
+                                                        b => b.id !== item.id
+                                                      )
+                                                    )
+                                                  })
+                                              }}
+                                            >
+                                              <FontAwesomeIcon icon={faTrash} />
+                                            </button>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Link>
                               )}
                             </div>
                           </div>

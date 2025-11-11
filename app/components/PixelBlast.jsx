@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { EffectComposer, EffectPass, RenderPass, Effect } from 'postprocessing'
 import './PixelBlast.css'
@@ -320,6 +320,7 @@ const PixelBlast = ({
   edgeFade = 0.5,
   noiseAmount = 0
 }) => {
+  const [webglSupported, setWebglSupported] = useState(true)
   const containerRef = useRef(null)
   const visibilityRef = useRef({ visible: true })
   const speedRef = useRef(speed)
@@ -329,6 +330,7 @@ const PixelBlast = ({
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
+    if (!webglSupported) return
     speedRef.current = speed
     const needsReinitKeys = ['antialias', 'liquid', 'noiseAmount']
     const cfg = { antialias, liquid, noiseAmount }
@@ -355,12 +357,19 @@ const PixelBlast = ({
         threeRef.current = null
       }
       const canvas = document.createElement('canvas')
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias,
-        alpha: true,
-        powerPreference: 'high-performance'
-      })
+      let renderer
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias,
+          alpha: true,
+          powerPreference: 'high-performance'
+        })
+      } catch (error) {
+        console.warn('WebGL is not supported on this system:', error.message)
+        setWebglSupported(false)
+        return
+      }
       renderer.domElement.style.width = '100%'
       renderer.domElement.style.height = '100%'
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
@@ -582,6 +591,7 @@ const PixelBlast = ({
       threeRef.current = null
     }
   }, [
+    webglSupported,
     antialias,
     liquid,
     noiseAmount,
@@ -603,6 +613,16 @@ const PixelBlast = ({
     color,
     speed
   ])
+
+  if (!webglSupported) {
+    return (
+      <div
+        className={`pixel-blast-container ${className ?? ''}`}
+        style={{ ...style, background: 'transparent' }}
+        aria-label='PixelBlast background (WebGL not available)'
+      />
+    )
+  }
 
   return (
     <div

@@ -15,7 +15,6 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
   const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState(null)
   const [previewUrl, setPreviewUrl] = useState(null)
-  const [activeModal, setActiveModal] = useState(null) // 'upload' | 'delete' | null
   const fileInputRef = useRef(null)
 
   const handleFileSelect = e => {
@@ -142,8 +141,7 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
               className='bg-transparent border-0 p-0 text-white'
               title={hasPhoto ? 'Change photo' : 'Add photo'}
               data-bs-toggle='modal'
-              data-bs-target='#profilePictureActionModal'
-              onClick={() => setActiveModal('upload')}
+              data-bs-target='#uploadModal'
               disabled={uploading || deleting}
             >
               <FontAwesomeIcon icon={hasPhoto ? faRefresh : faPlus} />
@@ -155,8 +153,7 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
                 className='bg-transparent border-0 p-0 text-danger'
                 title='Delete photo'
                 data-bs-toggle='modal'
-                data-bs-target='#profilePictureActionModal'
-                onClick={() => setActiveModal('delete')}
+                data-bs-target='#deleteModal'
                 disabled={uploading || deleting}
               >
                 <FontAwesomeIcon icon={faTrash} />
@@ -172,41 +169,38 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
         )}
       </div>
 
-      {/* Reusable modal, content depends on activeModal */}
+      {/* Upload Modal */}
       <ActionModal
-        id='profilePictureActionModal'
-        title={
-          activeModal === 'delete'
-            ? 'Delete Profile Picture'
-            : 'Upload Profile Picture'
-        }
-        confirmText={activeModal === 'delete' ? 'Delete' : 'Confirm'}
-        confirmVariant={activeModal === 'delete' ? 'danger' : 'success'}
-        onConfirm={
-          activeModal === 'delete' ? confirmDelete : handleConfirmUpload
-        }
+        id='uploadModal'
+        title='Upload Profile Picture'
+        confirmText='Confirm'
+        confirmVariant='success'
+        onConfirm={handleConfirmUpload}
       >
-        {activeModal === 'delete' ? (
-          <>
-            <p className='fs-5 mb-1'>
-              Are you sure you want to delete your profile picture?
-            </p>
-            <p className='mb-0'>
-              This action cannot be undone. You can upload a new one later.
-            </p>
-          </>
-        ) : (
-          <>
-            <p className='fs-5 mb-1'>
-              Please select an image that meets the following requirements:
-            </p>
-            <ul className='mb-0'>
-              <li>Formats: PNG, JPG, JPEG, GIF, WebP</li>
-              <li>Maximum size: 5MB</li>
-              <li>Square / centered images look best</li>
-            </ul>
-          </>
-        )}
+        <p className='fs-5 mb-1'>
+          Please select an image that meets the following requirements:
+        </p>
+        <ul className='mb-0'>
+          <li>Formats: PNG, JPG, JPEG, GIF, WebP</li>
+          <li>Maximum size: 5MB</li>
+          <li>Square / centered images look best</li>
+        </ul>
+      </ActionModal>
+
+      {/* Delete Modal */}
+      <ActionModal
+        id='deleteModal'
+        title='Delete Profile Picture'
+        confirmText='Delete'
+        confirmVariant='danger'
+        onConfirm={confirmDelete}
+      >
+        <p className='fs-5 mb-1'>
+          Are you sure you want to delete your profile picture?
+        </p>
+        <p className='mb-0'>
+          This action cannot be undone. You can upload a new one later.
+        </p>
       </ActionModal>
     </>
   )

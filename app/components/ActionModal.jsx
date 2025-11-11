@@ -1,4 +1,6 @@
 // src/components/ActionModal.jsx
+import { createPortal } from 'react-dom'
+
 export default function ActionModal({
   id,
   title,
@@ -7,7 +9,7 @@ export default function ActionModal({
   confirmVariant = 'success',
   onConfirm
 }) {
-  return (
+  const modalContent = (
     <div
       className='modal fade'
       id={id}
@@ -57,4 +59,8 @@ export default function ActionModal({
       </div>
     </div>
   )
+
+  return typeof document !== 'undefined'
+    ? createPortal(modalContent, document.body)
+    : null
 }

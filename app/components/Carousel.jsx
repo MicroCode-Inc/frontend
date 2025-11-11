@@ -50,12 +50,13 @@ export default function Carousel({ items }) {
                       <div className='row g-0'>
                         <div className='col-auto'>
                           <img
-                            src={item.image_url || 'https://placehold.co/200x200'}
-                            className='img-fluid rounded-start-4'
+                            src={
+                              item.image_url || 'https://placehold.co/200x200'
+                            }
+                            className='img-fluid rounded-start-4 h-100'
                             alt={item.image_alt || item.title}
                             style={{
                               width: '200px',
-                              height: '200px',
                               objectFit: 'cover'
                             }}
                           />

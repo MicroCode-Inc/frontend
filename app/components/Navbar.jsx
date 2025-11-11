@@ -199,30 +199,6 @@ export default function Navbar() {
               })}
           {loggedIn && (
             <Link
-              to='/profile'
-              ref={profileRef}
-              className='d-flex align-items-center rounded-circle border border-5 position-relative overflow-hidden'
-              style={{
-                '--bs-border-color':
-                  location.pathname === '/profile'
-                    ? 'var(--bs-primary)'
-                    : 'transparent',
-                transition: 'border-color 0.3s ease',
-                zIndex: 2,
-                width: '60px',
-                height: '60px'
-              }}
-            >
-              <img
-                src={profilePictureUrl}
-                alt={user?.username || 'Profile'}
-                className='w-100 h-100'
-                style={{ objectFit: 'cover' }}
-              />
-            </Link>
-          )}
-          {loggedIn && (
-            <Link
               to='/cart'
               className='btn btn-outline-primary border-0 p-1 fs-5 position-relative'
               style={{ zIndex: 2 }}
@@ -246,6 +222,30 @@ export default function Navbar() {
           >
             <FontAwesomeIcon icon={faLightbulb} />
           </button>
+          {loggedIn && (
+            <Link
+              to='/profile'
+              ref={profileRef}
+              className='d-flex align-items-center rounded-circle border border-5 position-relative overflow-hidden'
+              style={{
+                '--bs-border-color':
+                  location.pathname === '/profile'
+                    ? 'var(--bs-primary)'
+                    : 'transparent',
+                transition: 'border-color 0.3s ease',
+                zIndex: 2,
+                width: '60px',
+                height: '60px'
+              }}
+            >
+              <img
+                src={profilePictureUrl}
+                alt={user?.username || 'Profile'}
+                className='w-100 h-100'
+                style={{ objectFit: 'cover' }}
+              />
+            </Link>
+          )}
           <button
             className='navbar-toggler border-0 p-1'
             type='button'
@@ -272,7 +272,9 @@ export default function Navbar() {
           >
             {navRoutes
               .filter(route => route.path !== '/login')
-              .filter(route => route.path !== '/admin' || user?.role === 'admin')
+              .filter(
+                route => route.path !== '/admin' || user?.role === 'admin'
+              )
               .map(({ path, label, navTo }) => {
                 const linkPath = navTo || path
                 const isActive =

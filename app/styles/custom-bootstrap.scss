@@ -1,6 +1,7 @@
 // ============================================
 // CUSTOM BOOTSTRAP VARIABLES - LIGHT MODE
 // ============================================
+@use "sass:color";
 
 $primary: #38b0c5; // Deep Ocean Teal – main brand color
 $secondary: #f8fffe; // Warm Coral – replaces gray, adds vibrancy
@@ -16,7 +17,7 @@ $light: #f1feff; // Off-white Sand – gentle background alternative
 $body-bg:       #ffffff;  // Background color
 $body-color:    #212529;  // Text color
 $link-color:    $primary; // Link color
-$link-hover-color: darken($primary, 15%); // Link hover color
+$link-hover-color: color.adjust($primary, $lightness: -15%); // Link hover color
 
 // Typography
 // --------------------------------------------

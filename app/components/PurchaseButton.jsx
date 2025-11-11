@@ -64,9 +64,7 @@ export default function PurchaseButton({
     navigate('/checkout')
   }
 
-  // Button size based on variant
-  const btnSize = variant === 'detail' ? 'btn-lg' : ''
-  const badgeSize = variant === 'detail' ? 'fs-5' : ''
+  // All buttons use default Bootstrap sizes
 
   // If user owns the course, show "Open" button or "Owned" badge
   if (owned) {
@@ -75,10 +73,10 @@ export default function PurchaseButton({
       return (
         <Link
           to={`/courses/${tab}/${course.id}`}
-          className={`btn btn-success ${btnSize}`}
+          className='btn btn-success'
           onClick={e => e.stopPropagation()}
         >
-          Open
+          HTML
         </Link>
       )
     }
@@ -86,7 +84,7 @@ export default function PurchaseButton({
     // Otherwise show "Owned" badge
     return (
       <div className='d-flex align-items-center gap-2'>
-        <span className={`badge bg-success ${badgeSize}`}>✓ Owned</span>
+        <span className='badge bg-success'>✓ Owned</span>
       </div>
     )
   }
@@ -94,15 +92,15 @@ export default function PurchaseButton({
   // If in cart, show remove and go to cart buttons
   if (inCart) {
     return (
-      <div className='d-flex align-items-center gap-2 flex-wrap'>
+      <div className='d-flex align-items-center gap-2'>
         <button
-          className={`btn btn-outline-danger ${btnSize}`}
+          className='btn btn-outline-danger'
           onClick={handleRemoveFromCart}
         >
           Remove
         </button>
         <button
-          className={`btn btn-primary ${btnSize}`}
+          className='btn btn-primary'
           onClick={e => {
             e.preventDefault()
             e.stopPropagation()
@@ -117,29 +115,17 @@ export default function PurchaseButton({
 
   // Show purchase options
   return (
-    <div className='d-flex align-items-center gap-2 flex-wrap'>
+    <div className='d-flex align-items-center gap-2'>
       <div className='d-flex align-items-center gap-2'>
-        <span
-          className={`btn bg-secondary-subtle fs-5 fw-bold ${
-            variant === 'detail' ? 'fs-5 px-3 py-2' : 'px-2 py-1'
-          }`}
-        >
+        <span className='btn bg-secondary-subtle fw-bold'>
           {formatCurrency(finalPrice)}
         </span>
         {course.discount > 0 && (
           <>
-            <span
-              className={`text-decoration-line-through text-muted ${
-                variant === 'detail' ? 'fs-6' : 'small'
-              }`}
-            >
+            <span className='text-decoration-line-through text-muted'>
               {formatCurrency(course.price)}
             </span>
-            <span
-              className={`badge bg-danger ${
-                variant === 'detail' ? 'fs-6 px-2 py-1' : 'small'
-              }`}
-            >
+            <span className='badge bg-danger'>
               -{formatCurrency(course.discount)}
             </span>
           </>
@@ -148,21 +134,21 @@ export default function PurchaseButton({
       {tab && showPreview && (
         <Link
           to={`/courses/${tab}/${course.id}/preview`}
-          className={`btn btn-outline-secondary ${btnSize}`}
+          className='btn btn-outline-secondary'
           onClick={e => e.stopPropagation()}
         >
           Preview
         </Link>
       )}
       <button
-        className={`btn btn-outline-primary ${btnSize}`}
+        className='btn btn-outline-primary'
         onClick={handleAddToCart}
       >
-        Add to Cart
+        Add
       </button>
       {showBuyNow && (
         <button
-          className={`btn btn-outline-primary ${btnSize}`}
+          className='btn btn-outline-primary'
           onClick={handleBuyNow}
         >
           Buy Now

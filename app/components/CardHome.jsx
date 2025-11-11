@@ -20,13 +20,13 @@ export default function CardHome({
             <div className='card-img-overlay text-dark d-flex flex-column p-3'>
               <span className='card-title text-capitalize h5'>{title}</span>
               <div className='mt-auto'>
-                {tags.map(({ label, color }, i) => (
+                {tags && tags.length > 0 && tags.slice(0, 3).map((tag, i) => (
                   <span
                     className={'me-1 badge'}
-                    style={{ background: color }}
+                    style={{ background: tag.color || '#6c757d' }}
                     key={i}
                   >
-                    {label}
+                    {tag.label || tag.name}
                   </span>
                 ))}
               </div>
