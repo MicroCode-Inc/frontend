@@ -85,7 +85,7 @@ export default function CoursePreview() {
         </div>
 
         {/* Purchase section */}
-        <div className='card border-0 bg-light rounded-4 shadow-sm my-4'>
+        <div className='card border-0 bg-secondary rounded-4 shadow-sm my-4'>
           <div className='card-body p-5 text-center'>
             <h3 className='mb-3'>Want to see more?</h3>
             <p className='text-muted mb-4'>

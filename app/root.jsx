@@ -15,7 +15,7 @@ export default function App() {
               style={{
                 background: 'transparent',
                 overflowY: 'auto',
-                height: 'calc(100vh - 100px)',
+                height: 'calc(100vh - 109px)',
                 WebkitMaskImage:
                   'linear-gradient(to bottom, transparent 0px, black 20px)',
                 maskImage:

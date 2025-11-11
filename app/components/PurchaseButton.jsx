@@ -116,6 +116,29 @@ export default function PurchaseButton({
   // Show purchase options
   return (
     <div className='d-flex align-items-center gap-2'>
+      {tab && showPreview && (
+        <Link
+          to={`/courses/${tab}/${course.id}/preview`}
+          className='btn btn-outline-secondary'
+          onClick={e => e.stopPropagation()}
+        >
+          Preview
+        </Link>
+      )}
+      <button
+        className='btn btn-outline-primary'
+        onClick={handleAddToCart}
+      >
+        Buy
+      </button>
+      {showBuyNow && (
+        <button
+          className='btn btn-outline-primary'
+          onClick={handleBuyNow}
+        >
+          Buy Now
+        </button>
+      )}
       <div className='d-flex align-items-center gap-2'>
         <span className='btn bg-secondary-subtle fw-bold'>
           {formatCurrency(finalPrice)}
@@ -131,29 +154,6 @@ export default function PurchaseButton({
           </>
         )}
       </div>
-      {tab && showPreview && (
-        <Link
-          to={`/courses/${tab}/${course.id}/preview`}
-          className='btn btn-outline-secondary'
-          onClick={e => e.stopPropagation()}
-        >
-          Preview
-        </Link>
-      )}
-      <button
-        className='btn btn-outline-primary'
-        onClick={handleAddToCart}
-      >
-        Add
-      </button>
-      {showBuyNow && (
-        <button
-          className='btn btn-outline-primary'
-          onClick={handleBuyNow}
-        >
-          Buy Now
-        </button>
-      )}
     </div>
   )
 }

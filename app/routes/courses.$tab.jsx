@@ -206,6 +206,51 @@ export default function CourseTab() {
                             className='d-flex align-items-center gap-2 justify-content-start flex-shrink-0'
                             style={{ pointerEvents: 'auto' }}
                           >
+                            {isLoggedIn && (
+                              <button
+                                className={`btn ${
+                                  isFavorited
+                                    ? 'btn-danger'
+                                    : 'btn-outline-danger'
+                                }`}
+                                onClick={e => {
+                                  e.preventDefault()
+                                  e.stopPropagation()
+                                  const endpoint = `/users/${
+                                    user.id
+                                  }/favourite-courses${
+                                    isFavorited ? `/${course.id}` : ''
+                                  }`
+                                  const method = isFavorited ? 'DELETE' : 'POST'
+                                  const body = !isFavorited
+                                    ? JSON.stringify({ course_id: course.id })
+                                    : undefined
+
+                                  apiRequest(endpoint, { method, body })
+                                    .then(res => res.json())
+                                    .then(updatedUser => {
+                                      const token =
+                                        localStorage.getItem('token')
+                                      if (token) {
+                                        localStorage.setItem(
+                                          'user',
+                                          JSON.stringify(updatedUser)
+                                        )
+                                      }
+                                      handleFavoriteToggle(
+                                        course.id,
+                                        !isFavorited
+                                      )
+                                    })
+                                }}
+                              >
+                                <FontAwesomeIcon
+                                  icon={
+                                    isFavorited ? faHeartSolid : faHeartRegular
+                                  }
+                                />
+                              </button>
+                            )}
                             <PurchaseButton
                               course={course}
                               showBuyNow={false}
@@ -287,52 +332,6 @@ export default function CourseTab() {
                                   </li>
                                 </ul>
                               </div>
-                            )}
-                            {isLoggedIn && (
-                              <button
-                                className={`btn ms-auto ${
-                                  isFavorited
-                                    ? 'btn-danger'
-                                    : 'btn-outline-danger'
-                                }`}
-                                onClick={e => {
-                                  e.preventDefault()
-                                  e.stopPropagation()
-                                  // Trigger the favorite toggle logic
-                                  const endpoint = `/users/${
-                                    user.id
-                                  }/favourite-courses${
-                                    isFavorited ? `/${course.id}` : ''
-                                  }`
-                                  const method = isFavorited ? 'DELETE' : 'POST'
-                                  const body = !isFavorited
-                                    ? JSON.stringify({ course_id: course.id })
-                                    : undefined
-
-                                  apiRequest(endpoint, { method, body })
-                                    .then(res => res.json())
-                                    .then(updatedUser => {
-                                      const token =
-                                        localStorage.getItem('token')
-                                      if (token) {
-                                        localStorage.setItem(
-                                          'user',
-                                          JSON.stringify(updatedUser)
-                                        )
-                                      }
-                                      handleFavoriteToggle(
-                                        course.id,
-                                        !isFavorited
-                                      )
-                                    })
-                                }}
-                              >
-                                <FontAwesomeIcon
-                                  icon={
-                                    isFavorited ? faHeartSolid : faHeartRegular
-                                  }
-                                />
-                              </button>
                             )}
                           </div>
                         </div>
