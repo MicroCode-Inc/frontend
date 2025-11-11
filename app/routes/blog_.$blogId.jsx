@@ -9,8 +9,20 @@ import ReactMarkdown from 'react-markdown'
 
 export async function loader({ params }) {
   const { blogId } = params
+  console.log('[LOADER] Fetching blog:', blogId)
+  console.log('[LOADER] API URL:', `http://127.0.0.1:5000/blogs/${blogId}`)
+
   const response = await apiRequest(`/blogs/${blogId}`)
+  console.log('[LOADER] Response status:', response.status)
+  console.log('[LOADER] Response ok:', response.ok)
+
   const json = await response.json()
+  console.log('[LOADER] Response data:', json)
+
+  if (!response.ok) {
+    throw new Response('Blog not found', { status: 404 })
+  }
+
   return json
 }
 
@@ -20,6 +32,7 @@ export default function BlogPage() {
   const [isFavorited, setIsFavorited] = useState(
     user?.saved_blogs?.includes(data.id) || false
   )
+  console.log(data)
 
   const handleFavoriteToggle = async () => {
     const endpoint = `/users/${user.id}/saved-blogs${
@@ -46,7 +59,7 @@ export default function BlogPage() {
       <div className='bg-body d-grid gap-3 mt-3'>
         <img
           className='img-fluid rounded-4'
-          src={data.image_url || 'https://placehold.co/1920x420'}
+          src={data.image_header || 'https://placehold.co/1920x420'}
           alt={data.image_alt || data.title}
         />
         <div className='d-flex align-items-start gap-3 px-5 pt-5'>

@@ -24,7 +24,7 @@ export default function Course() {
       <div className='bg-body d-grid gap-3 mt-3'>
         <img
           className='img-fluid rounded-4'
-          src={data.image_url || 'https://placehold.co/1920x420'}
+          src={data.image_header || 'https://placehold.co/1920x420'}
           alt={data.image_alt || data.name}
         />
         <div className='d-flex align-items-start gap-3 px-5 pt-5'>

@@ -10,6 +10,7 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
     description: initial.description ?? "",
     image_url: initial.image_url ?? "",
     image_alt: initial.image_alt ?? "",
+    image_header: initial.image_header ?? "",
     tags: (initial.tags || []).map((t) => t.label || t) || [],
     summary: initial.summary ? JSON.stringify(initial.summary, null, 2) : "",
     content: initial.content ? JSON.stringify(initial.content, null, 2) : "",
@@ -106,6 +107,13 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
         value={form.image_alt}
         onChange={handleChange}
         placeholder="Texto alternativo de imagen"
+      />
+      <input
+        name="image_header"
+        className="form-control mb-2"
+        value={form.image_header}
+        onChange={handleChange}
+        placeholder="URL de imagen de cabecera (1920x420)"
       />
       <textarea
         name="description"

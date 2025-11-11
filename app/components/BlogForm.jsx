@@ -10,6 +10,7 @@ export default function BlogForm({ initial = {}, onSave, onCancel }) {
     tags: (initial.tags || []).map((t) => t.label || t) || [],
     image_url: initial.image_url ?? "",
     image_alt: initial.image_alt ?? "",
+    image_header: initial.image_header ?? "",
     excerpt: initial.excerpt ?? "",
     content: initial.content ?? "",
   });
@@ -82,6 +83,13 @@ export default function BlogForm({ initial = {}, onSave, onCancel }) {
         value={form.image_alt}
         onChange={handleChange}
         placeholder="Texto alternativo de imagen"
+      />
+      <input
+        name="image_header"
+        className="form-control mb-2"
+        value={form.image_header}
+        onChange={handleChange}
+        placeholder="URL de imagen de cabecera (1920x420)"
       />
       <input
         name="tags"

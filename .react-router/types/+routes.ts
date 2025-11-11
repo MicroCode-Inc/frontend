@@ -36,9 +36,9 @@ type Pages = {
   "/blog": {
     params: {};
   };
-  "/blog/:id": {
+  "/blog/:blogId": {
     params: {
-      "id": string;
+      "blogId": string;
     };
   };
   "/about": {
@@ -87,7 +87,7 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/courses/:tab/:courseId/preview" | "/blog" | "/blog/:id" | "/about" | "/contact" | "/login" | "/profile" | "/logout" | "/cart" | "/checkout" | "/invoice/:invoiceNumber" | "/admin" | "/admin/admin/dashboard" | "/admin/admin/users" | "/admin/admin/courses" | "/admin/admin/blogs";
+    page: "/" | "/courses" | "/courses/:tab" | "/courses/:tab/:courseId" | "/courses/:tab/:courseId/preview" | "/blog" | "/blog/:blogId" | "/about" | "/contact" | "/login" | "/profile" | "/logout" | "/cart" | "/checkout" | "/invoice/:invoiceNumber" | "/admin" | "/admin/admin/dashboard" | "/admin/admin/users" | "/admin/admin/courses" | "/admin/admin/blogs";
   };
   "routes/_index.jsx": {
     id: "routes/_index";
@@ -113,9 +113,9 @@ type RouteFiles = {
     id: "routes/blog";
     page: "/blog";
   };
-  "routes/blog.$blogId.jsx": {
-    id: "routes/blog.$blogId";
-    page: "/blog/:id";
+  "routes/blog_.$blogId.jsx": {
+    id: "routes/blog_.$blogId";
+    page: "/blog/:blogId";
   };
   "routes/about.jsx": {
     id: "routes/about";

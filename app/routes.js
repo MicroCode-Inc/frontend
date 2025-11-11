@@ -19,7 +19,7 @@ export default [
     showInNav: false,
   },
   { path: "/blog", file: "routes/blog.jsx", showInNav: true, label: "blogs" },
-  { path: "/blog/:id", file: "routes/blog.$blogId.jsx", showInNav: false },
+  { path: "/blog/:blogId", file: "routes/blog_.$blogId.jsx", showInNav: false },
   {
     path: "/about",
     file: "routes/about.jsx",
