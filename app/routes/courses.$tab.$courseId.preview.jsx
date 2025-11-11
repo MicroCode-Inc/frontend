@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { apiRequest } from '../utils/api'
 import { isCourseOwned } from '../utils/helpers'
 import PurchaseButton from '../components/PurchaseButton'
+import ReactMarkdown from 'react-markdown'
 
 export async function loader({ params }) {
   const { courseId } = params
@@ -23,7 +24,7 @@ export default function CoursePreview() {
       <div className='bg-body d-grid gap-3 mt-3'>
         <img
           className='img-fluid rounded-4'
-          src={data.image_url || 'https://placehold.co/1920x420'}
+          src={data.image_header || 'https://placehold.co/1920x420'}
           alt={data.image_alt || data.name}
         />
         <div className='d-flex align-items-start gap-3 px-5 pt-5'>
@@ -47,7 +48,11 @@ export default function CoursePreview() {
               data.content.slice(0, 2).map((e, i) => (
                 <div key={i}>
                   {e.title && <h3 className='fs-2 fw-bold mb-3'>{e.title}</h3>}
-                  {e.body && <p className='mb-5'>{e.body}</p>}
+                  {e.body && (
+                    <div className='mb-5'>
+                      <ReactMarkdown>{e.body}</ReactMarkdown>
+                    </div>
+                  )}
                   {e.expected_output && (
                     <>
                       <h4 className='fw-bold'>Expected Output</h4>
