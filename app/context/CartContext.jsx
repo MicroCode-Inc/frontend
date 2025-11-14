@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
 
 const CartContext = createContext()
 
@@ -20,7 +20,6 @@ export const CartProvider = ({ children }) => {
       try {
         setCart(JSON.parse(savedCart))
       } catch (error) {
-        console.error('Failed to parse cart from localStorage:', error)
         setCart([])
       }
     }
@@ -31,38 +30,43 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(cart))
   }, [cart])
 
-  const addToCart = (courseId) => {
-    if (!cart.includes(courseId)) {
-      setCart([...cart, courseId])
-      return true
-    }
-    return false // Already in cart
-  }
+  const addToCart = useCallback((courseId) => {
+    setCart((prevCart) => {
+      if (!prevCart.includes(courseId)) {
+        return [...prevCart, courseId]
+      }
+      return prevCart
+    })
+    return !cart.includes(courseId)
+  }, [cart])
 
-  const removeFromCart = (courseId) => {
-    setCart(cart.filter(id => id !== courseId))
-  }
+  const removeFromCart = useCallback((courseId) => {
+    setCart((prevCart) => prevCart.filter(id => id !== courseId))
+  }, [])
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCart([])
-  }
+  }, [])
 
-  const isInCart = (courseId) => {
+  const isInCart = useCallback((courseId) => {
     return cart.includes(courseId)
-  }
+  }, [cart])
 
-  const getCartCount = () => {
+  const getCartCount = useCallback(() => {
     return cart.length
-  }
+  }, [cart])
 
-  const value = {
-    cart,
-    addToCart,
-    removeFromCart,
-    clearCart,
-    isInCart,
-    getCartCount
-  }
+  const value = useMemo(
+    () => ({
+      cart,
+      addToCart,
+      removeFromCart,
+      clearCart,
+      isInCart,
+      getCartCount
+    }),
+    [cart, addToCart, removeFromCart, clearCart, isInCart, getCartCount]
+  )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

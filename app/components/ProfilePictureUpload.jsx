@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import ActionModal from './ActionModal'
 import { apiUpload, apiRequest, API_BASE_URL } from '../utils/api'
+import { updateUserInStorage } from '../utils/helpers'
 
 export default function ProfilePictureUpload({ user, onUpdate }) {
   const [uploading, setUploading] = useState(false)
@@ -54,7 +55,7 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
       const data = await apiUpload(`/upload/profile-picture/${user.id}`, formData)
 
       const updatedUser = data.user
-      localStorage.setItem('user', JSON.stringify(updatedUser))
+      updateUserInStorage(updatedUser)
       if (onUpdate) onUpdate(updatedUser)
       setPreviewUrl(null)
     } catch (err) {
@@ -78,7 +79,7 @@ export default function ProfilePictureUpload({ user, onUpdate }) {
       if (!response.ok) throw new Error(data.error || 'Delete failed')
 
       const updatedUser = data.user
-      localStorage.setItem('user', JSON.stringify(updatedUser))
+      updateUserInStorage(updatedUser)
       if (onUpdate) onUpdate(updatedUser)
     } catch (err) {
       setError(err.message || 'Failed to delete image')

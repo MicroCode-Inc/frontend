@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '../utils/faIcons'
 import { useAuth } from '../context/AuthContext'
 import { apiRequest } from '../utils/api'
+import { updateUserInStorage } from '../utils/helpers'
 
 export default function DeleteSavedItemButton({
   itemId,
@@ -41,7 +42,7 @@ export default function DeleteSavedItemButton({
       // keep auth/localStorage in sync just like FavoriteButton does
       const token = localStorage.getItem('token')
       if (token) {
-        localStorage.setItem('user', JSON.stringify(updatedUser))
+        updateUserInStorage(updatedUser)
         login(token, updatedUser)
       }
 

@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import { Link } from 'react-router'
 
-export default function CardHome({
+function CardHome({
   imgUrl = 'https://placehold.co/50',
   imgAlt = 'img',
   title = 'Card Title',
@@ -19,11 +20,10 @@ export default function CardHome({
               src={imgUrl}
               alt={imgAlt}
               className='card-img'
+              loading='lazy'
+              decoding='async'
             />
             <div className='card-img-overlay text-dark d-flex flex-column p-3'>
-              {/* <span className='card-title text-capitalize h5 text-'>
-                {title}
-              </span> */}
               <div className='mt-auto'>
                 {tags &&
                   tags.length > 0 &&
@@ -44,3 +44,5 @@ export default function CardHome({
     </div>
   )
 }
+
+export default memo(CardHome)

@@ -40,3 +40,21 @@ export const formatCurrency = (amount) => {
 export const isCourseOwned = (courseId, ownedCourses = []) => {
   return ownedCourses.includes(courseId)
 }
+
+/**
+ * Update user data in localStorage
+ * @param {Object} updatedUser - Updated user object
+ * @returns {boolean} - True if update succeeded, false otherwise
+ */
+export const updateUserInStorage = (updatedUser) => {
+  try {
+    const token = localStorage.getItem('token')
+    if (token && updatedUser) {
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+      return true
+    }
+    return false
+  } catch (error) {
+    return false
+  }
+}

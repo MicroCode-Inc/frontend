@@ -1,3 +1,4 @@
+import { memo, useCallback, useMemo } from 'react'
 import { useNavigate, Link } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
@@ -15,7 +16,7 @@ import {
  * @param {string} tab - Optional tab parameter for linking to course detail page
  * @param {boolean} showPreview - Whether to show "Preview" button (default: true)
  */
-export default function PurchaseButton({
+function PurchaseButton({
   course,
   showBuyNow = true,
   variant = 'card',
@@ -26,11 +27,17 @@ export default function PurchaseButton({
   const { addToCart, isInCart, removeFromCart } = useCart()
   const navigate = useNavigate()
 
-  const owned = isCourseOwned(course.id, user?.owned_courses)
-  const inCart = isInCart(course.id)
-  const finalPrice = calculateFinalPrice(course.price, course.discount)
+  const owned = useMemo(
+    () => isCourseOwned(course.id, user?.owned_courses),
+    [course.id, user?.owned_courses]
+  )
+  const inCart = useMemo(() => isInCart(course.id), [isInCart, course.id])
+  const finalPrice = useMemo(
+    () => calculateFinalPrice(course.price, course.discount),
+    [course.price, course.discount]
+  )
 
-  const handleAddToCart = e => {
+  const handleAddToCart = useCallback((e) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -39,18 +46,16 @@ export default function PurchaseButton({
       return
     }
 
-    if (addToCart(course.id)) {
-      // Successfully added
-    }
-  }
+    addToCart(course.id)
+  }, [isLoggedIn, navigate, addToCart, course.id])
 
-  const handleRemoveFromCart = e => {
+  const handleRemoveFromCart = useCallback((e) => {
     e.preventDefault()
     e.stopPropagation()
     removeFromCart(course.id)
-  }
+  }, [removeFromCart, course.id])
 
-  const handleBuyNow = e => {
+  const handleBuyNow = useCallback((e) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -59,10 +64,15 @@ export default function PurchaseButton({
       return
     }
 
-    // Add to cart and go to checkout
     addToCart(course.id)
     navigate('/checkout')
-  }
+  }, [isLoggedIn, navigate, addToCart, course.id])
+
+  const handleGoToCart = useCallback((e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    navigate('/cart')
+  }, [navigate])
 
   // All buttons use default Bootstrap sizes
 
@@ -101,11 +111,7 @@ export default function PurchaseButton({
         </button>
         <button
           className='btn btn-primary'
-          onClick={e => {
-            e.preventDefault()
-            e.stopPropagation()
-            navigate('/cart')
-          }}
+          onClick={handleGoToCart}
         >
           Go to Cart
         </button>
@@ -157,3 +163,5 @@ export default function PurchaseButton({
     </div>
   )
 }
+
+export default memo(PurchaseButton)

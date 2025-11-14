@@ -4,7 +4,9 @@ import { useState } from 'react'
 import ProfilePictureUpload from '../components/ProfilePictureUpload'
 import DeleteSavedItemButton from '../components/DeleteSavedItemButton'
 import PurchaseButton from '../components/PurchaseButton'
-import { apiRequest, apiDownload } from '../utils/api'
+import PDFDownloadButton from '../components/PDFDownloadButton'
+import { apiRequest } from '../utils/api'
+import { updateUserInStorage } from '../utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeartSolid, faHeartRegular, faTrash } from '../utils/faIcons'
 
@@ -309,84 +311,12 @@ export default function Profile() {
                                               tab={item.topic}
                                             />
                                             {!item.removable && (
-                                              <div className='btn-group dropup'>
-                                                <button
-                                                  type='button'
-                                                  className='btn btn-primary dropdown-toggle'
-                                                  data-bs-toggle='dropdown'
-                                                  aria-expanded='false'
-                                                  onClick={e => {
-                                                    e.preventDefault()
-                                                    e.stopPropagation()
-                                                  }}
-                                                >
-                                                  PDF
-                                                </button>
-                                                <ul className='dropdown-menu'>
-                                                  <li>
-                                                    <a
-                                                      className='dropdown-item'
-                                                      href='#'
-                                                      onClick={async e => {
-                                                        e.preventDefault()
-                                                        e.stopPropagation()
-                                                        try {
-                                                          await apiDownload(
-                                                            `/courses/${
-                                                              item.id
-                                                            }/download-pdf?theme=light`,
-                                                            `${item.title.replace(
-                                                              /\s+/g,
-                                                              '_'
-                                                            )}_light.pdf`
-                                                          )
-                                                        } catch (error) {
-                                                          console.error(
-                                                            'Error downloading PDF:',
-                                                            error
-                                                          )
-                                                          alert(
-                                                            'Failed to download PDF. Please try again.'
-                                                          )
-                                                        }
-                                                      }}
-                                                    >
-                                                      Light Mode
-                                                    </a>
-                                                  </li>
-                                                  <li>
-                                                    <a
-                                                      className='dropdown-item'
-                                                      href='#'
-                                                      onClick={async e => {
-                                                        e.preventDefault()
-                                                        e.stopPropagation()
-                                                        try {
-                                                          await apiDownload(
-                                                            `/courses/${
-                                                              item.id
-                                                            }/download-pdf?theme=dark`,
-                                                            `${item.title.replace(
-                                                              /\s+/g,
-                                                              '_'
-                                                            )}_dark.pdf`
-                                                          )
-                                                        } catch (error) {
-                                                          console.error(
-                                                            'Error downloading PDF:',
-                                                            error
-                                                          )
-                                                          alert(
-                                                            'Failed to download PDF. Please try again.'
-                                                          )
-                                                        }
-                                                      }}
-                                                    >
-                                                      Dark Mode
-                                                    </a>
-                                                  </li>
-                                                </ul>
-                                              </div>
+                                              <PDFDownloadButton
+                                                courseId={item.id}
+                                                courseName={item.title}
+                                                label='PDF'
+                                                stopPropagation={true}
+                                              />
                                             )}
                                             {!item.removable && (
                                               <button
@@ -426,18 +356,7 @@ export default function Profile() {
                                                   })
                                                     .then(res => res.json())
                                                     .then(updatedUser => {
-                                                      const token =
-                                                        localStorage.getItem(
-                                                          'token'
-                                                        )
-                                                      if (token) {
-                                                        localStorage.setItem(
-                                                          'user',
-                                                          JSON.stringify(
-                                                            updatedUser
-                                                          )
-                                                        )
-                                                      }
+                                                      updateUserInStorage(updatedUser)
                                                       handleFavoriteToggle(
                                                         item.id,
                                                         !isFavorited
@@ -468,18 +387,7 @@ export default function Profile() {
                                                   })
                                                     .then(res => res.json())
                                                     .then(updatedUser => {
-                                                      const token =
-                                                        localStorage.getItem(
-                                                          'token'
-                                                        )
-                                                      if (token) {
-                                                        localStorage.setItem(
-                                                          'user',
-                                                          JSON.stringify(
-                                                            updatedUser
-                                                          )
-                                                        )
-                                                      }
+                                                      updateUserInStorage(updatedUser)
                                                       setFavCoursesState(prev =>
                                                         prev.filter(
                                                           c => c.id !== item.id
@@ -582,18 +490,7 @@ export default function Profile() {
                                                 })
                                                   .then(res => res.json())
                                                   .then(updatedUser => {
-                                                    const token =
-                                                      localStorage.getItem(
-                                                        'token'
-                                                      )
-                                                    if (token) {
-                                                      localStorage.setItem(
-                                                        'user',
-                                                        JSON.stringify(
-                                                          updatedUser
-                                                        )
-                                                      )
-                                                    }
+                                                    updateUserInStorage(updatedUser)
                                                     setSavedBlogsState(prev =>
                                                       prev.filter(
                                                         b => b.id !== item.id

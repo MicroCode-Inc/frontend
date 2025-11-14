@@ -1,26 +1,40 @@
 import { Link } from 'react-router'
 import { faChevronLeft, faChevronRight } from '../utils/faIcons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { formatDateShort } from '../utils/helpers'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 
 export default function Carousel({ items }) {
   const [isLarge, setIsLarge] = useState(false)
 
-  useEffect(() => {
+  const handleResize = useCallback(() => {
     setIsLarge(window.innerWidth >= 992)
-    const handleResize = () => setIsLarge(window.innerWidth >= 992)
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const slides = isLarge
-    ? items.reduce((acc, item, i) => {
-        if (i % 2 === 0) acc.push([item])
-        else acc[acc.length - 1].push(item)
-        return acc
-      }, [])
-    : items.map(item => [item])
+  useEffect(() => {
+    handleResize()
+
+    let timeoutId
+    const debouncedResize = () => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(handleResize, 150)
+    }
+
+    window.addEventListener('resize', debouncedResize)
+    return () => {
+      clearTimeout(timeoutId)
+      window.removeEventListener('resize', debouncedResize)
+    }
+  }, [handleResize])
+
+  const slides = useMemo(() => {
+    return isLarge
+      ? items.reduce((acc, item, i) => {
+          if (i % 2 === 0) acc.push([item])
+          else acc[acc.length - 1].push(item)
+          return acc
+        }, [])
+      : items.map(item => [item])
+  }, [items, isLarge])
 
   return (
     <div className='position-relative w-100 px-4'>
@@ -55,6 +69,8 @@ export default function Carousel({ items }) {
                             }
                             className='img-fluid rounded-start-4 h-100'
                             alt={item.image_alt || item.title}
+                            loading='lazy'
+                            decoding='async'
                             style={{
                               width: '200px',
                               objectFit: 'cover'
@@ -65,9 +81,6 @@ export default function Carousel({ items }) {
                           <div className='card-body py-2'>
                             <div className='d-flex'>
                               <h5 className='mb-1'>{item.title}</h5>
-                              <span className='ms-auto text-secondary'>
-                                {/* {formatDateShort(item.publication_date)} */}
-                              </span>
                             </div>
                             <h6 className='mb-2'>{item.author_name}</h6>
                             <p className='mb-0'>{item.description}</p>

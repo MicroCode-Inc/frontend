@@ -1,11 +1,12 @@
 // app/components/FavoriteButton.jsx
-import { useState } from 'react'
+import { useState, memo, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeartSolid, faHeartRegular } from '../utils/faIcons'
 import { useAuth } from '../context/AuthContext'
 import { apiRequest } from '../utils/api'
+import { updateUserInStorage } from '../utils/helpers'
 
-export default function FavoriteButton({
+function FavoriteButton({
   itemId,
   itemType,
   isFavorited,
@@ -14,7 +15,7 @@ export default function FavoriteButton({
   const [isLoading, setIsLoading] = useState(false)
   const { user, login } = useAuth()
 
-  const handleClick = async e => {
+  const handleClick = useCallback(async (e) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -50,7 +51,7 @@ export default function FavoriteButton({
 
       const token = localStorage.getItem('token')
       if (token) {
-        localStorage.setItem('user', JSON.stringify(updatedUser))
+        updateUserInStorage(updatedUser)
         login(token, updatedUser)
       }
 
@@ -62,7 +63,7 @@ export default function FavoriteButton({
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [user, itemType, isFavorited, itemId, login, onToggle])
 
   return (
     <button
@@ -85,3 +86,5 @@ export default function FavoriteButton({
     </button>
   )
 }
+
+export default memo(FavoriteButton)

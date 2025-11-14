@@ -1,11 +1,12 @@
 import { Link, useLoaderData, useParams } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import PurchaseButton from '../components/PurchaseButton'
+import PDFDownloadButton from '../components/PDFDownloadButton'
 import { useState, useEffect } from 'react'
-import { apiRequest, apiDownload } from '../utils/api'
+import { apiRequest } from '../utils/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeartSolid, faHeartRegular } from '../utils/faIcons'
-import { isCourseOwned } from '../utils/helpers'
+import { isCourseOwned, updateUserInStorage } from '../utils/helpers'
 
 export async function loader({ params }) {
   const { tab } = params
@@ -229,14 +230,7 @@ export default function CourseTab() {
                                   apiRequest(endpoint, { method, body })
                                     .then(res => res.json())
                                     .then(updatedUser => {
-                                      const token =
-                                        localStorage.getItem('token')
-                                      if (token) {
-                                        localStorage.setItem(
-                                          'user',
-                                          JSON.stringify(updatedUser)
-                                        )
-                                      }
+                                      updateUserInStorage(updatedUser)
                                       handleFavoriteToggle(
                                         course.id,
                                         !isFavorited
@@ -258,80 +252,12 @@ export default function CourseTab() {
                               tab={tab}
                             />
                             {owned && (
-                              <div className='btn-group dropup'>
-                                <button
-                                  type='button'
-                                  className='btn btn-primary dropdown-toggle'
-                                  data-bs-toggle='dropdown'
-                                  aria-expanded='false'
-                                  onClick={e => {
-                                    e.preventDefault()
-                                    e.stopPropagation()
-                                  }}
-                                >
-                                  PDF
-                                </button>
-                                <ul className='dropdown-menu'>
-                                  <li>
-                                    <a
-                                      className='dropdown-item'
-                                      href='#'
-                                      onClick={async e => {
-                                        e.preventDefault()
-                                        e.stopPropagation()
-                                        try {
-                                          await apiDownload(
-                                            `/courses/${course.id}/download-pdf?theme=light`,
-                                            `${course.name.replace(
-                                              /\s+/g,
-                                              '_'
-                                            )}_light.pdf`
-                                          )
-                                        } catch (error) {
-                                          console.error(
-                                            'Error downloading PDF:',
-                                            error
-                                          )
-                                          alert(
-                                            'Failed to download PDF. Please try again.'
-                                          )
-                                        }
-                                      }}
-                                    >
-                                      Light Mode
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      className='dropdown-item'
-                                      href='#'
-                                      onClick={async e => {
-                                        e.preventDefault()
-                                        e.stopPropagation()
-                                        try {
-                                          await apiDownload(
-                                            `/courses/${course.id}/download-pdf?theme=dark`,
-                                            `${course.name.replace(
-                                              /\s+/g,
-                                              '_'
-                                            )}_dark.pdf`
-                                          )
-                                        } catch (error) {
-                                          console.error(
-                                            'Error downloading PDF:',
-                                            error
-                                          )
-                                          alert(
-                                            'Failed to download PDF. Please try again.'
-                                          )
-                                        }
-                                      }}
-                                    >
-                                      Dark Mode
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
+                              <PDFDownloadButton
+                                courseId={course.id}
+                                courseName={course.name}
+                                label='PDF'
+                                stopPropagation={true}
+                              />
                             )}
                           </div>
                         </div>

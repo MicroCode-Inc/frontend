@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react'
 
 const AuthContext = createContext(null)
 
@@ -7,11 +7,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    checkAuth()
-  }, [])
-
-  const checkAuth = () => {
+  const checkAuth = useCallback(() => {
     const token = localStorage.getItem('token')
     const storedUser = localStorage.getItem('user')
 
@@ -21,31 +17,39 @@ export function AuthProvider({ children }) {
         setUser(parsedUser)
         setIsLoggedIn(true)
       } catch (error) {
-        console.error('Invalid user data in localStorage:', error)
         localStorage.removeItem('token')
         localStorage.removeItem('user')
       }
     }
 
     setLoading(false)
-  }
+  }, [])
 
-  const login = (token, userData) => {
+  useEffect(() => {
+    checkAuth()
+  }, [checkAuth])
+
+  const login = useCallback((token, userData) => {
     localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(userData))
     setUser(userData)
     setIsLoggedIn(true)
-  }
+  }, [])
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     setIsLoggedIn(false)
     setUser(null)
-  }
+  }, [])
+
+  const value = useMemo(
+    () => ({ isLoggedIn, user, login, logout, loading }),
+    [isLoggedIn, user, login, logout, loading]
+  )
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout, loading }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   )
