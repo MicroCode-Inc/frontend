@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { formatCurrency, calculateFinalPrice } from '../utils/helpers'
 import { purchaseCourses } from '../services/purchaseApi'
 import { apiRequest } from '../utils/api'
+import AsyncButton from '../components/AsyncButton'
 
 export async function loader() {
   const response = await apiRequest('/courses')
@@ -24,7 +25,6 @@ export default function Checkout() {
     expiryDate: '',
     cvv: ''
   })
-  const [processing, setProcessing] = useState(false)
   const [error, setError] = useState(null)
 
   // Filter courses that are in the cart
@@ -60,45 +60,37 @@ export default function Checkout() {
     return true
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handlePayment = async () => {
     setError(null)
 
     // Skip validation for demo purposes
     // if (!validateForm()) {
-    //   return
+    //   throw new Error('Form validation failed')
     // }
 
     if (cartCourses.length === 0) {
       setError('Your cart is empty')
-      return
+      throw new Error('Your cart is empty')
     }
 
-    setProcessing(true)
+    // Mock payment processing delay
+    await new Promise(resolve => setTimeout(resolve, 1500))
 
-    try {
-      // Mock payment processing delay
-      await new Promise(resolve => setTimeout(resolve, 1500))
+    // Call purchase API
+    const response = await purchaseCourses(cart)
 
-      // Call purchase API
-      const response = await purchaseCourses(cart)
+    // Update user context with new owned_courses
+    const token = localStorage.getItem('token')
+    login(token, response.user)
 
-      // Update user context with new owned_courses
-      const token = localStorage.getItem('token')
-      login(token, response.user)
+    // Clear cart
+    clearCart()
 
-      // Clear cart
-      clearCart()
-
-      // Redirect to first invoice
-      if (response.invoice_numbers && response.invoice_numbers.length > 0) {
-        navigate(`/invoice/${response.invoice_numbers[0]}`)
-      } else {
-        navigate('/profile')
-      }
-    } catch (err) {
-      setError(err.message || 'Payment failed. Please try again.')
-      setProcessing(false)
+    // Redirect to first invoice
+    if (response.invoice_numbers && response.invoice_numbers.length > 0) {
+      navigate(`/invoice/${response.invoice_numbers[0]}`)
+    } else {
+      navigate('/profile')
     }
   }
 
@@ -133,7 +125,7 @@ export default function Checkout() {
                 <small>This is a mock payment system for demonstration purposes. No real charges will be made. All fields are optional - you can leave them empty or enter any values.</small>
               </p>
 
-              <form onSubmit={handleSubmit}>
+              <form>
                 <div className='mb-3'>
                   <label htmlFor='cardNumber' className='form-label'>Card Number <span className='text-muted'>(optional)</span></label>
                   <input
@@ -145,7 +137,6 @@ export default function Checkout() {
                     value={formData.cardNumber}
                     onChange={handleInputChange}
                     maxLength='16'
-                    disabled={processing}
                   />
                 </div>
 
@@ -159,7 +150,6 @@ export default function Checkout() {
                     placeholder='John Doe (optional)'
                     value={formData.cardName}
                     onChange={handleInputChange}
-                    disabled={processing}
                   />
                 </div>
 
@@ -175,7 +165,6 @@ export default function Checkout() {
                       value={formData.expiryDate}
                       onChange={handleInputChange}
                       maxLength='5'
-                      disabled={processing}
                     />
                   </div>
 
@@ -190,7 +179,6 @@ export default function Checkout() {
                       value={formData.cvv}
                       onChange={handleInputChange}
                       maxLength='3'
-                      disabled={processing}
                     />
                   </div>
                 </div>
@@ -201,20 +189,15 @@ export default function Checkout() {
                   </div>
                 )}
 
-                <button
-                  type='submit'
+                <AsyncButton
+                  onClick={handlePayment}
+                  loadingText='Processing Payment...'
                   className='btn btn-primary w-100 btn-lg'
-                  disabled={processing}
+                  type='button'
+                  onError={(err) => setError(err.message || 'Payment failed. Please try again.')}
                 >
-                  {processing ? (
-                    <>
-                      <span className='spinner-border spinner-border-sm me-2' role='status' aria-hidden='true'></span>
-                      Processing Payment...
-                    </>
-                  ) : (
-                    `Complete Purchase - ${formatCurrency(total)}`
-                  )}
-                </button>
+                  Complete Purchase - {formatCurrency(total)}
+                </AsyncButton>
               </form>
             </div>
           </div>

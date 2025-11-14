@@ -1,5 +1,6 @@
 // src/components/ActionModal.jsx
 import { createPortal } from 'react-dom'
+import AsyncButton from './AsyncButton'
 
 export default function ActionModal({
   id,
@@ -46,14 +47,23 @@ export default function ActionModal({
             >
               Cancel
             </button>
-            <button
-              type='button'
+            <AsyncButton
+              onClick={async () => {
+                if (onConfirm) {
+                  await onConfirm()
+                }
+                // Close modal after async operation completes
+                const modalElement = document.getElementById(id)
+                if (modalElement) {
+                  const modal = window.bootstrap?.Modal?.getInstance(modalElement)
+                  modal?.hide()
+                }
+              }}
               className={`btn btn-${confirmVariant} m-0`}
-              onClick={onConfirm}
-              data-bs-dismiss='modal'
+              loadingText="Processing..."
             >
               {confirmText}
-            </button>
+            </AsyncButton>
           </div>
         </div>
       </div>

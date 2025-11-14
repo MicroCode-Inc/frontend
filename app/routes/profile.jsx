@@ -5,6 +5,7 @@ import ProfilePictureUpload from '../components/ProfilePictureUpload'
 import DeleteSavedItemButton from '../components/DeleteSavedItemButton'
 import PurchaseButton from '../components/PurchaseButton'
 import PDFDownloadButton from '../components/PDFDownloadButton'
+import AsyncButton from '../components/AsyncButton'
 import { apiRequest } from '../utils/api'
 import { updateUserInStorage } from '../utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -319,7 +320,7 @@ export default function Profile() {
                                               />
                                             )}
                                             {!item.removable && (
-                                              <button
+                                              <AsyncButton
                                                 className={`btn ms-auto ${
                                                   favoriteCourseIds.includes(
                                                     item.id
@@ -327,7 +328,7 @@ export default function Profile() {
                                                     ? 'btn-danger'
                                                     : 'btn-outline-danger'
                                                 }`}
-                                                onClick={e => {
+                                                onClick={async e => {
                                                   e.preventDefault()
                                                   e.stopPropagation()
                                                   const isFavorited =
@@ -350,19 +351,18 @@ export default function Profile() {
                                                       })
                                                     : undefined
 
-                                                  apiRequest(endpoint, {
+                                                  const res = await apiRequest(endpoint, {
                                                     method,
                                                     body
                                                   })
-                                                    .then(res => res.json())
-                                                    .then(updatedUser => {
-                                                      updateUserInStorage(updatedUser)
-                                                      handleFavoriteToggle(
-                                                        item.id,
-                                                        !isFavorited
-                                                      )
-                                                    })
+                                                  const updatedUser = await res.json()
+                                                  updateUserInStorage(updatedUser)
+                                                  handleFavoriteToggle(
+                                                    item.id,
+                                                    !isFavorited
+                                                  )
                                                 }}
+                                                loadingText=""
                                               >
                                                 <FontAwesomeIcon
                                                   icon={
@@ -373,31 +373,30 @@ export default function Profile() {
                                                       : faHeartRegular
                                                   }
                                                 />
-                                              </button>
+                                              </AsyncButton>
                                             )}
                                             {item.removable && (
-                                              <button
+                                              <AsyncButton
                                                 className='btn btn-danger ms-auto'
-                                                onClick={e => {
+                                                onClick={async e => {
                                                   e.preventDefault()
                                                   e.stopPropagation()
                                                   const endpoint = `/users/${user.id}/favourite-courses/${item.id}`
-                                                  apiRequest(endpoint, {
+                                                  const res = await apiRequest(endpoint, {
                                                     method: 'DELETE'
                                                   })
-                                                    .then(res => res.json())
-                                                    .then(updatedUser => {
-                                                      updateUserInStorage(updatedUser)
-                                                      setFavCoursesState(prev =>
-                                                        prev.filter(
-                                                          c => c.id !== item.id
-                                                        )
-                                                      )
-                                                    })
+                                                  const updatedUser = await res.json()
+                                                  updateUserInStorage(updatedUser)
+                                                  setFavCoursesState(prev =>
+                                                    prev.filter(
+                                                      c => c.id !== item.id
+                                                    )
+                                                  )
                                                 }}
+                                                loadingText=""
                                               >
                                                 <FontAwesomeIcon icon={faTrash} />
-                                              </button>
+                                              </AsyncButton>
                                             )}
                                           </div>
                                         </div>
@@ -479,28 +478,27 @@ export default function Profile() {
                                             </div>
                                           )}
                                           {item.removable && (
-                                            <button
+                                            <AsyncButton
                                               className='btn btn-danger ms-auto'
-                                              onClick={e => {
+                                              onClick={async e => {
                                                 e.preventDefault()
                                                 e.stopPropagation()
                                                 const endpoint = `/users/${user.id}/saved-blogs/${item.id}`
-                                                apiRequest(endpoint, {
+                                                const res = await apiRequest(endpoint, {
                                                   method: 'DELETE'
                                                 })
-                                                  .then(res => res.json())
-                                                  .then(updatedUser => {
-                                                    updateUserInStorage(updatedUser)
-                                                    setSavedBlogsState(prev =>
-                                                      prev.filter(
-                                                        b => b.id !== item.id
-                                                      )
-                                                    )
-                                                  })
+                                                const updatedUser = await res.json()
+                                                updateUserInStorage(updatedUser)
+                                                setSavedBlogsState(prev =>
+                                                  prev.filter(
+                                                    b => b.id !== item.id
+                                                  )
+                                                )
                                               }}
+                                              loadingText=""
                                             >
                                               <FontAwesomeIcon icon={faTrash} />
-                                            </button>
+                                            </AsyncButton>
                                           )}
                                         </div>
                                       </div>

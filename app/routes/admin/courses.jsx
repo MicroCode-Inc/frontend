@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CourseForm from "../../components/CourseForm";
+import AsyncButton from "../../components/AsyncButton";
 import {
   fetchCourses,
   createCourse,
@@ -96,12 +97,13 @@ export default function AdminCourses() {
                     >
                       Editar
                     </button>
-                    <button
+                    <AsyncButton
+                      onClick={async () => await handleDelete(c.id)}
                       className="btn btn-sm btn-outline-danger rounded-pill px-3"
-                      onClick={() => handleDelete(c.id)}
+                      loadingText="Eliminando..."
                     >
                       Eliminar
-                    </button>
+                    </AsyncButton>
                   </div>
                 </div>
               </div>

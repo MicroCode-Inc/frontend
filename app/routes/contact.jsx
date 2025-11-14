@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { apiRequest } from '../utils/api'
+import AsyncButton from '../components/AsyncButton'
 
 export default function Contact() {
   const [values, setValues] = useState({
@@ -9,7 +10,6 @@ export default function Contact() {
   })
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate()
 
   const handleChange = e => {
@@ -18,49 +18,39 @@ export default function Contact() {
     if (error) setError(null)
   }
 
-  const handleSubmit = async e => {
-    e.preventDefault()
+  const handleContactSubmit = async () => {
     setError(null)
-    setIsSubmitting(true)
 
     // Basic validation
     if (!values.email || !values.messages) {
       setError('All fields are required')
-      setIsSubmitting(false)
-      return
+      throw new Error('All fields are required')
     }
 
     if (!values.email.includes('@')) {
       setError('Please enter a valid email address')
-      setIsSubmitting(false)
-      return
+      throw new Error('Please enter a valid email address')
     }
 
-    try {
-      const response = await apiRequest('/contacts', {
-        method: 'POST',
-        body: JSON.stringify(values)
-      })
+    const response = await apiRequest('/contacts', {
+      method: 'POST',
+      body: JSON.stringify(values)
+    })
 
-      const data = await response.json()
+    const data = await response.json()
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit message')
-      }
-
-      // Success! Show success message
-      setSuccess(true)
-      setValues({ email: '', messages: '' })
-
-      // Redirect to home after 2 seconds
-      setTimeout(() => {
-        navigate('/')
-      }, 2000)
-    } catch (err) {
-      setError(err.message || 'An error occurred. Please try again.')
-    } finally {
-      setIsSubmitting(false)
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to submit message')
     }
+
+    // Success! Show success message
+    setSuccess(true)
+    setValues({ email: '', messages: '' })
+
+    // Redirect to home after 2 seconds
+    setTimeout(() => {
+      navigate('/')
+    }, 2000)
   }
 
   return (
@@ -69,7 +59,6 @@ export default function Contact() {
         <div className='col-12 col-md- col-lg-6'>
           <form
             className='card border-0 bg-secondary bg-opacity-90 p-4 rounded-4'
-            onSubmit={handleSubmit}
           >
             <div className='card-header border-0 bg-transparent'>
               <p className='display-5'>Contact Us</p>
@@ -106,7 +95,7 @@ export default function Contact() {
                   value={values.email}
                   onChange={handleChange}
                   required
-                  disabled={isSubmitting || success}
+                  disabled={success}
                 />
                 <label htmlFor='floatingInput'>Email Address</label>
               </div>
@@ -121,7 +110,7 @@ export default function Contact() {
                   value={values.messages}
                   onChange={handleChange}
                   required
-                  disabled={isSubmitting || success}
+                  disabled={success}
                 ></textarea>
                 <label htmlFor='floatingTextarea'>Message</label>
               </div>
@@ -134,13 +123,16 @@ export default function Contact() {
               >
                 Cancel
               </Link>
-              <button
+              <AsyncButton
+                onClick={handleContactSubmit}
+                loadingText='Submitting...'
                 className='btn btn-success'
-                type='submit'
-                disabled={isSubmitting || success}
+                type='button'
+                disabled={success}
+                onError={(err) => setError(err.message || 'An error occurred. Please try again.')}
               >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </button>
+                Submit
+              </AsyncButton>
             </div>
           </form>
         </div>

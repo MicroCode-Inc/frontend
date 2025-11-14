@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AsyncButton from "./AsyncButton";
 
 export default function BlogForm({ initial = {}, onSave, onCancel }) {
   const [form, setForm] = useState({
@@ -26,18 +27,17 @@ export default function BlogForm({ initial = {}, onSave, onCancel }) {
         .filter(Boolean),
     }));
 
-  const submit = (e) => {
-    e.preventDefault();
+  const submit = async () => {
     const payload = {
       ...form,
       tags: form.tags.map((t) => ({ label: t })),
       image_alt: form.image_alt,
     };
-    onSave(payload);
+    await onSave(payload);
   };
 
   return (
-    <form onSubmit={submit} className="card p-3">
+    <form onSubmit={(e) => e.preventDefault()} className="card p-3">
       <input
         name="title"
         className="form-control mb-2"
@@ -121,7 +121,13 @@ export default function BlogForm({ initial = {}, onSave, onCancel }) {
         rows="6"
       />
       <div className="d-flex gap-2">
-        <button className="btn btn-primary">Guardar</button>
+        <AsyncButton
+          onClick={submit}
+          className="btn btn-primary"
+          loadingText="Guardando..."
+        >
+          Guardar
+        </AsyncButton>
         <button type="button" className="btn btn-secondary" onClick={onCancel}>
           Cancelar
         </button>

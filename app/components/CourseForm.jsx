@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AsyncButton from "./AsyncButton";
 
 export default function CourseForm({ initial = {}, onSave, onCancel }) {
   const [form, setForm] = useState({
@@ -15,7 +16,6 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
     summary: initial.summary ? JSON.stringify(initial.summary, null, 2) : "",
     content: initial.content ? JSON.stringify(initial.content, null, 2) : "",
   });
-  const [saving, setSaving] = useState(false);
 
   const handleChange = (e) =>
     setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
@@ -28,9 +28,7 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
         .filter(Boolean),
     }));
 
-  const submit = async (e) => {
-    e.preventDefault();
-    setSaving(true);
+  const submit = async () => {
     let payload = {
       ...form,
       tags: form.tags.map((t) => ({ label: t })),
@@ -43,15 +41,11 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
     try {
       payload.content = form.content ? JSON.parse(form.content) : null;
     } catch {}
-    try {
-      await onSave(payload);
-    } finally {
-      setSaving(false);
-    }
+    await onSave(payload);
   };
 
   return (
-    <form onSubmit={submit} className="card p-3">
+    <form onSubmit={(e) => e.preventDefault()} className="card p-3">
       <input
         name="name"
         className="form-control mb-2"
@@ -147,9 +141,13 @@ export default function CourseForm({ initial = {}, onSave, onCancel }) {
         rows="4"
       />
       <div className="d-flex gap-2">
-        <button className="btn btn-primary" disabled={saving}>
-          {saving ? "Guardando..." : "Guardar"}
-        </button>
+        <AsyncButton
+          onClick={submit}
+          className="btn btn-primary"
+          loadingText="Guardando..."
+        >
+          Guardar
+        </AsyncButton>
         <button type="button" className="btn btn-secondary" onClick={onCancel}>
           Cancelar
         </button>

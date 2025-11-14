@@ -1,4 +1,5 @@
 import React from "react";
+import AsyncButton from "./AsyncButton";
 
 export default function UserRow({ user, onEdit, onDelete }) {
   return (
@@ -24,18 +25,20 @@ export default function UserRow({ user, onEdit, onDelete }) {
         </div>
       </div>
       <div className="d-flex gap-2">
-        <button
+        <AsyncButton
+          onClick={async () => await onEdit(user)}
           className="btn btn-sm btn-outline-primary rounded-pill px-3"
-          onClick={() => onEdit(user)}
+          loadingText="Editando..."
         >
           Editar
-        </button>
-        <button
+        </AsyncButton>
+        <AsyncButton
+          onClick={async () => await onDelete(user.id)}
           className="btn btn-sm btn-outline-danger rounded-pill px-3"
-          onClick={() => onDelete(user.id)}
+          loadingText="Eliminando..."
         >
           Eliminar
-        </button>
+        </AsyncButton>
       </div>
     </div>
   );

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import AdminLayout from "../../components/AdminLayout";
 import UserRow from "../../components/UserRow";
+import AsyncButton from "../../components/AsyncButton";
 import { fetchUsers, updateUser, deleteUser } from "../../services/adminApi";
 
 function UserForm({ onSave, onCancel }) {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
+  const [error, setError] = useState(null);
+
   return (
     <form
       className="card p-4 shadow-sm border-0 mb-3"
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSave(form);
-      }}
+      onSubmit={(e) => e.preventDefault()}
     >
       <input
         className="form-control mb-2"
@@ -40,8 +40,18 @@ function UserForm({ onSave, onCancel }) {
         />
         <label htmlFor="floatingPassword">Contraseña</label>
       </div>
+      {error && <div className="alert alert-danger">{error}</div>}
       <div className="d-flex gap-2">
-        <button className="btn btn-success rounded-pill px-3">Guardar</button>
+        <AsyncButton
+          onClick={async () => {
+            await onSave(form);
+          }}
+          onError={(err) => setError(err?.error || "Error guardando usuario")}
+          className="btn btn-success rounded-pill px-3"
+          loadingText="Guardando..."
+        >
+          Guardar
+        </AsyncButton>
         <button
           type="button"
           className="btn btn-secondary rounded-pill px-3"

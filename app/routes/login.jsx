@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Form, Link, useNavigate } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import { apiRequest } from '../utils/api'
+import AsyncButton from '../components/AsyncButton'
 
 export default function Login() {
   const [signupMode, setSignupMode] = useState(false)
@@ -32,8 +33,7 @@ export default function Login() {
     setValues(v => ({ ...v, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = async e => {
-    e.preventDefault()
+  const handleAuthSubmit = async () => {
     setError(null)
 
     if (signupMode) {
@@ -44,15 +44,15 @@ export default function Login() {
         !values.retypePassword
       ) {
         setError('All fields are required')
-        return
+        throw new Error('All fields are required')
       }
       if (values.password !== values.retypePassword) {
         setError('Passwords do not match')
-        return
+        throw new Error('Passwords do not match')
       }
       if (values.password.length < 6) {
         setError('Password must be at least 6 characters')
-        return
+        throw new Error('Password must be at least 6 characters')
       }
     }
 
@@ -65,27 +65,22 @@ export default function Login() {
         }
       : { email: values.email, password: values.password }
 
-    try {
-      const res = await apiRequest(endpoint, {
-        method: 'POST',
-        body: JSON.stringify(body)
-      })
+    const res = await apiRequest(endpoint, {
+      method: 'POST',
+      body: JSON.stringify(body)
+    })
 
-      const json = await res.json()
+    const json = await res.json()
 
-      if (!res.ok) {
-        setError(json.error || (signupMode ? 'Signup failed' : 'Login failed'))
-        return
-      }
-
-      login(json.token, json.user)
-
-      await new Promise(resolve => setTimeout(resolve, 100))
-
-      navigate('/', { replace: true })
-    } catch (err) {
-      setError('Network error. Please try again.')
+    if (!res.ok) {
+      throw new Error(json.error || (signupMode ? 'Signup failed' : 'Login failed'))
     }
+
+    login(json.token, json.user)
+
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    navigate('/', { replace: true })
   }
 
   return (
@@ -94,7 +89,6 @@ export default function Login() {
         <div className='col-12 col-md- col-lg-6'>
           <Form
             className='card border-0 bg-secondary bg-opacity-90 p-4 rounded-4'
-            onSubmit={handleSubmit}
           >
             <div className='card-header border-0 bg-transparent'>
               <p className='display-5 mb-3'>
@@ -182,12 +176,15 @@ export default function Login() {
                 >
                   {signupMode ? 'Cancel' : 'Sign Up'}
                 </button>
-                <button
+                <AsyncButton
+                  onClick={handleAuthSubmit}
+                  loadingText={signupMode ? 'Submitting...' : 'Logging in...'}
                   className='btn btn-success ms-2'
-                  type='submit'
+                  type='button'
+                  onError={(err) => setError(err.message || 'Network error. Please try again.')}
                 >
                   {signupMode ? 'Submit' : 'Login'}
-                </button>
+                </AsyncButton>
               </div>
             </div>
           </Form>

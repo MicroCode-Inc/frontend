@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminLayout from "../../components/AdminLayout";
 import BlogForm from "../../components/BlogForm";
+import AsyncButton from "../../components/AsyncButton";
 import {
   fetchBlogs,
   createBlog,
@@ -108,12 +109,13 @@ export default function AdminBlogs() {
                     >
                       Editar
                     </button>
-                    <button
+                    <AsyncButton
+                      onClick={async () => await handleDelete(b.id)}
                       className="btn btn-sm btn-outline-danger rounded-pill px-3"
-                      onClick={() => handleDelete(b.id)}
+                      loadingText="Eliminando..."
                     >
                       Eliminar
-                    </button>
+                    </AsyncButton>
                   </div>
                 </div>
               </div>
