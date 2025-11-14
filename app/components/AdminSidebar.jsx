@@ -38,7 +38,7 @@ export default function AdminSidebar() {
 
   return (
     <aside
-      className='admin-sidebar bg-dark text-white rounded-start p-4 shadow-sm d-none d-md-block position-relative'
+      className='admin-sidebar bg-secondary bg-opacity-90 rounded-start-4 p-4 shadow d-none d-md-block position-relative'
       ref={sidebarRef}
       style={{ minWidth: 220 }}
       aria-label='Panel de administración'
@@ -60,8 +60,8 @@ export default function AdminSidebar() {
             className={({ isActive }) =>
               `nav-link text-capitalize position-relative${
                 isActive
-                  ? ' active border border-2 border-primary rounded-pill'
-                  : ' text-white'
+                  ? ' active border border-2 border-primary'
+                  : ''
               }`
             }
             style={{ zIndex: 2 }}

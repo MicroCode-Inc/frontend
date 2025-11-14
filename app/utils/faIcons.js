@@ -14,7 +14,7 @@ import {
   faPlus,
   faRefresh,
   faSpinner,
-  faShoppingCart
+  faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons'
 
 export {

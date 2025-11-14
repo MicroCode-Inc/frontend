@@ -1,128 +1,167 @@
-import React, { useEffect, useState } from "react";
-import AdminLayout from "../../components/AdminLayout";
-import BlogForm from "../../components/BlogForm";
-import AsyncButton from "../../components/AsyncButton";
-import {
-  fetchBlogs,
-  createBlog,
-  updateBlog,
-  deleteBlog,
-} from "../../services/adminApi";
+import React, { useEffect, useState } from 'react'
+import { useOutletContext } from 'react-router'
+import BlogForm from '../../components/BlogForm'
+import AsyncButton from '../../components/AsyncButton'
+import { fetchBlogs, updateBlog, deleteBlog } from '../../services/adminApi'
 
 export default function AdminBlogs() {
-  const [blogs, setBlogs] = useState([]);
-  const [editing, setEditing] = useState(null);
-  const [error, setError] = useState(null);
+  const [blogs, setBlogs] = useState([])
+  const [editing, setEditing] = useState(null)
+  const [error, setError] = useState(null)
+  const { reloadTrigger } = useOutletContext()
+
+  const loadBlogs = () => {
+    fetchBlogs()
+      .then(d => setBlogs(d.blogs ?? d))
+      .catch(e => setError(e?.error || 'Error'))
+  }
 
   useEffect(() => {
-    fetchBlogs()
-      .then((d) => setBlogs(d.blogs ?? d))
-      .catch((e) => setError(e?.error || "Error"));
-  }, []);
+    loadBlogs()
+  }, [])
 
-  const handleCreate = async (p) => {
-    try {
-      const saved = await createBlog(p);
-      setBlogs((prev) => [saved, ...prev]);
-    } catch (e) {
-      setError(e?.error || "Error creando blog");
+  useEffect(() => {
+    if (reloadTrigger > 0) {
+      loadBlogs()
     }
-  };
+  }, [reloadTrigger])
+
   const handleUpdate = async (id, p) => {
     try {
-      const updated = await updateBlog(id, p);
-      setBlogs((prev) => prev.map((b) => (b.id === id ? updated : b)));
+      const updated = await updateBlog(id, p)
+      setBlogs(prev => prev.map(b => (b.id === id ? updated : b)))
     } catch (e) {
-      setError(e?.error || "Error actualizando blog");
+      setError(e?.error || 'Error actualizando blog')
     }
-  };
-  const handleDelete = async (id) => {
-    if (!confirm("Eliminar publicación?")) return;
+  }
+  const handleDelete = async id => {
+    if (!confirm('Eliminar publicación?')) return
     try {
-      await deleteBlog(id);
-      setBlogs((prev) => prev.filter((b) => b.id !== id));
+      await deleteBlog(id)
+      setBlogs(prev => prev.filter(b => b.id !== id))
     } catch (e) {
-      setError(e?.error || "Error eliminando blog");
+      setError(e?.error || 'Error eliminando blog')
     }
-  };
+  }
 
   return (
     <div>
-      <div className="container-lg py-4">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h2 className="mb-0">Publicaciones</h2>
-          <button
-            className="btn btn-primary rounded-pill px-4"
-            onClick={() => setEditing({})}
-          >
-            Nuevo Blog
-          </button>
-        </div>
-        {editing !== null && (
-          <div className="mt-4">
-            <div className="card p-4 shadow-sm border-0">
-              <BlogForm
-                initial={editing}
-                onSave={async (p) => {
-                  if (editing.id) await handleUpdate(editing.id, p);
-                  else await handleCreate(p);
-                  setEditing(null);
-                }}
-                onCancel={() => setEditing(null)}
-              />
-            </div>
+      {error && <div className='alert alert-danger'>{error}</div>}
+      <div className='d-grid gap-3 tab-stagger pt-3'>
+        {blogs.length === 0 && (
+          <div className='alert alert-info text-center mb-0'>
+            No hay publicaciones.
           </div>
         )}
-
-        {error && <div className="alert alert-danger">{error}</div>}
-        <div className="row g-4">
-          {blogs.length === 0 && (
-            <div className="col-12">
-              <div className="alert alert-info text-center mb-0">
-                No hay publicaciones.
-              </div>
-            </div>
-          )}
-          {blogs.map((b) => (
-            <div className="col-12 col-md-6 col-lg-4" key={b.id}>
-              <div className="card h-100 shadow-sm border-0">
-                {b.image_url && (
+        {blogs.map(b => (
+          <div
+            key={b.id}
+            className='border-0 bg-light rounded-4 overflow-hidden position-relative shadow'
+          >
+            <div className='card border-0 bg-transparent'>
+              <div
+                className='row g-0'
+                style={{ minHeight: '200px' }}
+              >
+                <div className='col-auto align-self-stretch d-flex'>
                   <img
-                    src={b.image_url}
-                    alt=""
-                    className="card-img-top rounded-top"
+                    src={b.image_url || 'https://placehold.co/200x200'}
+                    className='rounded-start-4'
                     style={{
-                      objectFit: "cover",
-                      height: "180px",
+                      width: '200px',
+                      height: '100%',
+                      objectFit: 'cover'
                     }}
+                    alt={b.title}
                   />
-                )}
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{b.title}</h5>
-                  <p className="card-text text-muted small mb-2">
-                    {b.excerpt || b.description}
-                  </p>
-                  <div className="mt-auto d-flex gap-2">
-                    <button
-                      className="btn btn-sm btn-outline-primary rounded-pill px-3"
-                      onClick={() => setEditing(b)}
-                    >
-                      Editar
-                    </button>
-                    <AsyncButton
-                      onClick={async () => await handleDelete(b.id)}
-                      className="btn btn-sm btn-outline-danger rounded-pill px-3"
-                      loadingText="Eliminando..."
-                    >
-                      Eliminar
-                    </AsyncButton>
+                </div>
+                <div className='col'>
+                  <div className='card-body h-100 py-2 px-3 d-flex flex-column justify-content-between'>
+                    <div>
+                      <h5 className='card-title mb-2'>{b.title}</h5>
+                      <p className='card-text mb-2'>
+                        {b.excerpt || b.description}
+                      </p>
+                      <div className='small text-muted'>
+                        {b.published_at
+                          ? new Date(b.published_at).toLocaleDateString()
+                          : ''}{' '}
+                        · {b.author_name}
+                      </div>
+                    </div>
+                    <div className='d-flex flex-column gap-1'>
+                      {b.tags && b.tags.length > 0 && (
+                        <div className='d-flex gap-1 flex-wrap'>
+                          {b.tags.map((tag, tagIndex) => (
+                            <span
+                              className='badge text-capitalize'
+                              style={{
+                                backgroundColor: tag.color || '#6c757d'
+                              }}
+                              key={`${b.title}-${
+                                tag.label || tag.name
+                              }-${tagIndex}`}
+                            >
+                              {tag.label || tag.name}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <div className='d-flex align-items-center gap-2 justify-content-start flex-shrink-0 mt-2'>
+                        <button
+                          className='btn btn-outline-primary'
+                          onClick={() => setEditing(b)}
+                        >
+                          Editar
+                        </button>
+                        <AsyncButton
+                          onClick={async () => await handleDelete(b.id)}
+                          className='btn btn-outline-danger'
+                          loadingText='Eliminando...'
+                        >
+                          Eliminar
+                        </AsyncButton>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
+
+      {/* Modal for editing blog */}
+      {editing !== null && (
+        <div
+          className='modal show d-block'
+          tabIndex='-1'
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+        >
+          <div className='modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable'>
+            <div className='modal-content'>
+              <div className='modal-header'>
+                <h5 className='modal-title'>Editar Publicación</h5>
+                <button
+                  type='button'
+                  className='btn-close'
+                  onClick={() => setEditing(null)}
+                ></button>
+              </div>
+              <div className='modal-body'>
+                <BlogForm
+                  initial={editing}
+                  onSave={async p => {
+                    await handleUpdate(editing.id, p)
+                    setEditing(null)
+                  }}
+                  onCancel={() => setEditing(null)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  );
+  )
 }

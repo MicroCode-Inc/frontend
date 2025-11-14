@@ -85,6 +85,14 @@ export async function fetchUsers() {
   });
   return handleRes(res);
 }
+export async function createUser(payload) {
+  const res = await fetch(`${API_BASE}/users`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(payload),
+  });
+  return handleRes(res);
+}
 export async function updateUser(id, payload) {
   const res = await fetch(`${API_BASE}/users/${id}`, {
     method: "PUT",

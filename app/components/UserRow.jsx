@@ -27,14 +27,14 @@ export default function UserRow({ user, onEdit, onDelete }) {
       <div className="d-flex gap-2">
         <AsyncButton
           onClick={async () => await onEdit(user)}
-          className="btn btn-sm btn-outline-primary rounded-pill px-3"
+          className="btn btn-outline-primary"
           loadingText="Editando..."
         >
           Editar
         </AsyncButton>
         <AsyncButton
           onClick={async () => await onDelete(user.id)}
-          className="btn btn-sm btn-outline-danger rounded-pill px-3"
+          className="btn btn-outline-danger"
           loadingText="Eliminando..."
         >
           Eliminar

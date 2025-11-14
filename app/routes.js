@@ -48,6 +48,7 @@ export default [
     file: "routes/admin/index.jsx",
     showInNav: true,
     label: "admin",
+    navTo: "/admin/dashboard",
     children: [
       {
         path: "/admin/dashboard",

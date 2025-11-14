@@ -14,7 +14,7 @@ function CardHome({
         to={to}
         className='text-decoration-none'
       >
-        <div className='card card-hover-effect rounded-4 overflow-hidden'>
+        <div className='card card-hover-effect rounded-4 overflow-hidden border-0'>
           <div className='card-img-container'>
             <img
               src={imgUrl}

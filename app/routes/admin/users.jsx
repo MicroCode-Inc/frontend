@@ -1,81 +1,26 @@
 import React, { useEffect, useState } from "react";
-import AdminLayout from "../../components/AdminLayout";
+import { useOutletContext } from "react-router";
 import UserRow from "../../components/UserRow";
-import AsyncButton from "../../components/AsyncButton";
 import { fetchUsers, updateUser, deleteUser } from "../../services/adminApi";
-
-function UserForm({ onSave, onCancel }) {
-  const [form, setForm] = useState({ username: "", email: "", password: "" });
-  const [error, setError] = useState(null);
-
-  return (
-    <form
-      className="card p-4 shadow-sm border-0 mb-3"
-      onSubmit={(e) => e.preventDefault()}
-    >
-      <input
-        className="form-control mb-2"
-        placeholder="Nombre de usuario"
-        value={form.username}
-        onChange={(e) => setForm((f) => ({ ...f, username: e.target.value }))}
-        required
-      />
-      <input
-        className="form-control mb-2"
-        placeholder="Email"
-        type="email"
-        value={form.email}
-        onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-        required
-      />
-      <div className="form-floating mb-2">
-        <input
-          className="form-control"
-          type="password"
-          id="floatingPassword"
-          placeholder="Contraseña"
-          value={form.password}
-          onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-          required
-        />
-        <label htmlFor="floatingPassword">Contraseña</label>
-      </div>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <div className="d-flex gap-2">
-        <AsyncButton
-          onClick={async () => {
-            await onSave(form);
-          }}
-          onError={(err) => setError(err?.error || "Error guardando usuario")}
-          className="btn btn-success rounded-pill px-3"
-          loadingText="Guardando..."
-        >
-          Guardar
-        </AsyncButton>
-        <button
-          type="button"
-          className="btn btn-secondary rounded-pill px-3"
-          onClick={onCancel}
-        >
-          Cancelar
-        </button>
-      </div>
-    </form>
-  );
-}
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
-  const [adding, setAdding] = useState(false);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
+  const { reloadTrigger } = useOutletContext();
 
   useEffect(() => {
     loadUsers();
   }, []);
+
+  useEffect(() => {
+    if (reloadTrigger > 0) {
+      loadUsers();
+    }
+  }, [reloadTrigger]);
 
   async function loadUsers() {
     setLoading(true);
@@ -119,19 +64,6 @@ export default function AdminUsers() {
     }
   };
 
-  const handleAdd = async (data) => {
-    setLoading(true);
-    try {
-      // Aquí deberías llamar a tu API para crear usuario
-      setUsers((prev) => [{ id: Date.now(), ...data }, ...prev]);
-      setError(null);
-    } catch (e) {
-      setError(e?.error || "Error creando usuario");
-    } finally {
-      setAdding(false);
-      setLoading(false);
-    }
-  };
 
   // Filtro y paginación
   const filteredUsers = users.filter(
@@ -147,16 +79,7 @@ export default function AdminUsers() {
 
   return (
     <div>
-      <div className="container-lg py-4">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h2 className="mb-0">Usuarios</h2>
-          <button
-            className="btn btn-success rounded-pill px-4"
-            onClick={() => setAdding(true)}
-          >
-            Nuevo usuario
-          </button>
-        </div>
+      <div className="pt-3">
         <div className="mb-3">
           <input
             type="text"
@@ -171,10 +94,7 @@ export default function AdminUsers() {
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
         {loading && <div className="alert alert-info">Cargando...</div>}
-        {adding && (
-          <UserForm onSave={handleAdd} onCancel={() => setAdding(false)} />
-        )}
-        <div className="card p-3 border-0 shadow-sm rounded-4">
+        <div className="card p-3 border-0 shadow rounded-4 bg-light">
           <div className="list-group list-group-flush">
             {paginatedUsers.length === 0 && !loading && (
               <div className="alert alert-info text-center mb-0">

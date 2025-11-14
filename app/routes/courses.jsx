@@ -11,9 +11,12 @@ export default function Courses() {
     >
       <div
         className='row justify-content-center mt-3'
-        // style={{ height: '100%' }}
+        style={{ height: '100%' }}
       >
-        <div className='col-12 col-lg-8 rounded-4 px-4 py-4 d-flex flex-column bg-secondary bg-opacity-90'>
+        <div
+          className='col-12 col-lg-8 rounded-4 px-4 py-4 d-flex flex-column bg-secondary bg-opacity-90'
+          style={{ height: '100%' }}
+        >
           {/* Static nav pills */}
           <div
             className='flex-shrink-0 z-2'
